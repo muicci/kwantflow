@@ -1,5 +1,9 @@
 # Kwantflow
 
+[![CI](https://github.com/muicci/kwantflow/actions/workflows/ci.yml/badge.svg)](https://github.com/muicci/kwantflow/actions/workflows/ci.yml)
+[![Licence: GPL-3.0-only](https://img.shields.io/badge/licence-GPL--3.0--only-blue.svg)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/muicci/kwantflow?include_prereleases)](https://github.com/muicci/kwantflow/releases)
+
 **Free, local, open-source estimating software for fabricators, machine shops and contractors.**
 
 Kwantflow turns RFQs (requests for quote) into organised estimates and professional quotes. It runs entirely on your computer. There is no account, no subscription, no cloud and no telemetry. An optional AI assistant runs **on your own machine**, so your drawings, prices and customer data never leave it.
