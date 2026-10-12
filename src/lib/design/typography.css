@@ -1,0 +1,232 @@
+@import './generated/typography.css';
+
+/*
+ * Typography system — Apple HIG macOS aligned.
+ * Body: 13px (Apple 13pt) | Callout: 12px (Apple 12pt) | Footnote: 11px (Apple 11pt)
+ *
+ * Heading hierarchy: .h3 (page) > .h4 (section) > .title-copy (panel/dialog)
+ * Body hierarchy:   .field-copy (input) > .control-copy (button) > .table-copy (data)
+ * Label hierarchy:  .field-label (form) > .shell-label (nav) > .shell-meta (timestamp)
+ * Fine print:       .badge-label > .label-upper/.eyebrow > .field-help > .tooltip-copy
+ */
+@layer utilities {
+	/* ── Headings ─────────────────────────────────────────── */
+	.h3 {
+		font-family: var(--heading-page-font-family);
+		font-size: var(--heading-page-font-size);
+		line-height: var(--heading-page-line-height);
+		letter-spacing: var(--heading-page-letter-spacing);
+		font-weight: var(--heading-page-font-weight);
+	}
+	.h4 {
+		font-family: var(--heading-section-font-family);
+		font-size: var(--heading-section-font-size);
+		line-height: var(--heading-section-line-height);
+		letter-spacing: var(--heading-section-letter-spacing);
+		font-weight: var(--heading-section-font-weight);
+	}
+
+	/* ── Titles (panel, dialog, card) ─────────────────────── */
+	.title-copy {
+		font-size: var(--title-panel-font-size);
+		line-height: var(--title-panel-line-height);
+		font-weight: var(--title-panel-font-weight);
+		letter-spacing: var(--title-panel-letter-spacing);
+	}
+
+	/* ── Body text ────────────────────────────────────────── */
+	.large {
+		font-size: var(--body-large-font-size);
+		line-height: var(--body-large-line-height);
+		font-weight: var(--body-large-font-weight);
+	}
+	.small {
+		font-size: var(--body-small-font-size);
+		line-height: var(--body-small-line-height);
+		font-weight: var(--body-small-font-weight);
+	}
+	.muted {
+		font-size: var(--body-muted-font-size);
+		line-height: var(--body-muted-line-height);
+		font-weight: var(--body-muted-font-weight);
+		color: var(--muted-foreground);
+	}
+	.caption {
+		font-size: var(--body-caption-font-size);
+		line-height: var(--body-caption-line-height);
+		font-weight: var(--body-caption-font-weight);
+		color: var(--muted-foreground);
+	}
+
+	/* ── Field text ───────────────────────────────────────── */
+	.field-label {
+		font-size: var(--label-field-font-size);
+		line-height: var(--label-field-line-height);
+		font-weight: var(--label-field-font-weight);
+		color: color-mix(in srgb, var(--muted-foreground) 82%, var(--foreground) 18%);
+	}
+	.field-copy {
+		font-size: var(--body-field-font-size);
+		line-height: var(--body-field-line-height);
+		font-weight: var(--body-field-font-weight);
+		color: var(--foreground);
+	}
+	.field-help {
+		font-size: var(--helper-field-font-size);
+		line-height: var(--helper-field-line-height);
+		font-weight: var(--helper-field-font-weight);
+		color: var(--muted-foreground);
+	}
+
+	/* ── Shell / navigation ───────────────────────────────── */
+	.shell-label {
+		font-size: var(--label-shell-font-size);
+		line-height: var(--label-shell-line-height);
+		font-weight: var(--label-shell-font-weight);
+	}
+	.shell-label-strong {
+		font-size: var(--label-shell-strong-font-size);
+		line-height: var(--label-shell-strong-line-height);
+		font-weight: var(--label-shell-strong-font-weight);
+	}
+	.shell-meta {
+		font-size: var(--label-shell-meta-font-size);
+		line-height: var(--label-shell-meta-line-height);
+		font-weight: var(--label-shell-meta-font-weight);
+		color: color-mix(in srgb, var(--muted-foreground) 88%, var(--foreground) 12%);
+	}
+
+	/* ── Controls (buttons, inputs, tabs) ─────────────────── */
+	.control-copy {
+		font-size: var(--control-default-font-size);
+		line-height: var(--control-default-line-height);
+		font-weight: var(--control-default-font-weight);
+	}
+	.control-copy-xs {
+		font-size: var(--control-xs-font-size);
+		line-height: var(--control-xs-line-height);
+		font-weight: var(--control-xs-font-weight);
+	}
+	.control-copy-sm {
+		font-size: var(--control-sm-font-size);
+		line-height: var(--control-sm-line-height);
+		font-weight: var(--control-sm-font-weight);
+	}
+	.control-copy-lg {
+		font-size: var(--control-lg-font-size);
+		line-height: var(--control-lg-line-height);
+		font-weight: var(--control-lg-font-weight);
+	}
+	.shell-nav-copy {
+		font-size: var(--control-lg-font-size);
+		line-height: var(--control-lg-line-height);
+		font-weight: var(--label-shell-font-weight);
+	}
+	.tab-label {
+		font-size: var(--label-tab-font-size);
+		line-height: var(--label-tab-line-height);
+		font-weight: var(--label-tab-font-weight);
+	}
+
+	/* ── Menus ────────────────────────────────────────────── */
+	.menu-copy {
+		font-size: var(--body-menu-font-size);
+		line-height: var(--body-menu-line-height);
+		font-weight: var(--body-menu-font-weight);
+	}
+	.menu-heading {
+		font-size: var(--helper-menu-heading-font-size);
+		line-height: var(--helper-menu-heading-line-height);
+		font-weight: var(--helper-menu-heading-font-weight);
+	}
+	.menu-shortcut {
+		font-size: var(--helper-menu-shortcut-font-size);
+		line-height: var(--helper-menu-shortcut-line-height);
+		font-weight: var(--helper-menu-shortcut-font-weight);
+		letter-spacing: var(--helper-menu-shortcut-letter-spacing);
+		text-transform: uppercase;
+		color: var(--muted-foreground);
+	}
+
+	/* ── Tables ───────────────────────────────────────────── */
+	.table-copy {
+		font-size: var(--body-table-font-size);
+		line-height: var(--body-table-line-height);
+		font-weight: var(--body-table-font-weight);
+	}
+	.table-heading {
+		font-size: var(--helper-table-heading-font-size);
+		line-height: var(--helper-table-heading-line-height);
+		font-weight: var(--helper-table-heading-font-weight);
+	}
+	.table-caption {
+		font-size: var(--label-table-caption-font-size);
+		line-height: var(--label-table-caption-line-height);
+		font-weight: var(--label-table-caption-font-weight);
+		color: var(--muted-foreground);
+	}
+
+	/* ── Badges & labels ──────────────────────────────────── */
+	.badge-label {
+		font-size: var(--label-badge-font-size);
+		line-height: var(--label-badge-line-height);
+		font-weight: var(--label-badge-font-weight);
+		letter-spacing: var(--label-badge-letter-spacing);
+	}
+	.label-upper,
+	.eyebrow {
+		font-size: var(--label-eyebrow-font-size);
+		line-height: var(--label-eyebrow-line-height);
+		font-weight: var(--label-eyebrow-font-weight);
+		letter-spacing: var(--label-eyebrow-letter-spacing);
+		text-transform: uppercase;
+		color: var(--muted-foreground);
+	}
+
+	/* ── Notifications ────────────────────────────────────── */
+	.toast-title {
+		font-size: var(--helper-toast-title-font-size);
+		line-height: var(--helper-toast-title-line-height);
+		font-weight: var(--helper-toast-title-font-weight);
+	}
+	.toast-description {
+		font-size: var(--helper-toast-description-font-size);
+		line-height: var(--helper-toast-description-line-height);
+		font-weight: var(--helper-toast-description-font-weight);
+		color: var(--muted-foreground);
+	}
+
+	/* ── Tooltips ─────────────────────────────────────────── */
+	.tooltip-copy {
+		font-size: var(--helper-tooltip-font-size);
+		line-height: var(--helper-tooltip-line-height);
+		font-weight: var(--helper-tooltip-font-weight);
+	}
+
+	/* ── Calendar ─────────────────────────────────────────── */
+	.calendar-copy {
+		font-size: var(--helper-calendar-font-size);
+		line-height: var(--helper-calendar-line-height);
+		font-weight: var(--helper-calendar-font-weight);
+	}
+	.calendar-caption {
+		font-size: var(--helper-calendar-caption-font-size);
+		line-height: var(--helper-calendar-caption-line-height);
+		font-weight: var(--helper-calendar-caption-font-weight);
+		color: var(--muted-foreground);
+	}
+
+	/* ── Code ─────────────────────────────────────────────── */
+	.code-block {
+		font-size: var(--helper-code-block-font-size);
+		line-height: var(--helper-code-block-line-height);
+	}
+
+	/* ── Onboarding ───────────────────────────────────────── */
+	.onboarding-hero-title {
+		font-size: var(--helper-onboarding-hero-font-size);
+		line-height: var(--helper-onboarding-hero-line-height);
+		font-weight: var(--helper-onboarding-hero-font-weight);
+		letter-spacing: var(--helper-onboarding-hero-letter-spacing);
+	}
+}

@@ -1,0 +1,528 @@
+{
+	"$description": "Semantic typography composites for owned desktop text roles.",
+	"heading": {
+		"page": {
+			"fontFamily": {
+				"$type": "fontFamily",
+				"$value": "{font.display}",
+				"$description": "Page heading family."
+			},
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "1.25rem",
+				"$description": "Page heading size."
+			},
+			"lineHeight": {
+				"$type": "number",
+				"$value": "1.2",
+				"$description": "Page heading line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 540,
+				"$description": "Page heading weight."
+			},
+			"letterSpacing": {
+				"$type": "dimension",
+				"$value": "-0.03em",
+				"$description": "Page heading tracking."
+			}
+		},
+		"section": {
+			"fontFamily": {
+				"$type": "fontFamily",
+				"$value": "{font.display}",
+				"$description": "Section heading family."
+			},
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "1rem",
+				"$description": "Section heading size."
+			},
+			"lineHeight": {
+				"$type": "number",
+				"$value": "1.2",
+				"$description": "Section heading line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 560,
+				"$description": "Section heading weight."
+			},
+			"letterSpacing": {
+				"$type": "dimension",
+				"$value": "-0.02em",
+				"$description": "Section heading tracking."
+			}
+		}
+	},
+	"title": {
+		"panel": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.9375rem",
+				"$description": "Panel title size."
+			},
+			"lineHeight": {
+				"$type": "number",
+				"$value": "1.333",
+				"$description": "Panel title line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 540, "$description": "Panel title weight." },
+			"letterSpacing": {
+				"$type": "dimension",
+				"$value": "-0.02em",
+				"$description": "Panel title tracking."
+			}
+		}
+	},
+	"body": {
+		"large": {
+			"fontSize": { "$type": "dimension", "$value": "1rem", "$description": "Large body size." },
+			"lineHeight": {
+				"$type": "number",
+				"$value": "1.35",
+				"$description": "Large body line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 560, "$description": "Large body weight." }
+		},
+		"small": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Small body size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.125rem",
+				"$description": "Small body line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 500, "$description": "Small body weight." }
+		},
+		"muted": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Muted body size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.35rem",
+				"$description": "Muted body line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 400, "$description": "Muted body weight." }
+		},
+		"caption": {
+			"fontSize": { "$type": "dimension", "$value": "0.8125rem", "$description": "Caption size." },
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.35rem",
+				"$description": "Caption line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 450, "$description": "Caption weight." }
+		},
+		"field": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Field body size."
+			},
+			"lineHeight": {
+				"$type": "number",
+				"$value": "1.35",
+				"$description": "Field body line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 400, "$description": "Field body weight." }
+		},
+		"table": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Table body size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.25rem",
+				"$description": "Table body line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 400, "$description": "Table body weight." }
+		},
+		"menu": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Menu copy size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.125rem",
+				"$description": "Menu copy line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 500, "$description": "Menu copy weight." }
+		}
+	},
+	"label": {
+		"field": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Field label size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.125rem",
+				"$description": "Field label line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 500, "$description": "Field label weight." }
+		},
+		"shell": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Shell label size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.125rem",
+				"$description": "Shell label line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 500, "$description": "Shell label weight." }
+		},
+		"shellStrong": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Strong shell label size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.125rem",
+				"$description": "Strong shell label line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 580,
+				"$description": "Strong shell label weight."
+			}
+		},
+		"shellMeta": {
+			"fontSize": { "$type": "dimension", "$value": "0.75rem", "$description": "Shell meta size." },
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.125rem",
+				"$description": "Shell meta line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 400, "$description": "Shell meta weight." }
+		},
+		"tab": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Tab label size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.125rem",
+				"$description": "Tab label line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 500, "$description": "Tab label weight." }
+		},
+		"tableCaption": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.75rem",
+				"$description": "Table caption size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.25rem",
+				"$description": "Table caption line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 400,
+				"$description": "Table caption weight."
+			}
+		},
+		"eyebrow": {
+			"fontSize": { "$type": "dimension", "$value": "0.6875rem", "$description": "Eyebrow size." },
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1rem",
+				"$description": "Eyebrow line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 600, "$description": "Eyebrow weight." },
+			"letterSpacing": {
+				"$type": "dimension",
+				"$value": "0.16em",
+				"$description": "Eyebrow tracking."
+			}
+		},
+		"badge": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.6875rem",
+				"$description": "Badge label size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1rem",
+				"$description": "Badge label line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 450, "$description": "Badge label weight." },
+			"letterSpacing": {
+				"$type": "dimension",
+				"$value": "0.01em",
+				"$description": "Badge label tracking."
+			}
+		}
+	},
+	"control": {
+		"xs": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.75rem",
+				"$description": "Extra-small control text size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1rem",
+				"$description": "Extra-small control line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 500,
+				"$description": "Extra-small control weight."
+			}
+		},
+		"default": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Default control text size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.25rem",
+				"$description": "Default control line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 500,
+				"$description": "Default control weight."
+			}
+		},
+		"sm": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Compact control text size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.125rem",
+				"$description": "Compact control line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 500,
+				"$description": "Compact control weight."
+			}
+		},
+		"lg": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.875rem",
+				"$description": "Large control text size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.25rem",
+				"$description": "Large control line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 540,
+				"$description": "Large control weight."
+			}
+		}
+	},
+	"helper": {
+		"field": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.6875rem",
+				"$description": "Field help size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1rem",
+				"$description": "Field help line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 400, "$description": "Field help weight." }
+		},
+		"tooltip": {
+			"fontSize": { "$type": "dimension", "$value": "0.6875rem", "$description": "Tooltip size." },
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1rem",
+				"$description": "Tooltip line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 500, "$description": "Tooltip weight." }
+		},
+		"calendar": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Calendar copy size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1rem",
+				"$description": "Calendar copy line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 520,
+				"$description": "Calendar copy weight."
+			}
+		},
+		"calendarCaption": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.6875rem",
+				"$description": "Calendar caption size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1rem",
+				"$description": "Calendar caption line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 500,
+				"$description": "Calendar caption weight."
+			}
+		},
+		"menuShortcut": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.6875rem",
+				"$description": "Menu shortcut size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1rem",
+				"$description": "Menu shortcut line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 600,
+				"$description": "Menu shortcut weight."
+			},
+			"letterSpacing": {
+				"$type": "dimension",
+				"$value": "0.12em",
+				"$description": "Menu shortcut tracking."
+			}
+		},
+		"toastTitle": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Toast title size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.25rem",
+				"$description": "Toast title line height."
+			},
+			"fontWeight": { "$type": "fontWeight", "$value": 500, "$description": "Toast title weight." }
+		},
+		"toastDescription": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.75rem",
+				"$description": "Toast description size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1rem",
+				"$description": "Toast description line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 400,
+				"$description": "Toast description weight."
+			}
+		},
+		"codeBlock": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Code block size."
+			},
+			"lineHeight": {
+				"$type": "number",
+				"$value": "1.625",
+				"$description": "Code block line height."
+			}
+		},
+		"onboardingHero": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "1.875rem",
+				"$description": "Onboarding hero size."
+			},
+			"lineHeight": {
+				"$type": "number",
+				"$value": "1.2",
+				"$description": "Onboarding hero line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 600,
+				"$description": "Onboarding hero weight."
+			},
+			"letterSpacing": {
+				"$type": "dimension",
+				"$value": "-0.025em",
+				"$description": "Onboarding hero tracking."
+			}
+		},
+		"menuHeading": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Menu heading size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1rem",
+				"$description": "Menu heading line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 600,
+				"$description": "Menu heading weight."
+			}
+		},
+		"tableHeading": {
+			"fontSize": {
+				"$type": "dimension",
+				"$value": "0.8125rem",
+				"$description": "Table heading size."
+			},
+			"lineHeight": {
+				"$type": "dimension",
+				"$value": "1.25rem",
+				"$description": "Table heading line height."
+			},
+			"fontWeight": {
+				"$type": "fontWeight",
+				"$value": 560,
+				"$description": "Table heading weight."
+			}
+		}
+	}
+}

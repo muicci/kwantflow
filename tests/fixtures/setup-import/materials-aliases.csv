@@ -1,0 +1,3 @@
+Material Code,Material Name,UOM,Rate,Alt Names,Category,Enabled,Description
+MAT-PL-001,Plate 10mm Mild Steel,m2,176.40,10mm plate; mild steel plate; stair plate,Steel,yes,QA import fixture for alias matching
+MAT-GAL-002,Galv Angle 50x50,m,42.80,gal angle; galvanised angle; lintel angle,Steel,yes,QA import fixture for catalogue matching

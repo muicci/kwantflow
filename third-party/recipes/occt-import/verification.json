@@ -1,0 +1,553 @@
+{
+	"schemaVersion": 1,
+	"scope": "Pinned OCCT importer preferred-source rebuild and standalone Node parser compatibility. No shipped application asset/package/lock changes, no installed WebView/platform or byte-reproducible WASM claim.",
+	"source": {
+		"wrapperCommit": "c2148e54b456b571238d35cac037d304053d64b2",
+		"occtCommit": "d2abb6d844231cb8f29be6894440874a4700e4a5",
+		"postBuildPreferredSource": {
+			"scope": "Post-build byte comparison of every regular file in both pinned preferred-source archives against the actual extracted files used to build and run unchanged upstream tests. Scratch build-directory symlinks are outside archived files. No source edits or patches.",
+			"archives": [
+				{
+					"archive": "third-party/sources/occt-import-js-0.0.23.tar.gz",
+					"archiveSha256": "2bd3799b2ac56cbf3f0df6300a51c8890e137bd001462702b356f621e33ff192",
+					"sourceDirectory": ".cache/occt-rebuild-candidate/source",
+					"regularFilesExactlyMatched": 125,
+					"bytesCompared": 11592173,
+					"allFileBytesEqual": true
+				},
+				{
+					"archive": "third-party/sources/OCCT-7.6.1.tar.gz",
+					"archiveSha256": "2715d89a1bc44dfd34dab88f729c445ea93f6b57d6539b0c89614a80ae144a6c",
+					"sourceDirectory": ".cache/occt-rebuild-candidate/source/occt",
+					"regularFilesExactlyMatched": 35508,
+					"bytesCompared": 190738361,
+					"allFileBytesEqual": true
+				}
+			],
+			"freeGiB": 18.66
+		},
+		"emscriptenPreferredSource": {
+			"path": "third-party/sources/emscripten-3.1.69.tar.gz",
+			"sha256": "3ceb2acbf3551146753c1abef8feb24347403bf13713820ea9dddbd946f9e4ac"
+		}
+	},
+	"toolchain": {
+		"emscriptenVersion": "3.1.69",
+		"emscriptenCommit": "c55ff404dbe1eb9f263c48b584d5ba627224763a",
+		"sdkReleaseHash": "8fe01288bc35668c13316324336ea00195dfb814",
+		"sdkSourceArchive": {
+			"url": "https://codeload.github.com/emscripten-core/emsdk/tar.gz/refs/tags/3.1.69",
+			"bytes": 112049,
+			"sha256": "7fbf610accce016f8b05196c254cc92162c07571979fbd0b6e5a4c50fded157c"
+		},
+		"publicBootstrapInputs": [
+			{
+				"name": "wasm-binaries-arm64.tar.xz",
+				"url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/mac/8fe01288bc35668c13316324336ea00195dfb814/wasm-binaries-arm64.tar.xz",
+				"bytes": 249024864,
+				"sha256": "995c7b3c84458edf6b8945e81405320c64a25dfe79eaa427fc1fe9a680f56b4f",
+				"md5": "5b92f2b91be538041fefd5f00cb9665b",
+				"scope": "Public SDK bootstrap binary input from the official pinned release endpoint; observed digest, not a signed upstream attestation."
+			},
+			{
+				"name": "node-v18.20.3-darwin-arm64.tar.gz",
+				"url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/node-v18.20.3-darwin-arm64.tar.gz",
+				"bytes": 40077062,
+				"sha256": "99328b985f7336a8fcfb62fda382155d210979fcca928e2dd75b7148d9bba636",
+				"md5": "5d9497764e0d18288b46294f27917bcc",
+				"scope": "Public SDK bootstrap binary input from the official pinned release endpoint; observed digest, not a signed upstream attestation."
+			},
+			{
+				"name": "python-3.9.2-1-macos-arm64.tar.gz",
+				"url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/python-3.9.2-1-macos-arm64.tar.gz",
+				"bytes": 31582429,
+				"sha256": "7c7d456ab567ccfb32cbee5fcf388c4e89e06624f3daab6cb1a5db76967e8fd9",
+				"md5": "7011c296e40ba94d6c9ca3e1d9229d9a",
+				"scope": "Public SDK bootstrap binary input from the official pinned release endpoint; observed digest, not a signed upstream attestation."
+			}
+		],
+		"versions": [
+			{
+				"command": [
+					"<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/emscripten/emcc",
+					"--version"
+				],
+				"exitCode": 0,
+				"stdout": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.69 (c55ff404dbe1eb9f263c48b584d5ba627224763a)\nCopyright (C) 2014 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+				"stderr": "shared:INFO: (Emscripten: Running sanity checks)"
+			},
+			{
+				"command": [
+					"<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/bin/clang",
+					"--version"
+				],
+				"exitCode": 0,
+				"stdout": "clang version 20.0.0git (https:/github.com/llvm/llvm-project 50866e84d1da8462aeb96607bf6d9e5bbd5869c5)\nTarget: x86_64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: <app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/bin",
+				"stderr": ""
+			},
+			{
+				"command": [
+					"<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/bin/wasm-opt",
+					"--version"
+				],
+				"exitCode": 0,
+				"stdout": "wasm-opt version 119 (version_119-69-g34906bfbc)",
+				"stderr": ""
+			},
+			{
+				"command": [
+					"<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/node/18.20.3_64bit/bin/node",
+					"--version"
+				],
+				"exitCode": 0,
+				"stdout": "v18.20.3",
+				"stderr": ""
+			},
+			{
+				"command": [
+					"<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/python/3.9.2_64bit/bin/python3",
+					"--version"
+				],
+				"exitCode": 0,
+				"stdout": "Python 3.9.2",
+				"stderr": ""
+			}
+		],
+		"hostVersions": [
+			{
+				"command": ["<home>/homebrew/bin/cmake", "--version"],
+				"exitCode": 0,
+				"stdout": "cmake version 4.3.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).",
+				"stderr": ""
+			},
+			{
+				"command": ["<home>/homebrew/bin/ninja", "--version"],
+				"exitCode": 0,
+				"stdout": "1.13.2",
+				"stderr": ""
+			},
+			{
+				"command": ["python3", "--version"],
+				"exitCode": 0,
+				"stdout": "Python 3.14.5",
+				"stderr": ""
+			},
+			{
+				"command": ["node", "--version"],
+				"exitCode": 0,
+				"stdout": "v25.6.0",
+				"stderr": ""
+			},
+			{
+				"command": ["/usr/bin/sw_vers"],
+				"exitCode": 0,
+				"stdout": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0.1\nBuildVersion:\t\t26A434",
+				"stderr": ""
+			},
+			{
+				"command": ["/usr/bin/uname", "-m"],
+				"exitCode": 0,
+				"stdout": "arm64",
+				"stderr": ""
+			}
+		],
+		"selectedDriverPython": "3.14.5",
+		"availableSdkPython": "3.9.2",
+		"selectedBuildNode": "18.20.3",
+		"toolAndConfigurationDigests": [
+			{
+				"path": "<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/emscripten/emcc.py",
+				"bytes": 62390,
+				"sha256": "af2820cfff72ecf890540f547bdd1d2a59da3f3e36c8aaad03c2977a4ffb83d6"
+			},
+			{
+				"path": "<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/bin/clang-20",
+				"bytes": 112157760,
+				"sha256": "b225ef1f3c4dd58d6de2969ba8c0f4b87ac9ecba214706c0997ce18d8e87c39b"
+			},
+			{
+				"path": "<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/bin/lld",
+				"bytes": 60118928,
+				"sha256": "664010b6da98be284642ec31639290b0703d86c5a8dcdca26ed01a2bf08bc54a"
+			},
+			{
+				"path": "<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/bin/wasm-opt",
+				"bytes": 15897360,
+				"sha256": "1aa03dd21738a2f138fc16fff01559ab165061ae129d78e3ff994db5e35c9765"
+			},
+			{
+				"path": "<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/node/18.20.3_64bit/bin/node",
+				"bytes": 87121776,
+				"sha256": "65055aa6b3fcff1098056fa60d5a4ce0ef65f9cb27063079d7cb4dd7d7ebb0eb"
+			},
+			{
+				"path": "<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/python/3.9.2_64bit/bin/python3.9",
+				"bytes": 3613575,
+				"sha256": "d77060ad3f9b8f88e7893254c425d20195aed468f51e4fd8039fdc87448fc9d5"
+			},
+			{
+				"path": "<app>/.cache/occt-rebuild-candidate/build-environment.json",
+				"bytes": 1003,
+				"sha256": "1382bfc0c7bf842e1ceffa9f9f01f41fa86f38cc33aa952c4d88c330f531b870"
+			},
+			{
+				"path": "<app>/.cache/occt-rebuild-candidate/build/wasm/compile_commands.json",
+				"bytes": 139310299,
+				"sha256": "22c925fa97642b7813f00b91a7230f464a2ca74dc10458ed70f79f41da266243"
+			},
+			{
+				"path": "<app>/.cache/occt-rebuild-candidate/source/CMakeLists.txt",
+				"bytes": 9939,
+				"sha256": "f71a631a2d57dfea9b31d2defa0198c2fe39507dfad56883c1123f4efd62aa14"
+			}
+		],
+		"sdkCompilerSourceEquality": {
+			"commonFilesCompared": 6762,
+			"exactlyMatched": 6757,
+			"omittedTaggedSourceFiles": 2645,
+			"wholeTreeExactEquality": false,
+			"initialEqualityAssertionExitCode": 1,
+			"differenceCount": 5,
+			"differenceMaterial": "preferred-compiler-source-full-match.json",
+			"originMaterial": "compiler-bundle-difference-origin.json",
+			"explanation": "Four differences are byte-equal to the untouched public compiler bundle; official installer writes release version metadata. This does not establish LLVM/Binaryen compiler executable source correspondence."
+		}
+	},
+	"bootstrap": {
+		"initialCommand": [
+			"python3",
+			"<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/emsdk.py",
+			"install",
+			"3.1.69",
+			"--keep-downloads"
+		],
+		"initialExitCode": 1,
+		"initialFailure": "Unsupported --keep-downloads interpreted as another SDK/tool after installing 3.1.69. Corrected install and activation succeeded. Bootstrap archives were preserved by re-fetching exact public endpoints, not by this unsupported flag.",
+		"correctedInstall": {
+			"command": [
+				"python3",
+				"<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/emsdk.py",
+				"install",
+				"3.1.69"
+			],
+			"exitCode": 0
+		},
+		"activate": {
+			"command": [
+				"python3",
+				"<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/emsdk.py",
+				"activate",
+				"3.1.69"
+			],
+			"exitCode": 0
+		},
+		"filteredBootstrapEnvironment": {
+			"PATH": "<home>/homebrew/bin:/usr/bin:/bin",
+			"TMPDIR": "<app>/.cache/occt-rebuild-candidate/tmp",
+			"EMSDK_PYTHON": "python3",
+			"NPM_CONFIG_USERCONFIG": "<app>/.cache/occt-rebuild-candidate/empty-npmrc",
+			"NPM_CONFIG_GLOBALCONFIG": "<app>/.cache/occt-rebuild-candidate/empty-npmrc",
+			"NPM_CONFIG_CACHE": "<app>/.cache/occt-rebuild-candidate/npm-cache",
+			"EM_CACHE": "<app>/.cache/occt-rebuild-candidate/emscripten-cache"
+		},
+		"filteredBuildEnvironment": {
+			"PATH": "<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/emscripten:<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/node/18.20.3_64bit/bin:<home>/homebrew/bin:/usr/bin:/bin",
+			"TMPDIR": "<app>/.cache/occt-rebuild-candidate/tmp",
+			"EMSDK_PYTHON": "python3",
+			"NPM_CONFIG_USERCONFIG": "<app>/.cache/occt-rebuild-candidate/empty-npmrc",
+			"NPM_CONFIG_GLOBALCONFIG": "<app>/.cache/occt-rebuild-candidate/empty-npmrc",
+			"NPM_CONFIG_CACHE": "<app>/.cache/occt-rebuild-candidate/npm-cache",
+			"EM_CACHE": "<app>/.cache/occt-rebuild-candidate/emscripten-cache",
+			"EM_CONFIG": "<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/.emscripten"
+		},
+		"founderCredentialsUsed": false
+	},
+	"build": {
+		"configure": {
+			"command": [
+				"<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/emscripten/emcmake",
+				"cmake",
+				"-S",
+				"<app>/.cache/occt-rebuild-candidate/source",
+				"-B",
+				"<app>/.cache/occt-rebuild-candidate/build/wasm",
+				"-G",
+				"Ninja",
+				"-DEMSCRIPTEN=1",
+				"-DCMAKE_BUILD_TYPE=Release",
+				"-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+			],
+			"exitCode": 0,
+			"seconds": 2.077
+		},
+		"compileAndLink": {
+			"command": [
+				"<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/emscripten/emmake",
+				"cmake",
+				"--build",
+				"<app>/.cache/occt-rebuild-candidate/build/wasm",
+				"--parallel",
+				"6"
+			],
+			"exitCode": 0,
+			"seconds": 1508.704
+		},
+		"cxxUnits": 4770,
+		"cUnits": 5,
+		"totalCompileUnits": 4775,
+		"effectiveConfiguration": {
+			"compileUnits": 4775,
+			"linkRules": [
+				{
+					"ruleHeader": "build Release/occt-import-js.js: CXX_EXECUTABLE_LINKER__OcctImportJS_Release CMakeFiles/OcctImportJS.dir/occt-import-js/src/importer-brep.cpp.o CMakeFiles/OcctImportJS.dir/occt-import-js/src/importer-",
+					"ruleFields": [
+						"  CONFIG = Release",
+						"  FLAGS = -O3 -DNDEBUG",
+						"  LINK_FLAGS = -sMODULARIZE=1 \"-sEXPORT_NAME='occtimportjs'\" -sSTACK_SIZE=10MB -sALLOW_MEMORY_GROWTH=1 --no-heap-copy -fwasm-exceptions --bind",
+						"  OBJECT_DIR = CMakeFiles/OcctImportJS.dir",
+						"  POST_BUILD = :",
+						"  PRE_LINK = :",
+						"  TARGET_FILE = Release/occt-import-js.js",
+						"  TARGET_PDB = occt-import-js.js.dbg"
+					]
+				}
+			],
+			"cmakeCacheImportant": [
+				"CMAKE_BUILD_TYPE:STRING=Release",
+				"CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG",
+				"CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=",
+				"CMAKE_TOOLCHAIN_FILE:FILEPATH=<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
+				"CMAKE_GENERATOR:INTERNAL=Ninja",
+				"EMSCRIPTEN:INTERNAL=1"
+			],
+			"exampleCompiler": "<app>/.cache/occt-rebuild-candidate/emsdk-3.1.69/upstream/emscripten/em++",
+			"exampleCompileFlagsWithoutIncludeAndOutputPaths": [
+				"-DUNICODE",
+				"-D_UNICODE",
+				"-O3",
+				"-DNDEBUG",
+				"-std=gnu++11",
+				"-Oz",
+				"-fexceptions",
+				"-fwasm-exceptions",
+				"-DOCCT_NO_PLUGINS"
+			]
+		},
+		"warnings": [
+			"<app>/.cache/occt-rebuild-candidate/source/occt/src/BRepTools/BRepTools_ShapeSet.cxx:60:2: warning: invalid preprocessing directive, did you mean '#elif'? [-Wunknown-directives]",
+			"<app>/.cache/occt-rebuild-candidate/source/occt/src/BRepTools/BRepTools_ShapeSet.cxx:62:2: warning: invalid preprocessing directive, did you mean '#elif'? [-Wunknown-directives]",
+			"<app>/.cache/occt-rebuild-candidate/source/occt/src/Standard/Standard_StackTrace.cxx:202:53: warning: macro 'EM_LOG_DEMANGLE' has been marked as deprecated [-Wdeprecated-pragma]",
+			"<app>/.cache/occt-rebuild-candidate/source/occt/src/Standard/Standard_StackTrace.cxx:202:89: warning: macro 'EM_LOG_FUNC_PARAMS' has been marked as deprecated [-Wdeprecated-pragma]"
+		],
+		"sourcePatchesApplied": false,
+		"externalBuildCommonJsMetadata": {
+			"path": ".cache/occt-rebuild-candidate/build/package.json",
+			"content": {
+				"type": "commonjs"
+			},
+			"scope": "Scratch test loader module format matching published wrapper; no source or app package changes."
+		},
+		"scratchKiBObserved": 2683480,
+		"diskEstimateGiB": 8
+	},
+	"artifacts": {
+		"digests": [
+			{
+				"path": ".cache/occt-rebuild-candidate/build/wasm/Release/occt-import-js.js",
+				"bytes": 96852,
+				"sha256": "8b090be386bc8ffba32222aa19f38742ae8ed35707819beb7f8ab4938a28c97a"
+			},
+			{
+				"path": ".cache/occt-rebuild-candidate/build/wasm/Release/occt-import-js.wasm",
+				"bytes": 7609665,
+				"sha256": "402950766f7d38d32cf1bcb8e4c162b433d9d095ff7f922c9f9b9e7a73633f1a"
+			},
+			{
+				"path": "node_modules/occt-import-js/dist/occt-import-js.js",
+				"bytes": 96871,
+				"sha256": "3fb44ce11d00611f9b3f3c5775d520ebab48930c1f08279b7b1316f05f0d3379"
+			},
+			{
+				"path": "node_modules/occt-import-js/dist/occt-import-js.wasm",
+				"bytes": 7604031,
+				"sha256": "33391fc9d94ea5c869a6718488bf0a9a464222bac9bdc764dfe1690cef281952"
+			}
+		],
+		"parity": {
+			"generatedJavaScriptEqualsPreferredWrapperDistributionBytes": true,
+			"npmJavaScriptEqualsPreferredWrapperDistributionAfterLineEndingNormalization": true,
+			"npmJavaScriptByteDifferenceIsOnlyLineEndings": true,
+			"shippedWasmEqualsPreferredWrapperDistributionBytes": true,
+			"rebuiltWasmDiffersFromShippedBytes": true,
+			"scope": "Complete JavaScript parity and original shipped WASM provenance, not byte-reproducible rebuilt WASM. No payload replacement."
+		},
+		"promotedToApplication": false
+	},
+	"checks": {
+		"initialNode25": {
+			"node": "25.6.0",
+			"candidateUpstream": {
+				"command": ["node", "--test", "<app>/.cache/occt-rebuild-candidate/run-upstream-tests.cjs"],
+				"exitCode": 0,
+				"seconds": 2.949
+			},
+			"comparison": {
+				"command": ["node", "<app>/.cache/occt-rebuild-candidate/compare-parsers.mjs"],
+				"exitCode": 0,
+				"seconds": 9.696
+			},
+			"cases": 75,
+			"files": 59
+		},
+		"finalManagedNode24": {
+			"node": "24.18.0",
+			"candidateUpstream": {
+				"command": [
+					"node",
+					"--test",
+					"<app>/.cache/occt-rebuild-candidate/retained/upstream-tests.mjs"
+				],
+				"environmentAddition": {
+					"OCCT_WRAPPER_SOURCE": "<app>/.cache/occt-rebuild-candidate/source"
+				},
+				"exitCode": 0,
+				"seconds": 1.989,
+				"node": "v24.18.0"
+			},
+			"comparison": {
+				"command": [
+					"node",
+					"<app>/.cache/occt-rebuild-candidate/retained/verify-rebuild.mjs",
+					"<app>/.cache/occt-rebuild-candidate/build/wasm/Release",
+					"<app>/node_modules/occt-import-js/dist",
+					"<app>/.cache/occt-rebuild-candidate/source",
+					"<app>",
+					"<app>/.cache/occt-rebuild-candidate/retained/parser-comparison-node24.json"
+				],
+				"exitCode": 0,
+				"seconds": 9.147,
+				"node": "v24.18.0"
+			},
+			"upstreamTestsPassed": 22,
+			"upstreamTestsFailed": 0,
+			"upstreamTestsSkipped": 0,
+			"casesPassed": 75,
+			"fixtureFiles": 59,
+			"fullCaseRecordsEqualToInitialNode25": true,
+			"separateRealWasmFilesWithExplicitBytes": true,
+			"successfulCaseCount": 68,
+			"invalidCasesRejected": 7,
+			"successfulUpstreamFilesWithZeroTriangleIndices": 11,
+			"projectSyntheticFixturesRequiredNonemptyGeometry": true,
+			"outputComparison": "assert.deepStrictEqual of complete parser result, including trees/names, colors, face groups, positions, normals and triangle indices"
+		},
+		"historicalBaselineUpstream": {
+			"command": [
+				"<home>/.local/state/fnm_multishells/71547_1791610644324/bin/node",
+				"--test",
+				"<app>/.cache/occt-rebuild-candidate/run-baseline-upstream-tests.cjs"
+			],
+			"exitCode": 0,
+			"seconds": 3.974,
+			"nodeVersionAtRun": null,
+			"runtimeVersionEvidence": "The original process receipt did not record Node version. Its original command is retained; current executable resolution does not establish the historical runtime.",
+			"material": "baseline-upstream-tests.log"
+		}
+	},
+	"limits": [
+		"Rebuilt WASM bytes differ from shipped WASM; no byte-for-byte rebuild claim.",
+		"Standalone Node checks do not prove browser/WebView rendering or installed macOS/Windows workflows.",
+		"macOS arm64 host only; no Windows native build, older operating system or full malformed-input coverage.",
+		"No performance/benchmark claim from observed build and test durations.",
+		"SDK source comparison explicitly has five packaging/version/test differences; bootstrap digest observations are not signed attestations.",
+		"Existing application assets, package pins, lockfiles and historical native receipts remain unchanged.",
+		"Initial historical baseline upstream test runtime version was not recorded; it is not attributed to Node25. Final full parser comparison loads both rebuilt and shipped WASM under recorded Node24.18.0."
+	],
+	"verificationMaterials": [
+		{
+			"path": "README.md",
+			"bytes": 6471,
+			"sha256": "9eb0a60e9e0f69373ea3eba96efa78898de3df3bfc33ff21108af28b268ac135"
+		},
+		{
+			"path": "baseline-upstream-tests.log",
+			"bytes": 1291,
+			"sha256": "2f9ae2cd1be733773f7592069ac1e6b3c7832aa75c0ef14ba890ff3168a3463b"
+		},
+		{
+			"path": "build.log",
+			"bytes": 536031,
+			"sha256": "1ae8f5557bce19d94fe011b27bfea55c02473a440655f747c9ba57cae702bc20"
+		},
+		{
+			"path": "candidate-upstream-tests-node24.log",
+			"bytes": 1291,
+			"sha256": "7236885263021a96d62ced001bafcf11b153d614d823305bd1faee2b29fc32a2"
+		},
+		{
+			"path": "candidate-upstream-tests.log",
+			"bytes": 1289,
+			"sha256": "aff24a7176382d327bd18b480d939ee373616ccea655f9a0ad0e7418f14be4f7"
+		},
+		{
+			"path": "compiler-bundle-difference-origin.json",
+			"bytes": 2531,
+			"sha256": "4b643ddd5abe40e89d02a24de9e5cecc333da78d07dabd01ea77407cdda30969"
+		},
+		{
+			"path": "configure.log",
+			"bytes": 1142,
+			"sha256": "378a448acbb8ad1cebb9b9cef1857e9807dfc96cf07bcef708ed295715a2170b"
+		},
+		{
+			"path": "parser-comparison-node24.json",
+			"bytes": 34899,
+			"sha256": "cf184718475d9531b803463a88dce123aae2fe090f8a46cc654c14701a51a51b"
+		},
+		{
+			"path": "parser-comparison-node24.log",
+			"bytes": 9948,
+			"sha256": "0be1d120b591daae394282220faf918680443fd63f9e5266a30ebd5936cdd427"
+		},
+		{
+			"path": "parser-comparison.json",
+			"bytes": 34549,
+			"sha256": "0bd801afdef0f43de4c8f9d1aab7969f2b38ece33f4be5096858d3f5c69fcbd3"
+		},
+		{
+			"path": "parser-comparison.log",
+			"bytes": 9948,
+			"sha256": "0be1d120b591daae394282220faf918680443fd63f9e5266a30ebd5936cdd427"
+		},
+		{
+			"path": "preferred-compiler-source-full-match.json",
+			"bytes": 156512,
+			"sha256": "7c090ccd85e5a5cef59dbd4e9565732508ffc6bb47e3bbf64de179aac2ac2293"
+		},
+		{
+			"path": "sdk-activate.log",
+			"bytes": 944,
+			"sha256": "72f9e93ce34516e0bcf02c6a59c33af9b100b2b4606c15eafacd345f585b969b"
+		},
+		{
+			"path": "sdk-install-confirm.log",
+			"bytes": 487,
+			"sha256": "9114dd63ed4797251f00512501b37664a17783469bcbe23715f9769dcb332d83"
+		},
+		{
+			"path": "sdk-install.log",
+			"bytes": 15306,
+			"sha256": "1e612e592be539686259285e2f3a5be5ff580e030dee7fd6be55f00f1530220b"
+		},
+		{
+			"path": "upstream-tests.mjs",
+			"bytes": 496,
+			"sha256": "e9def5554bdd45bcf26d65d3f626a8a20b6cb4534bc7f115a3df1f50ac4da31f"
+		},
+		{
+			"path": "verify-rebuild.mjs",
+			"bytes": 5359,
+			"sha256": "8a2dead1187312652364488b798079ac6e290487a35657be62c1e970758f7bb2"
+		}
+	]
+}

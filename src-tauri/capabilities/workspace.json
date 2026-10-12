@@ -1,0 +1,28 @@
+{
+	"identifier": "workspace",
+	"description": "Permissions for the managed workspace holding heavy CAD files",
+	"windows": ["main"],
+	"permissions": [
+		"fs:default",
+		{
+			"identifier": "fs:allow-document-read-recursive",
+			"scope": {
+				"allow": [
+					{
+						"path": "$DOCUMENT/Kwantflow"
+					}
+				]
+			}
+		},
+		{
+			"identifier": "fs:allow-document-write-recursive",
+			"scope": {
+				"allow": [
+					{
+						"path": "$DOCUMENT/Kwantflow"
+					}
+				]
+			}
+		}
+	]
+}

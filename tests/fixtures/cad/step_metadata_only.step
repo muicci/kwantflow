@@ -1,0 +1,8 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('CAD fixture metadata only'),'2;1');
+ENDSEC;
+DATA;
+#1=APPLICATION_CONTEXT('metadata-only');
+ENDSEC;
+END-ISO-10303-21;

@@ -1,0 +1,288 @@
+{
+	"schemaVersion": 1,
+	"scope": "Exact pinned email-parser runtime and preferred-source patches, including actual EML preferred-source Vite rebuild and byte-identical generated runtime promotion. Public/synthetic source tests on macOS arm64 only; no installed profile or provider access. Does not establish Windows/Intel installed-app acceptance.",
+	"packageManager": "pnpm 11.9.0",
+	"pnpmLockSha256": "03e65d890ac7576488420eb1ebb9f8ec1871b3e20f4e199c0111bddbfaa31f12",
+	"packages": [
+		{
+			"name": "@kenjiuno/msgreader",
+			"version": "1.28.0",
+			"npmIntegrity": "sha512-+iv2rWCGRHmX/3sBwXZzkThEuuywGJjnYsvxj6Kp1L/FDMICQcFrtqN+6MFrnh2d+umtfGtX904wxaYEDZ52MQ==",
+			"npmGitHead": "698f600631759f29165f2c538ae8130de8aa8a00",
+			"source": {
+				"path": "third-party/sources/msgreader-1.28.0-source.tar.gz",
+				"url": "https://codeload.github.com/HiraokaHyperTools/msgreader/tar.gz/698f600631759f29165f2c538ae8130de8aa8a00",
+				"revision": "698f600631759f29165f2c538ae8130de8aa8a00",
+				"sha256": "3cafd82b0d758f28351611d737306bf28b2766946e854e1f091d54006f8d4869"
+			},
+			"patches": [
+				{
+					"kind": "runtime",
+					"path": "third-party/recipes/email-parsers/msgreader-1.28.0.patch",
+					"sha256": "10c8df39e53e5b5e6ab40bc4fb203e5ade881bc2e646df71a411a129a88796f5",
+					"cleanArchiveApplyCheck": true
+				},
+				{
+					"kind": "preferred-source",
+					"path": "third-party/recipes/email-parsers/msgreader-1.28.0-source.patch",
+					"sha256": "96ba08a123d9e40bda78badb42c0faf8cff5883b2636fc09f63cef95843d5ea6",
+					"cleanArchiveApplyCheck": true
+				}
+			],
+			"modifiedPreferredSourceFiles": [
+				{
+					"path": "src/Reader.ts",
+					"sha256": "3179b36d1da6f2516cc89a80d6f06c36030aebb9a6c9212691e7c88b97e35c39"
+				},
+				{
+					"path": "src/MsgReader.ts",
+					"sha256": "7ea93df85556465053320c8d6881334f16099183bb8b3574b617b1e4d2cb7694"
+				},
+				{
+					"path": "src/AppointmentRecurParser.ts",
+					"sha256": "734db4278f37a2a17ec5bb026f75110648b1546ec07be8592d795a3e77610221"
+				}
+			],
+			"modifiedRuntimeFiles": [
+				{
+					"path": "lib/Reader.js",
+					"sha256": "9ab1db820caf8d9f53780d2ffb3bc25c4a607d1c2377a9704a6cfa0ab2924a61"
+				},
+				{
+					"path": "lib/MsgReader.js",
+					"sha256": "5f05c92929c7eca09b78424df1b1c73bf6407fad02a00cce332789e1cdb1cebe"
+				},
+				{
+					"path": "lib/AppointmentRecurParser.js",
+					"sha256": "d3bfddeabca36cc1710443ec2fdccef01cd8628f6780df89f4c9608307a69feb"
+				}
+			],
+			"installedBytesMatchRuntimePatch": true
+		},
+		{
+			"name": "eml-parse-js",
+			"version": "1.2.0-beta.1",
+			"npmIntegrity": "sha512-sFlcUwNmIjPD7yR0/OK4XEN9V+/Np3S6SE348LNgwgAlgA1jswba+cTNxN/Rbkz+CHPyBSfh3Ccamp6lLWz0Lw==",
+			"npmGitHead": "6e622ae5f01d760b88aa7e84951b4b9a71764b7e",
+			"source": {
+				"path": "third-party/sources/eml-parse-js-1.2.0-beta.1-source.tar.gz",
+				"url": "https://codeload.github.com/MQpeng/eml-parse-js/tar.gz/6e622ae5f01d760b88aa7e84951b4b9a71764b7e",
+				"revision": "6e622ae5f01d760b88aa7e84951b4b9a71764b7e",
+				"sha256": "5a18eaee2351b11d4813503a29427ff8093473673461f4c5e2c258466291cfbb"
+			},
+			"patches": [
+				{
+					"kind": "runtime",
+					"path": "third-party/recipes/email-parsers/eml-parse-js-1.2.0-beta.1.patch",
+					"sha256": "9fde3029708b6b342504aa43e539cc138f9d4a39e9ae402e69bc73fa829111b8",
+					"cleanArchiveApplyCheck": true
+				},
+				{
+					"kind": "preferred-source",
+					"path": "third-party/recipes/email-parsers/eml-parse-js-1.2.0-beta.1-source.patch",
+					"sha256": "b066f3496e814caff230bdcba184d8576719ecfb96126ccec18f39b702050e74",
+					"cleanArchiveApplyCheck": true
+				}
+			],
+			"modifiedPreferredSourceFiles": [
+				{
+					"path": "src/index.ts",
+					"sha256": "276078ff70c6fb0abc9e3d00807f0a6e65878b96baee2fd51b578a687961294f"
+				},
+				{
+					"path": "src/utils.ts",
+					"sha256": "83e3987e75756a0757c7a05c38f2eee4163fa299832663e62bf863876a5679ec"
+				}
+			],
+			"modifiedRuntimeFiles": [
+				{
+					"path": "dist/index.cjs.js",
+					"sha256": "edbe0ebeac9ed31e9d83cc3d51c97598c2307415994242dad34b9f523d08c335"
+				},
+				{
+					"path": "dist/index.es.js",
+					"sha256": "085e329101ac815f7750bfcde190cd21f9ecb0f4e12c2f72af9aa6f5ea9ebe67"
+				},
+				{
+					"path": "dist/index.iife.js",
+					"sha256": "81ab868f0023ee850b27dd5f15f31bd9d8d945719e3e3fe86ce3275249ed8953"
+				},
+				{
+					"path": "dist/index.umd.js",
+					"sha256": "1b9cd91157746c12fd34384103987eb670f130f67549f787a8e2d1bec09b39a4"
+				}
+			],
+			"installedBytesMatchRuntimePatch": true,
+			"installedBytesMatchPreferredSourceBuild": true
+		}
+	],
+	"msgPreferredSourceRebuild": {
+		"typescript": "5.7.2",
+		"typescriptArchive": {
+			"url": "https://registry.npmjs.org/typescript/-/typescript-5.7.2.tgz",
+			"integrity": "sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==",
+			"sha256": "6826f763112d55de0093fd94a4257cabadf1f40b387757e7c68485fc971e886b"
+		},
+		"node": "v24.18.0",
+		"nodeTypes": "24.13.2",
+		"sourceFiles": 13,
+		"diagnostics": 0,
+		"compilerOptions": {
+			"target": "ES5",
+			"module": "CommonJS",
+			"moduleResolution": "Node10",
+			"esModuleInterop": true,
+			"lib": ["ES2020", "DOM"],
+			"types": ["node"],
+			"skipLibCheck": true,
+			"noEmitOnError": true
+		},
+		"rebuiltFiles": [
+			{
+				"path": "lib/AppointmentRecurParser.js",
+				"sha256": "d3bfddeabca36cc1710443ec2fdccef01cd8628f6780df89f4c9608307a69feb",
+				"byteIdenticalToInstalled": true
+			},
+			{
+				"path": "lib/Burner.js",
+				"sha256": "67fb51a1ee5caa4d5280ad4cfa475ad63d3c80ef0c6d8b2bffbc30023d17caa4",
+				"byteIdenticalToInstalled": true
+			},
+			{
+				"path": "lib/DataStream.js",
+				"sha256": "9f0b6e4ecf8c8ec8dc81fd2e69e67e86d97d30f1480daf515fd965e94a66cc43",
+				"byteIdenticalToInstalled": true
+			},
+			{
+				"path": "lib/Defs.js",
+				"sha256": "2fbf487da275458b4c11f5210f0f01e610e88f34029b293e47c4be1476a8a4b5",
+				"byteIdenticalToInstalled": true
+			},
+			{
+				"path": "lib/EntryStreamParser.js",
+				"sha256": "4b1e52926239815fe654290e2294f1bd3fdf81faca06adbb6e701587343c3ba0",
+				"byteIdenticalToInstalled": true
+			},
+			{
+				"path": "lib/MsgReader.js",
+				"sha256": "5f05c92929c7eca09b78424df1b1c73bf6407fad02a00cce332789e1cdb1cebe",
+				"byteIdenticalToInstalled": true
+			},
+			{
+				"path": "lib/Reader.js",
+				"sha256": "9ab1db820caf8d9f53780d2ffb3bc25c4a607d1c2377a9704a6cfa0ab2924a61",
+				"byteIdenticalToInstalled": true
+			},
+			{
+				"path": "lib/TZDEFINITIONParser.js",
+				"sha256": "33dad342f1e1fc91360db67fa22d6219bbb4a398f9983f9a73b86bc05d0c9d15",
+				"byteIdenticalToInstalled": true
+			},
+			{
+				"path": "lib/TZREGParser.js",
+				"sha256": "ceb8b88c0d3088774eda3b3e4058d3f50890c0c6e2ac8b8251937bdee43a1e92",
+				"byteIdenticalToInstalled": true
+			},
+			{
+				"path": "lib/VerbStreamParser.js",
+				"sha256": "6f5c60494dff291e0516533a88f315c3970287b5f0b4c503599a855b82803318",
+				"byteIdenticalToInstalled": true
+			},
+			{
+				"path": "lib/const.js",
+				"sha256": "e81abc788881042ffe1460f26afd29aacb75e4705b5a610a8b13eba3dcbb18f0",
+				"byteIdenticalToInstalled": true
+			},
+			{
+				"path": "lib/index.js",
+				"sha256": "7b3eaadbeedccce0e1efdd59777106cf971f2580dd91d812330e371567f23cbf",
+				"byteIdenticalToInstalled": true
+			},
+			{
+				"path": "lib/utils.js",
+				"sha256": "e7f4c710b244b0798553c4ec9116efdcddcc9f77a3a6c2451d3db270fa26769b",
+				"byteIdenticalToInstalled": true
+			}
+		]
+	},
+	"regressionEvidence": [
+		{
+			"path": "third-party/recipes/email-parsers/parser-before.log",
+			"sha256": "eec7d2f778ccee2e0a7522b9fdc543018b5e23cba0d52a105a3ae61aa59db92e",
+			"results": {
+				"files": 2,
+				"failed": 30,
+				"passed": 13
+			}
+		},
+		{
+			"path": "third-party/recipes/email-parsers/charset-before.log",
+			"sha256": "e830a65f315cb857553b24133592f8c6bead30349573a49254f70c3367b37348",
+			"results": {
+				"files": 1,
+				"failed": 4,
+				"passed": 26
+			}
+		},
+		{
+			"path": "third-party/recipes/email-parsers/header-before.log",
+			"sha256": "47374a71c5332d2b6afee5fa766d8b0fee2eef0790bfa51caef502e568a904b9",
+			"results": {
+				"files": 1,
+				"failed": 9,
+				"passed": 30
+			}
+		},
+		{
+			"path": "third-party/recipes/email-parsers/parser-installed-final.log",
+			"sha256": "663cf478fd924907fc327970cad357b7072b203f518efc597fa9fec5ef132dfe",
+			"results": {
+				"files": 2,
+				"failed": 0,
+				"passed": 62
+			}
+		},
+		{
+			"path": "third-party/recipes/email-parsers/parser-source-built-final.log",
+			"sha256": "2cbf82e5fca820d5e4661bd1cf6bb0799639ae864b6b5222d20e128c901ca375",
+			"stage": "promoted generated runtime application parser tests",
+			"results": {
+				"files": 2,
+				"failed": 0,
+				"passed": 63
+			}
+		}
+	],
+	"checks": {
+		"directorySectorCycles": true,
+		"rootMiniStreamCycles": true,
+		"miniFatCycles": true,
+		"miniStreamCycles": true,
+		"storageAndSiblingHierarchyCycles": true,
+		"bigStreamCycles": true,
+		"difatCycles": true,
+		"physicalSectorAndStreamBounds": true,
+		"namedPropertyPreallocationBounds": true,
+		"deletedAndModifiedRecurrencePreallocationBounds": true,
+		"attachmentLiteralAndEncodedNames": true,
+		"invalidDatePreservesBody": true,
+		"asciiUtf8Latin1AndGbkPlainAndHtmlBase64": true,
+		"stringCodeGenerationDisabledHelperAndParser": true,
+		"caseInsensitiveHeadersAndMimeTokens": true,
+		"originalHeaderNamesValuesAndRepeatedRepresentation": true,
+		"missingContentTypePlainDefault": true,
+		"headerLikePlainBodyPreserved": true,
+		"preferredEmlBuildExactRuntimeParity": true
+	},
+	"limitations": [
+		"The MSG parser still ignores malformed optional recurrence metadata after the bounded parser rejects it, retaining the usable message.",
+		"RFC 2231 UTF-8 encoded names are verified. Unsupported or malformed percent byte sequences preserve escaped text.",
+		"The four EML variants match the actual preferred-source Vite 6.0.3 build byte-for-byte. The source build and tests were executed only on macOS arm64; bounded synthetic parity does not prove arbitrary-input equivalence."
+	],
+	"emlPreferredSourceRebuild": {
+		"path": "third-party/recipes/email-parsers/preferred-source-build-verification.json",
+		"sha256": "ee6e434c6ed16596752f0acb882e25e6756413d6a3e1ba8d9e7b7d8b8fdc145d",
+		"generatedFormats": 4,
+		"byteIdenticalToInstalled": true
+	}
+}

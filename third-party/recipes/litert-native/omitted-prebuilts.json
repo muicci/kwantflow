@@ -1,0 +1,280 @@
+{
+  "schemaVersion": 1,
+  "scope": "Unused opaque upstream prebuilt payload omitted from source CPU archive; preferred source, build files and test fixtures retained.",
+  "upstreamRevision": "924e79c91542761242244e4f1651851f822e4cbb",
+  "upstreamArchiveSha256": "f19f3527217ab14bcbb2cc080e335b3c9fb7a4f4338010170799a22541c4356d",
+  "configuredTarget": "//c:litert_lm_c_open_cpu",
+  "configuredCcImports": 0,
+  "omitted": [
+    {
+      "path": "prebuilt/android_arm64/libGemmaModelConstraintProvider.so",
+      "bytes": 19589096,
+      "sha256": "d305460ed571ba0e527f9f75e34de4d8b13d5d6af906431c36d04795f14411ca",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_arm64/libLiteRtGpuAccelerator.so",
+      "bytes": 3269584,
+      "sha256": "1287e5ae01666a605f2bc5d72453f32cf4a294ef38acabb86cd61140207e41c3",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_arm64/libLiteRtOpenClAccelerator.so",
+      "bytes": 3023816,
+      "sha256": "dfdcb6a551dc78a9dab88883ad6e8e2d9b090ecda383a5cea3731c6b9561d244",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_arm64/libLiteRtTopKOpenClSampler.so",
+      "bytes": 11712744,
+      "sha256": "4404dc68786460602685cab62ddfa29035e9cfc38bb4550dec15abaaa1302a82",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_arm64/libLiteRtTopKWebGpuSampler.so",
+      "bytes": 11678008,
+      "sha256": "c52a1cf69a92a2d2c4d3c08f5c087d1eb405f709af61c3312b215221135e18db",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_arm64/libLiteRtWebGpuAccelerator.so",
+      "bytes": 3040208,
+      "sha256": "acf02905cd1d7b7d1f0f70a6d885ddbd392c0c69a99b92834da7e26d6859abcf",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_arm64/libwebgpu_dawn.so",
+      "bytes": 19517752,
+      "sha256": "3b2a53de934efabce2efb5e9f703a7bd6b63a5814b2f8f0c7ed610cabf53b147",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_x86_64/libGemmaModelConstraintProvider.so",
+      "bytes": 17430904,
+      "sha256": "c30830228f1a0c239d51aa7ecace7a062dc8d39c0490f9469f4d94672898ba04",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_x86_64/libLiteRtGpuAccelerator.so",
+      "bytes": 3908688,
+      "sha256": "16832a1f4066f52f251b71d194262e5be801becabe0d1fac43099dee5e1107a8",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_x86_64/libLiteRtOpenClAccelerator.so",
+      "bytes": 3646544,
+      "sha256": "1365d8e1a10d96f54c0320282589b0b2e8f1ab2abf1250df3694113677c94d8a",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_x86_64/libLiteRtTopKOpenClSampler.so",
+      "bytes": 11081896,
+      "sha256": "747ca5ed6a175fb4c2854ccee1d6ad97f11fe14d9e0d2b0c1710e1435376d51e",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_x86_64/libLiteRtTopKWebGpuSampler.so",
+      "bytes": 11057120,
+      "sha256": "7ddc84818d081665abfea44162e107823fae13f76a8770455a9edaf58de3344f",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_x86_64/libLiteRtWebGpuAccelerator.so",
+      "bytes": 3662928,
+      "sha256": "60a1995e981258862545dc402c6a64977d9c08fb29a4eec5538fb802985f0784",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/android_x86_64/libwebgpu_dawn.so",
+      "bytes": 17768808,
+      "sha256": "c6449f94f5d3f0fbdcf89a55686bc56958f1ed6a46dca6bb37f95cb8e8857704",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/ios_arm64/libGemmaModelConstraintProvider.dylib",
+      "bytes": 21065112,
+      "sha256": "d047c773ea2ee3a9b663e94ad6d5387ba880c83806ff979e27c07ebf941d2c4b",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/ios_arm64/libLiteRt.dylib",
+      "bytes": 7893560,
+      "sha256": "e49faa0282f29dc25b30fbc3a850023df2c96d1e6f46efed787c0738a4bb0d49",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/ios_arm64/libLiteRtMetalAccelerator.dylib",
+      "bytes": 7654008,
+      "sha256": "06431e73303ea14917cb48ece20f4c273c9440c338f1bedd708913e96a083e24",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/ios_arm64/libLiteRtTopKMetalSampler.dylib",
+      "bytes": 6751136,
+      "sha256": "cfccda00a4f48729c1b26fa6cc26fc4d3c1dcabf88836798f681cc636c16e69f",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/ios_sim_arm64/libGemmaModelConstraintProvider.dylib",
+      "bytes": 20428848,
+      "sha256": "6e303ca81a044d4b8fe92f4ab2297271394bddfa14ca1d172940d23b4dcf97b7",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/ios_sim_arm64/libLiteRt.dylib",
+      "bytes": 7736560,
+      "sha256": "a61b8ff5ca9b6bcd113311d05302638ef6c1552e3ebe4647e6c7e56f41c78a33",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/ios_sim_arm64/libLiteRtMetalAccelerator.dylib",
+      "bytes": 7894000,
+      "sha256": "3cd77f881a31582d8f16748f8171a97871909261f378347fa2d8e0d4cc657f71",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/ios_sim_arm64/libLiteRtTopKMetalSampler.dylib",
+      "bytes": 6094880,
+      "sha256": "eb332b949811a1a19b06a40d76ef5b17fb0fa729da63b5778e0bf990d0fd83f9",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/linux_arm64/libGemmaModelConstraintProvider.so",
+      "bytes": 22653416,
+      "sha256": "a555e76f6a9bcfdf6e65f5065e8211529221e241610ec2c038680614a48427df",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/linux_arm64/libLiteRt.so",
+      "bytes": 8674936,
+      "sha256": "ee65792f26a57f9698e800d240fcdee0cd66aac2450108adb8a967432e6aa998",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/linux_arm64/libLiteRtTopKWebGpuSampler.so",
+      "bytes": 12914128,
+      "sha256": "dccfe97ce953c3b7edf3d7bad1b9ddd5a66dcb05cc80467523e6b5bfa1311a48",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/linux_arm64/libLiteRtWebGpuAccelerator.so",
+      "bytes": 7619824,
+      "sha256": "a8f9ee0653f38ca3be1d3d235763bacc25374fbb6de871b8d2a77df859e4010e",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/linux_arm64/libwebgpu_dawn.so",
+      "bytes": 13310384,
+      "sha256": "8962a2dbcef04ce8c210a962a2dc17bced3675ffb584c84a87fdbb3957d46d28",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/linux_x86_64/libGemmaModelConstraintProvider.so",
+      "bytes": 22522536,
+      "sha256": "4369dc540c2d80eba783d112f196805c7e27b83270d4b20e7c22409b1ce05479",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/linux_x86_64/libLiteRt.so",
+      "bytes": 10741368,
+      "sha256": "e1b073426cafdf9320e0e1778c2761a5a51226e643a1c91da930cc12e92422a8",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/linux_x86_64/libLiteRtTopKWebGpuSampler.so",
+      "bytes": 14339800,
+      "sha256": "488eefd814ba214adb4fc047d7db869d4063b46cece259e6d4c125f8f42858cc",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/linux_x86_64/libLiteRtWebGpuAccelerator.so",
+      "bytes": 8818264,
+      "sha256": "488f6a64a6760b69a2930b82b71d4e77f731b0b2f1c33435888a6f61e375f5bd",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/linux_x86_64/libwebgpu_dawn.so",
+      "bytes": 13755432,
+      "sha256": "8cadd63e1ed84d29700ab0e7a785fc674727b128384c06afd1846258fec57945",
+      "format": "ELF"
+    },
+    {
+      "path": "prebuilt/macos_arm64/libGemmaModelConstraintProvider.dylib",
+      "bytes": 9361568,
+      "sha256": "107922fe3b6357b7f8900817d7a1b4c78e08fdfc1e7ea895ba958b92ac47bd6b",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/macos_arm64/libLiteRt.dylib",
+      "bytes": 11217952,
+      "sha256": "e0fb3466a68efcd6c3b2d0485bb14d58dd0621da963a15ffff586075bf42ccb5",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/macos_arm64/libLiteRtMetalAccelerator.dylib",
+      "bytes": 11301952,
+      "sha256": "15bc539f3f569b0d058cac29c732700a2e47a17801a9f1646926ab1825426432",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/macos_arm64/libLiteRtTopKMetalSampler.dylib",
+      "bytes": 9393328,
+      "sha256": "6a52cbef7e3f375861a7904432019a9be9fa54c848fd5f63ab4fd963a111877d",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/macos_arm64/libLiteRtTopKWebGpuSampler.dylib",
+      "bytes": 9519856,
+      "sha256": "5fd3ccd62ca0f79be2a24df3d6a48e30bd36595aca4e2e35bb44e8c78f88068f",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/macos_arm64/libLiteRtWebGpuAccelerator.dylib",
+      "bytes": 11467280,
+      "sha256": "78ae9d9d1c464c47dc7a44683e968443dcae00366d0e9b787163ecc921fbb589",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/macos_arm64/libwebgpu_dawn.dylib",
+      "bytes": 14907568,
+      "sha256": "0521032782a4fec61aa62dae0f022a27d4b48008f53fde0718a81aff0347808d",
+      "format": "Mach-O"
+    },
+    {
+      "path": "prebuilt/windows_x86_64/libGemmaModelConstraintProvider.dll",
+      "bytes": 12979200,
+      "sha256": "84b7c018631ad66f9d2ce7f3922d55aca5d38281a3790d095438b45313db9cd4",
+      "format": "PE"
+    },
+    {
+      "path": "prebuilt/windows_x86_64/libGemmaModelConstraintProvider.lib",
+      "bytes": 2930,
+      "sha256": "29c5ec68c097726a659d15cfff10d3344348f6d2094e2335c69b94bd9dcab786",
+      "format": "ar import/static library"
+    },
+    {
+      "path": "prebuilt/windows_x86_64/libLiteRt.dll",
+      "bytes": 11887616,
+      "sha256": "cb5049dfbf164bf778b8dd565db055c9ee76c02155bf17af6957ea7b0c04ad4e",
+      "format": "PE"
+    },
+    {
+      "path": "prebuilt/windows_x86_64/libLiteRtTopKWebGpuSampler.dll",
+      "bytes": 9763840,
+      "sha256": "e2beaa4b57b98366f4266e9dc77325a6cebc51335005ff7ce1dc1910dda6e868",
+      "format": "PE"
+    },
+    {
+      "path": "prebuilt/windows_x86_64/libLiteRtWebGpuAccelerator.dll",
+      "bytes": 12181504,
+      "sha256": "c17cdb57e420a9c0b8cbad424dd8322c4e1f0e7be1773a4b6cb03bb96d3bde4c",
+      "format": "PE"
+    },
+    {
+      "path": "prebuilt/windows_x86_64/libwebgpu_dawn.dll",
+      "bytes": 11852288,
+      "sha256": "e045ab52c99e48ab689a81d4988b90d64993cb602109f20f8444cc23e52a678d",
+      "format": "PE"
+    }
+  ]
+}

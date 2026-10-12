@@ -1,0 +1,232 @@
+diff --git a/src/Reader.ts b/src/Reader.ts
+--- a/src/Reader.ts
++++ b/src/Reader.ts
+@@ -136,6 +136,7 @@ export class Reader {
+ 
+   constructor(arrayBuffer: ArrayBuffer | DataView) {
+     this.ds = new DataStream(arrayBuffer, 0, DataStream.LITTLE_ENDIAN);
++    this.ds.dynamicSize = false;
+   }
+ 
+   isMSGFile(): boolean {
+@@ -144,6 +145,8 @@ export class Reader {
+   }
+ 
+   private headerData(): void {
++    const sectorShift = this.ds.readShort(30);
++    if (sectorShift !== 9 && sectorShift !== 12) throw new Error('Invalid MSG sector size.');
+     this.bigBlockSize = this.ds.readByte(30) == CONST.MSG.L_BIG_BLOCK_MARK ? CONST.MSG.L_BIG_BLOCK_SIZE : CONST.MSG.S_BIG_BLOCK_SIZE;
+     this.bigBlockLength = this.bigBlockSize / 4;
+ 
+@@ -157,10 +160,15 @@ export class Reader {
+     this.sbatCount = this.ds.readInt(CONST.MSG.HEADER.SBAT_COUNT_OFFSET);
+     this.xbatStart = this.ds.readInt(CONST.MSG.HEADER.XBAT_START_OFFSET);
+     this.xbatCount = this.ds.readInt(CONST.MSG.HEADER.XBAT_COUNT_OFFSET);
++    const sectors = Math.floor(this.ds.byteLength / this.bigBlockSize) - 1;
++    if ([this.batCount, this.sbatCount, this.xbatCount].some(count => count < 0 || count > sectors)) {
++      throw new Error('Invalid MSG allocation table count.');
++    }
+   }
+ 
+   private convertName(offset: number): string {
+     const nameLength = this.ds.readShort(offset + CONST.MSG.PROP.NAME_SIZE_OFFSET);
++    if (nameLength < 0 || nameLength > 64 || nameLength % 2 !== 0) throw new Error('Invalid MSG directory name size.');
+     if (nameLength < 1) {
+       return '';
+     } else {
+@@ -216,7 +224,7 @@ export class Reader {
+     }
+   }
+ 
+-  private createPropertyHierarchy(props: Property[], nodeProperty: Property): void {
++  private createPropertyHierarchy(props: Property[], nodeProperty: Property, visited = new Set<number>([0])): void {
+     if (!nodeProperty || nodeProperty.childProperty == CONST.MSG.PROP.NO_INDEX) {
+       return;
+     }
+@@ -231,8 +239,10 @@ export class Reader {
+         nodeProperty.children.push(currentIndex);
+       }
+       else {
++        if (!current || visited.has(currentIndex)) throw new Error('Invalid or cyclic MSG directory hierarchy.');
++        visited.add(currentIndex);
+         if (current.type == CONST.MSG.PROP.TYPE_ENUM.DIRECTORY) {
+-          this.createPropertyHierarchy(props, current);
++          this.createPropertyHierarchy(props, current, visited);
+         }
+ 
+         if (current.nextProperty != CONST.MSG.PROP.NO_INDEX) {
+@@ -253,8 +263,11 @@ export class Reader {
+     const props: Property[] = [];
+ 
+     let currentOffset = propertyStart;
++    const visited = new Set<number>();
+ 
+     while (currentOffset != CONST.MSG.END_OF_CHAIN) {
++      if (visited.has(currentOffset)) throw new Error('Cyclic MSG directory sector chain.');
++      visited.add(currentOffset);
+       this.convertBlockToProperties(currentOffset, props);
+       currentOffset = this.getNextBlock(currentOffset);
+     }
+@@ -291,6 +304,9 @@ export class Reader {
+   }
+ 
+   private getBlockOffsetAt(offset: number): number {
++    if (!Number.isInteger(offset) || offset < 0 || (offset + 2) * this.bigBlockSize > this.ds.byteLength) {
++      throw new Error('Invalid MSG sector reference.');
++    }
+     return (offset + 1) * this.bigBlockSize;
+   }
+ 
+@@ -307,12 +323,13 @@ export class Reader {
+   }
+ 
+   private getNextBlockInner(offset: number, blockOffsetData: number[]): number {
++    if (!Number.isInteger(offset) || offset < 0) throw new Error('Invalid MSG allocation table reference.');
+     const currentBlock = Math.floor(offset / this.bigBlockLength);
+     const currentBlockIndex = offset % this.bigBlockLength;
+ 
+     const startBlockOffset = blockOffsetData[currentBlock];
+     if (typeof startBlockOffset === "undefined") {
+-      return CONST.MSG.END_OF_CHAIN;
++      throw new Error('Missing MSG allocation table sector.');
+     }
+ 
+     return this.getBlockValueAt(startBlockOffset, currentBlockIndex);
+@@ -325,11 +342,16 @@ export class Reader {
+   private sbatDataReader(): number[] {
+     const result = [];
+     let startIndex = this.sbatStart;
++    const visited = new Set<number>();
+ 
+-    for (let i = 0; i < this.sbatCount && startIndex && startIndex != CONST.MSG.END_OF_CHAIN; i++) {
++    for (let i = 0; i < this.sbatCount && startIndex != CONST.MSG.END_OF_CHAIN; i++) {
++      if (visited.has(startIndex)) throw new Error('Cyclic MSG mini-FAT sector chain.');
++      visited.add(startIndex);
++      this.getBlockOffsetAt(startIndex);
+       result.push(startIndex);
+       startIndex = this.getNextBlock(startIndex);
+     }
++    if (visited.has(startIndex)) throw new Error('Cyclic MSG mini-FAT sector chain.');
+     return result;
+   }
+ 
+@@ -339,7 +361,10 @@ export class Reader {
+     let remainingBlocks = batCountTotal - batCount;
+ 
+     let nextBlockAt = this.xbatStart;
++    const visited = new Set<number>();
+     for (let i = 0; i < this.xbatCount; i++) {
++      if (visited.has(nextBlockAt)) throw new Error('Cyclic MSG DIFAT sector chain.');
++      visited.add(nextBlockAt);
+       let xBatBlock = this.getBlockAt(nextBlockAt);
+ 
+       const blocksToProcess = Math.min(remainingBlocks, this.xBlockLength);
+@@ -357,6 +382,7 @@ export class Reader {
+         break;
+       }
+     }
++    if (visited.has(nextBlockAt)) throw new Error('Cyclic MSG DIFAT sector chain.');
+   }
+ 
+   private getNextBlockSmall(offset: number): number {
+@@ -366,7 +392,14 @@ export class Reader {
+   private getChainByBlockSmall(fieldProperty: Property): number[] {
+     const blockChain = [];
+     let nextBlockSmall = fieldProperty.startBlock;
++    const visited = new Set<number>();
++    const miniStreamSize = this.propertyData[0].sizeBlock;
+     while (nextBlockSmall != CONST.MSG.END_OF_CHAIN) {
++      if (!Number.isInteger(nextBlockSmall) || nextBlockSmall < 0 || nextBlockSmall * CONST.MSG.SMALL_BLOCK_SIZE >= miniStreamSize) {
++        throw new Error('Invalid MSG mini stream reference.');
++      }
++      if (visited.has(nextBlockSmall)) throw new Error('Cyclic MSG mini stream chain.');
++      visited.add(nextBlockSmall);
+       blockChain.push(nextBlockSmall);
+       nextBlockSmall = this.getNextBlockSmall(nextBlockSmall);
+     }
+@@ -375,9 +408,16 @@ export class Reader {
+ 
+   private readBigBlockTable(): number[] {
+     const rootProp = this.propertyData[0];
++    if (!rootProp || rootProp.type !== CONST.MSG.PROP.TYPE_ENUM.ROOT || rootProp.sizeBlock < 0 || rootProp.sizeBlock > this.ds.byteLength - this.bigBlockSize) {
++      throw new Error('Invalid MSG root mini stream size.');
++    }
+     const table: number[] = [];
+     let nextBlock = rootProp.startBlock;
++    const visited = new Set<number>();
+     for (let i = 0; nextBlock != CONST.MSG.END_OF_CHAIN; i++) {
++      if (visited.has(nextBlock)) throw new Error('Cyclic MSG root mini stream sector chain.');
++      visited.add(nextBlock);
++      this.getBlockOffsetAt(nextBlock);
+       table.push(nextBlock);
+       nextBlock = this.getNextBlock(nextBlock);
+     }
+@@ -397,6 +437,7 @@ export class Reader {
+   }
+ 
+   private readChainDataByBlockSmall(fieldProperty: Property, chain: number[]): Uint8Array {
++    if (chain.length * CONST.MSG.SMALL_BLOCK_SIZE < fieldProperty.sizeBlock) throw new Error('Truncated MSG mini stream.');
+     let resultData = new Uint8Array(fieldProperty.sizeBlock);
+ 
+     for (let i = 0, idx = 0; i < chain.length; i++) {
+@@ -413,11 +454,15 @@ export class Reader {
+   }
+ 
+   private readProperty(fieldProperty: Property): Uint8Array {
++    if (!Number.isInteger(fieldProperty.sizeBlock) || fieldProperty.sizeBlock < 0 || fieldProperty.sizeBlock > this.ds.byteLength - this.bigBlockSize) {
++      throw new Error('Invalid MSG stream size.');
++    }
+     if (!fieldProperty.sizeBlock) {
+       return new Uint8Array(0);
+     }
+     else if (fieldProperty.sizeBlock < CONST.MSG.BIG_BLOCK_MIN_DOC_SIZE) {
+       const chain = this.getChainByBlockSmall(fieldProperty);
++      if (chain.length * CONST.MSG.SMALL_BLOCK_SIZE < fieldProperty.sizeBlock) throw new Error('Truncated MSG mini stream.');
+       if (chain.length == 1) {
+         const resultData = new Uint8Array(fieldProperty.sizeBlock);
+         this.readDataByBlockSmall(fieldProperty.startBlock, fieldProperty.sizeBlock, resultData, 0);
+@@ -429,10 +474,13 @@ export class Reader {
+     }
+     else {
+       let nextBlock = fieldProperty.startBlock;
++      const visited = new Set<number>();
+       let remaining = fieldProperty.sizeBlock;
+       let position = 0;
+       const resultData = new Uint8Array(fieldProperty.sizeBlock);
+       while (1 <= remaining) {
++        if (visited.has(nextBlock)) throw new Error('Cyclic MSG stream sector chain.');
++        visited.add(nextBlock);
+         const blockStartOffset = this.getBlockOffsetAt(nextBlock);
+         this.ds.seek(blockStartOffset);
+         const partSize = Math.min(remaining, this.bigBlockSize);
+diff --git a/src/MsgReader.ts b/src/MsgReader.ts
+--- a/src/MsgReader.ts
++++ b/src/MsgReader.ts
+@@ -1866,10 +1866,13 @@ export default class MsgReader {
+     if (guidTable !== undefined && stringTable !== undefined && entryTable !== undefined) {
+       const entries = entryStreamParser(entryTable);
+       const stringReader = new DataStream(stringTable, 0, DataStream.LITTLE_ENDIAN);
++      stringReader.dynamicSize = false;
+       for (let entry of entries) {
+         if (entry.isStringProperty) {
++          if (!Number.isInteger(entry.key) || entry.key < 0 || entry.key + 4 > stringTable.length) throw new Error('Invalid MSG named property offset.');
+           stringReader.seek(entry.key);
+           const numTextBytes = stringReader.readUint32();
++          if (numTextBytes % 2 !== 0 || numTextBytes > stringTable.length - entry.key - 4) throw new Error('Invalid MSG named property string size.');
+ 
+           this.privatePidToKeyed[0x8000 | entry.propertyIndex] = {
+             useName: true,
+diff --git a/src/AppointmentRecurParser.ts b/src/AppointmentRecurParser.ts
+--- a/src/AppointmentRecurParser.ts
++++ b/src/AppointmentRecurParser.ts
+@@ -713,8 +713,10 @@ function parseRecurrencePattern(ds: DataStream): RecurrencePattern {
+   const occurrenceCount = ds.readUint32();
+   const firstDOW = ds.readUint32();
+   const deletedInstanceCount = ds.readUint32();
++  if (deletedInstanceCount > Math.floor((ds.byteLength - ds.position) / 4)) throw new Error('Invalid MSG recurrence date count.');
+   const deletedInstanceDates = Array.from(ds.readUint32Array(deletedInstanceCount)) as number[];
+   const modifiedInstanceCount = ds.readUint32();
++  if (modifiedInstanceCount > Math.floor((ds.byteLength - ds.position) / 4)) throw new Error('Invalid MSG recurrence date count.');
+   const modifiedInstanceDates = Array.from(ds.readUint32Array(modifiedInstanceCount)) as number[];
+   const startDate = ds.readUint32();
+   const endDate = ds.readUint32();

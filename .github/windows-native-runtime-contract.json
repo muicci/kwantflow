@@ -1,0 +1,199 @@
+{
+	"schemaVersion": 2,
+	"platform": "windows-x86_64",
+	"litertLm": {
+		"version": "v0.16.0",
+		"commit": "924e79c91542761242244e4f1651851f822e4cbb",
+		"prebuiltFiles": [
+			{
+				"path": "prebuilt/windows_x86_64/libGemmaModelConstraintProvider.dll",
+				"sha256": "84b7c018631ad66f9d2ce7f3922d55aca5d38281a3790d095438b45313db9cd4",
+				"bytes": 12979200
+			},
+			{
+				"path": "prebuilt/windows_x86_64/libLiteRt.dll",
+				"sha256": "cb5049dfbf164bf778b8dd565db055c9ee76c02155bf17af6957ea7b0c04ad4e",
+				"bytes": 11887616
+			},
+			{
+				"path": "prebuilt/windows_x86_64/libLiteRtTopKWebGpuSampler.dll",
+				"sha256": "e2beaa4b57b98366f4266e9dc77325a6cebc51335005ff7ce1dc1910dda6e868",
+				"bytes": 9763840
+			},
+			{
+				"path": "prebuilt/windows_x86_64/libLiteRtWebGpuAccelerator.dll",
+				"sha256": "c17cdb57e420a9c0b8cbad424dd8322c4e1f0e7be1773a4b6cb03bb96d3bde4c",
+				"bytes": 12181504
+			},
+			{
+				"path": "prebuilt/windows_x86_64/libwebgpu_dawn.dll",
+				"sha256": "e045ab52c99e48ab689a81d4988b90d64993cb602109f20f8444cc23e52a678d",
+				"bytes": 11852288
+			}
+		],
+		"patch": {
+			"path": "scripts/native/litert-windows-c-api.patch",
+			"sha256": "91b9a68cf5590ca1b66c40ebec14f43130c1a4562d70b99db8d827601cb77432"
+		}
+	},
+	"pdfiumVersion": "chromium/7920",
+	"bazeliskVersion": "v1.29.0",
+	"requiredRuntimeFiles": [
+		"litert_lm_c.dll",
+		"libLiteRt.dll",
+		"libLiteRtWebGpuAccelerator.dll",
+		"libLiteRtTopKWebGpuSampler.dll",
+		"libGemmaModelConstraintProvider.dll",
+		"libwebgpu_dawn.dll",
+		"pdfium.dll"
+	],
+	"bazelVersion": "7.6.1",
+	"bazelSha256": "1c7a1609700e085d6a707a444a97e03bad593a99475bb91ff4945868d295dc96",
+	"requiredExports": [
+		"litert_lm_engine_create",
+		"litert_lm_sampler_params_create",
+		"litert_lm_input_data_create",
+		"litert_lm_conversation_config_set_tools",
+		"litert_lm_conversation_config_set_stream_tool_calls",
+		"litert_lm_conversation_optional_args_set_max_output_tokens",
+		"litert_lm_conversation_send_message_stream",
+		"litert_lm_stream_chunk_get_text"
+	],
+	"windowsSystemDlls": [
+		"advapi32.dll",
+		"avrt.dll",
+		"bcrypt.dll",
+		"bcryptprimitives.dll",
+		"cfgmgr32.dll",
+		"combase.dll",
+		"comctl32.dll",
+		"comdlg32.dll",
+		"crypt32.dll",
+		"cryptbase.dll",
+		"cryptnet.dll",
+		"cryptsp.dll",
+		"d3d11.dll",
+		"d3d12.dll",
+		"dbghelp.dll",
+		"dcomp.dll",
+		"dwmapi.dll",
+		"dxgi.dll",
+		"gdi32.dll",
+		"gdi32full.dll",
+		"imm32.dll",
+		"iphlpapi.dll",
+		"kernel32.dll",
+		"kernelbase.dll",
+		"mf.dll",
+		"mfplat.dll",
+		"mfreadwrite.dll",
+		"mpr.dll",
+		"msimg32.dll",
+		"msvcrt.dll",
+		"ncrypt.dll",
+		"netapi32.dll",
+		"normaliz.dll",
+		"ntdll.dll",
+		"ole32.dll",
+		"oleacc.dll",
+		"oleaut32.dll",
+		"powrprof.dll",
+		"profapi.dll",
+		"propsys.dll",
+		"psapi.dll",
+		"rpcrt4.dll",
+		"secur32.dll",
+		"setupapi.dll",
+		"shell32.dll",
+		"shlwapi.dll",
+		"ucrtbase.dll",
+		"user32.dll",
+		"userenv.dll",
+		"usp10.dll",
+		"uxtheme.dll",
+		"version.dll",
+		"winhttp.dll",
+		"wininet.dll",
+		"winmm.dll",
+		"winspool.drv",
+		"wintrust.dll",
+		"wldap32.dll",
+		"ws2_32.dll",
+		"wtsapi32.dll"
+	],
+	"windowsApiSetPattern": "^(?:api-ms-win-(?:core|crt|security|service|eventing|downlevel|appmodel|shcore|shell|ntuser|ntgdi|net|power|devices|dx|mm|rtcore|com|ole|wlan|storage|winrt|wsl|oobe|legacy)|ext-ms-win-(?:ntuser|ntgdi|kernel32|kernelbase|advapi32|gdi|shell|com|security|eventing|wevtapi|winbrand|dx|dwm|power))-[a-z0-9-]+-l[0-9]+-[0-9]+-[0-9]+\\.dll$",
+	"visualCppRuntimeDlls": [
+		"concrt140.dll",
+		"msvcp140.dll",
+		"msvcp140_1.dll",
+		"msvcp140_2.dll",
+		"msvcp140_atomic_wait.dll",
+		"msvcp140_codecvt_ids.dll",
+		"vcruntime140.dll",
+		"vcruntime140_1.dll",
+		"vcruntime140_threads.dll"
+	],
+	"inputs": {
+		"litertSource": {
+			"fileName": "LiteRT-LM-924e79c91542761242244e4f1651851f822e4cbb.tar.gz",
+			"url": "https://codeload.github.com/google-ai-edge/LiteRT-LM/tar.gz/924e79c91542761242244e4f1651851f822e4cbb",
+			"sha256": "f19f3527217ab14bcbb2cc080e335b3c9fb7a4f4338010170799a22541c4356d",
+			"bytes": 451255861
+		},
+		"bazelisk": {
+			"fileName": "bazelisk-windows-amd64.exe",
+			"url": "https://github.com/bazelbuild/bazelisk/releases/download/v1.29.0/bazelisk-windows-amd64.exe",
+			"sha256": "092a8738d5b41aae7a85c42cc961b1034e3389aba43ffc20c0fabda7b43e095b",
+			"bytes": 10502144
+		},
+		"pdfium": {
+			"fileName": "pdfium-win-x64.tgz",
+			"url": "https://github.com/bblanchon/pdfium-binaries/releases/download/chromium/7920/pdfium-win-x64.tgz",
+			"sha256": "bf25149815b34b00042f48a886653d469c817529dd9cccabb4b509b6465a9526",
+			"bytes": 3738506
+		},
+		"visualCppRedist": {
+			"fileName": "vc_redist.x64.exe",
+			"url": "https://download.visualstudio.microsoft.com/download/pr/ebdab8e5-1d7b-4d9f-a11b-cbb1720c3b12/843068991DAAA1F73AD9F6239BCE4D0F6A07A51F18C37EA2A867E9BECA71295C/VC_redist.x64.exe",
+			"sha256": "843068991daaa1f73ad9f6239bce4d0f6a07a51f18c37ea2a867e9beca71295c",
+			"bytes": 18731856,
+			"version": "14.51.36247.0",
+			"licenseUrl": "https://visualstudio.microsoft.com/license-terms/",
+			"redistributionTermsUrl": "https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files"
+		},
+		"bazel": {
+			"fileName": "bazel-7.6.1-windows-x86_64.exe",
+			"url": "https://releases.bazel.build/7.6.1/release/bazel-7.6.1-windows-x86_64.exe",
+			"sha256": "1c7a1609700e085d6a707a444a97e03bad593a99475bb91ff4945868d295dc96",
+			"bytes": 52948915
+		},
+		"webView2OfflineInstaller": {
+			"fileName": "MicrosoftEdgeWebView2RuntimeInstallerX64.exe",
+			"url": "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/7c7c0e6f-8cb5-406a-8e51-df0c62011e55/MicrosoftEdgeWebView2RuntimeInstallerX64.exe",
+			"sha256": "2a6add76c37bfa872eb8c2b22d45b3216b8e2a1f193e0774006340ff62ac5fa0",
+			"bytes": 214090448,
+			"installerVersion": "1.3.275.13",
+			"versionKind": "PE FileVersion of Microsoft Edge Update Setup, not the deployed WebView2 runtime",
+			"acquiredAt": "2026-10-10",
+			"distributionTerms": "https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
+		}
+	},
+	"runtimeSha256": {
+		"pdfium.dll": "0aa3abb1aa20798094c1a5f2d8cdea45b24a6e12cdc6c774de261dd522dbdf81"
+	},
+	"webView2": {
+		"minimumVersion": "125.0.0.0",
+		"appGuid": "{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}",
+		"minimumVersionBasis": {
+			"pdfJsLegacy": "https://github.com/mozilla/pdf.js/wiki/Frequently-Asked-Questions",
+			"tailwind": "https://tailwindcss.com/docs/compatibility",
+			"vite": "https://vite.dev/guide/build"
+		},
+		"tauriCli": {
+			"version": "2.11.4",
+			"templateCommit": "8909f221d1515955fc843808032bdc5d62209c96",
+			"templateSha256": "20f4ecc730defb71f1342eaeaec4021df13be3d843abba0effe88ea5835fa079",
+			"templateUrl": "https://raw.githubusercontent.com/tauri-apps/tauri/8909f221d1515955fc843808032bdc5d62209c96/crates/tauri-bundler/src/bundle/windows/nsis/installer.nsi"
+		}
+	}
+}

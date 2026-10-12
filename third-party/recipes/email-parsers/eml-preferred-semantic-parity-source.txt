@@ -1,0 +1,148 @@
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { readFileSync, readdirSync, realpathSync, writeFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import { dirname, join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { createContext, Script } from 'node:vm';
+
+const scratch = dirname(realpathSync(new URL(import.meta.url)));
+const app = '<app>';
+const appRequire = createRequire(join(app, 'package.json'));
+const sourceRequire = createRequire(join(scratch, 'source/package.json'));
+const installedRoot = dirname(dirname(appRequire.resolve('eml-parse-js')));
+const installedRequire = createRequire(join(installedRoot, 'package.json'));
+const generatedRoot = join(scratch, 'source');
+const sha = (bytes) => createHash('sha256').update(bytes).digest('hex');
+const parsedPackage = (root) => JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
+const protectedInputs = ['package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml',
+  'third-party/recipes/email-parsers/eml-parse-js-1.2.0-beta.1.patch',
+  'third-party/recipes/email-parsers/eml-parse-js-1.2.0-beta.1-source.patch'];
+const protectedBefore = Object.fromEntries(protectedInputs.map((p) => [p, sha(readFileSync(join(app, p)))]));
+
+function normalized(value) {
+  if (value === undefined) return { $undefined: true };
+  if (value === null || typeof value !== 'object') return value;
+  if (Object.prototype.toString.call(value) === '[object Date]') {
+    return { $date: Number.isFinite(value.getTime()) ? value.toISOString() : 'Invalid Date' };
+  }
+  if (ArrayBuffer.isView(value)) return { $bytes: Buffer.from(value.buffer, value.byteOffset, value.byteLength).toString('base64') };
+  if (Array.isArray(value)) return Array.from(value, normalized);
+  return Object.fromEntries(Object.keys(value).sort().map((key) => [key, normalized(value[key])]));
+}
+
+async function load(root, format) {
+  const file = join(root, `dist/index.${format}.js`);
+  const require = createRequire(file);
+  if (format === 'cjs') return require(file);
+  if (format === 'es') return import(pathToFileURL(file).href);
+  const module = { exports: {} };
+  // The external Base64 functions return host byte buffers. Keep their ArrayBuffer
+  // realm identical to the bundled decoder, as they are in an actual browser.
+  const globals = { module, exports: module.exports, require, Base64: require('js-base64'), TextEncoder, TextDecoder, ArrayBuffer, Uint8Array, Uint16Array, Uint32Array, DataView, console };
+  const context = createContext(globals, { codeGeneration: { strings: false, wasm: false } });
+  if (format === 'iife') {
+    delete globals.module;
+    delete globals.exports;
+  }
+  new Script(readFileSync(file, 'utf8'), { filename: file }).runInContext(context, { timeout: 2000 });
+  return format === 'iife' ? context.EmlParseJs : module.exports;
+}
+
+const cases = [];
+const add = (name, input, expect) => cases.push({ name, input, expect });
+const h = (name, casing) => casing === 'lowercase' ? name.toLowerCase() : name.replace(/[a-z]/gi, (c, i) => i % 2 ? c.toLowerCase() : c.toUpperCase());
+
+for (const casing of ['lowercase', 'mixed']) {
+  const headers = Object.fromEntries(Object.entries({ Subject: 'Synthetic quote', From: 'supplier@example.com', To: 'buyer@example.com', Cc: 'estimator@example.com', Date: 'Mon, 15 Jan 2024 10:00:00 +1100', 'Message-ID': '<PaRt-ABC@example.com>', 'Thread-Index': 'ThReAd-AbC', 'Content-Type': 'TeXt/PlAiN; ChArSeT=UTF-8', 'Content-Transfer-Encoding': 'BaSe64' }).map(([k, v]) => [h(k, casing), v]));
+  add(`${casing} top-level headers`, Object.entries(headers).map(([k, v]) => `${k}: ${v}`).join('\r\n') + '\r\n\r\nUGxlYXNlIHF1b3RlLg==', (v) => {
+    assert.equal(v.subject, 'Synthetic quote'); assert.equal(v.text, 'Please quote.');
+    assert.equal(v.date.toISOString(), '2024-01-14T23:00:00.000Z');
+    assert.deepEqual(normalized(v.headers), headers);
+  });
+  const raw = Object.fromEntries(Object.entries({ Subject: 'PaRt AbC', Date: 'not-a-date', 'X-Keep-Mixed': 'AbC %20; ChArSeT=Literal', 'Content-Type': 'TeXt/PlAiN; ChArSeT=UTF-8' }).map(([k, v]) => [h(k, casing), v]));
+  const body = 'Please QuoTE,\r\nPart ABc%20.';
+  add(`${casing} raw headers and body`, Object.entries(raw).map(([k, v]) => `${k}: ${v}`).join('\r\n') + `\r\n\r\n${body}`, (v) => {
+    assert.equal(v.subject, 'PaRt AbC'); assert.equal(v.text, body); assert.deepEqual(normalized(v.headers), raw); assert.equal(Number.isNaN(v.date.getTime()), true);
+  });
+  const header = (name) => h(name, casing);
+  add(`${casing} nested MIME`, `${header('Subject')}: Synthetic quote\r\n${header('MIME-Version')}: 1.0\r\n${header('Content-Type')}: MuLtIpArT/MiXeD; BOUNDARY="Outer-Case"\r\n\r\n` +
+    `--Outer-Case\r\n${header('Content-Type')}: MuLtIpArT/AlTeRnAtIvE; BoUnDaRy="Inner-Case"\r\n\r\n` +
+    `--Inner-Case\r\n${header('Content-Type')}: TeXt/PlAiN; CHARSET=UTF-8\r\n${header('Content-Transfer-Encoding')}: BASE64\r\n\r\nUGxlYXNlIHF1b3RlLg==\r\n` +
+    `--Inner-Case\r\n${header('Content-Type')}: TeXt/HtMl; ChArSeT=UTF-8\r\n${header('Content-Transfer-Encoding')}: QuOtEd-PrInTaBlE\r\n\r\n<p>Please=20quote.</p>\r\n\r\n--Inner-Case--\r\n` +
+    `--Outer-Case\r\n${header('Content-Type')}: ApPlIcAtIoN/OcTeT-StReAm; NAME="Part%20A.step"\r\n${header('Content-Disposition')}: INLINE; FILENAME="Part%20A.step"\r\n${header('Content-ID')}: <PaRt-ABC>\r\n${header('Content-Transfer-Encoding')}: BASE64\r\n\r\nYQ==\r\n\r\n--Outer-Case--`, (v) => {
+      assert.equal(v.text, 'Please quote.'); assert.equal(v.html, '<p>Please quote.</p>\n');
+      assert.equal(v.multipartAlternative['Content-Type'], 'MuLtIpArT/AlTeRnAtIvE; BoUnDaRy="Inner-Case"');
+      assert.equal(v.attachments.length, 1); assert.equal(v.attachments[0].name, 'Part%20A.step');
+      assert.equal(v.attachments[0].id, '<PaRt-ABC>'); assert.equal(v.attachments[0].inline, true);
+      assert.equal(v.attachments[0].data64, 'YQ==');
+    });
+}
+add('missing type', 'Subject: Synthetic plain email\r\nFrom: sender@example.test\r\nTo: shop@example.test\r\n\r\nPlease QuoTE.\r\nPart ABc%20.', (v) => {
+  assert.equal(v.subject, 'Synthetic plain email'); assert.equal(v.text, 'Please QuoTE.\r\nPart ABc%20.');
+  assert.deepEqual(normalized(v.headers), { From: 'sender@example.test', Subject: 'Synthetic plain email', To: 'shop@example.test' });
+});
+add('missing part type', 'Subject: Synthetic plain part\r\nContent-Type: multipart/mixed; boundary="Plain-Part"\r\n\r\n--Plain-Part\r\nContent-Transfer-Encoding: base64\r\n\r\nUGxlYXNlIHF1b3RlLg==\r\n--Plain-Part\r\nContent-Type: application/octet-stream\r\nContent-Disposition: attachment; filename="PaRt.step"\r\n\r\na\r\n\r\n--Plain-Part--', (v) => {
+  assert.equal(v.text, 'Please quote.'); assert.equal(v.attachments[0].name, 'PaRt.step');
+});
+add('unknown duplicate headers', 'X-Keep: First\r\nX-Keep: Second\r\nx-keep: Third\r\n\r\nPlease quote.', (v) => {
+  assert.deepEqual(normalized(v.headers), { 'X-Keep': ['First', 'Second'], 'x-keep': 'Third' }); assert.equal(v.text, 'Please quote.');
+});
+add('header-looking body', 'Subject: RFQ\r\n\r\nContent-Type: text/html\r\nThis is literal plain text.\r\nPaRt ABc%20.', (v) => {
+  assert.equal(v.text, 'Content-Type: text/html\r\nThis is literal plain text.\r\nPaRt ABc%20.'); assert.equal(v.html, undefined);
+});
+const names = [
+  ['filename="part%1.step"', 'part%1.step'], ['filename="part%20one.step"', 'part%20one.step'],
+  ['filename="part one; final.step"', 'part one; final.step'], ['filename="utf-8 drawing.step"', 'utf-8 drawing.step'],
+  ['filename="../../drawing.step"', '../../drawing.step'], ["filename*=UTF-8''part%20one.step", 'part one.step'],
+  ["filename*=UTF-8''%E6%9D%90%E6%96%99.step", '材料.step'], ["filename*=UTF-8''part%1.step", 'part%1.step'],
+  ['filename*0="quote100%"; filename*1=".pdf"', 'quote100%.pdf'], ['filename*0="part%20"; filename*1="one.step"', 'part%20one.step'],
+  ['filename*0*=UTF-8\'\'quote%20; filename*1="100%.pdf"', 'quote 100%.pdf'],
+  ['filename*0="quote\'final\'%"; filename*1*=%20.pdf', "quote'final'% .pdf"],
+  ["filename*0*=UTF-8''%E6%9D; filename*1*=%90%E6%96%99.step", '材料.step']
+];
+for (const [parameter, expected] of names) add(`attachment ${parameter}`, 'Subject: RFQ\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary="parts"\r\n\r\n--parts\r\nContent-Type: text/plain\r\n\r\nPlease quote.\r\n--parts\r\nContent-Type: application/octet-stream\r\n' + `Content-Disposition: attachment; ${parameter}\r\n` + 'Content-Transfer-Encoding: base64\r\n\r\nYQ==\r\n--parts--', (v) => {
+  assert.equal(v.text, 'Please quote.'); assert.equal(v.attachments.length, 1); assert.equal(v.attachments[0].name, expected);
+  assert.equal(Buffer.from(v.attachments[0].data64, 'base64').toString(), 'a');
+});
+const charsets = [
+  ['plain', 'us-ascii', 'UGxlYXNlIHF1b3RlLg==', 'Please quote.'], ['html', 'us-ascii', 'PHA+UGxlYXNlIHF1b3RlLjwvcD4=', '<p>Please quote.</p>'],
+  ['plain', 'utf-8', '5p2Q5paZIGNhZsOp', '材料 café'], ['html', 'utf-8', 'PHA+5p2Q5paZIGNhZsOpPC9wPg==', '<p>材料 café</p>'],
+  ['plain', 'iso-8859-1', 'Y2Fm6Q==', 'café'], ['html', 'iso-8859-1', 'PHA+Y2Fm6TwvcD4=', '<p>café</p>'],
+  ['plain', 'gbk', 'ssTBz7GovNs=', '材料报价'], ['html', 'gbk', 'PHA+ssTBz7GovNs8L3A+', '<p>材料报价</p>']
+];
+for (const [kind, charset, body, expected] of charsets) add(`${kind} base64 ${charset}`, `Content-Type: text/${kind}; charset=${charset}\r\nContent-Transfer-Encoding: base64\r\n\r\n${body}`, (v) => assert.equal(v[kind === 'plain' ? 'text' : 'html'], expected));
+add('encoded subject and body', 'Subject: =?UTF-8?B?UkZRIMOJ?=\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Transfer-Encoding: base64\r\n\r\n5p2Q5paZIGNhZsOp', (v) => { assert.equal(v.subject, 'RFQ É'); assert.equal(v.text, '材料 café'); });
+add('valid date plain', 'From: tender@example.com\r\nTo: estimator@example.com\r\nSubject: RFQ 42\r\nDate: Mon, 15 Jan 2024 10:00:00 +1100\r\nMessage-ID: <rfq-42@example.com>\r\nThread-Index: thread-rfq-42\r\nContent-Type: text/plain\r\n\r\nPlease quote this package.', (v) => { assert.equal(v.subject, 'RFQ 42'); assert.equal(v.text, 'Please quote this package.'); assert.equal(v.date.toISOString(), '2024-01-14T23:00:00.000Z'); });
+
+const results = [];
+for (const format of ['cjs', 'es', 'iife', 'umd']) {
+  const installed = await load(installedRoot, format);
+  const generated = await load(generatedRoot, format);
+  const exported = Object.keys(installed).sort();
+  assert.deepEqual(Object.keys(generated).sort(), exported);
+  for (const key of exported) assert.equal(typeof generated[key], typeof installed[key], key);
+  assert.equal(installed.GBKUTF8.GB2312ToUTF8('材料'), '%E6%9D%90%E6%96%99');
+  assert.equal(generated.GBKUTF8.GB2312ToUTF8('材料'), '%E6%9D%90%E6%96%99');
+  for (const test of cases) {
+    const a = installed.readEml(test.input); const b = generated.readEml(test.input);
+    assert.equal(typeof a, 'object', `${format}/${test.name}/installed`); assert.equal(typeof b, 'object', `${format}/${test.name}/generated`);
+    test.expect(a); test.expect(b);
+    assert.deepEqual(normalized(b), normalized(a), `${format}/${test.name}/full result`);
+  }
+  results.push({ format, exported, cases: cases.length, fullOutputParity: true, helperParity: true, installedSha256: sha(readFileSync(join(installedRoot, `dist/index.${format}.js`))), generatedSha256: sha(readFileSync(join(generatedRoot, `dist/index.${format}.js`))) });
+  console.log(`${format}: ${cases.length}/${cases.length} expected-result and full-output parity cases; ${exported.length} export names/types match; GBK helper passes.`);
+}
+const packageContractKeys = ['name', 'version', 'main', 'module', 'browser', 'typings', 'types', 'exports', 'dependencies', 'license'];
+const installedPackage = parsedPackage(installedRoot); const generatedPackage = parsedPackage(generatedRoot);
+for (const key of packageContractKeys) assert.deepEqual(generatedPackage[key], installedPackage[key], `package metadata ${key}`);
+const declarations = readdirSync(join(generatedRoot, 'dist')).filter((name) => name.endsWith('.d.ts')).sort();
+for (const name of declarations) assert.equal(sha(readFileSync(join(generatedRoot, 'dist', name))), sha(readFileSync(join(installedRoot, 'dist', name))), `declaration ${name}`);
+for (const [path, digest] of Object.entries(protectedBefore)) assert.equal(sha(readFileSync(join(app, path))), digest, `protected ${path}`);
+const result = { schemaVersion: 1, node: process.version, platform: process.platform, arch: process.arch, cases: cases.map(({ name, input }) => ({ name, inputSha256: sha(input) })), formats: results,
+  totalFormatCases: cases.length * 4, packageContractKeys, declarations, declarationsByteParity: true,
+  externalBase64: { installed: installedRequire('js-base64/package.json').version, generated: sourceRequire('js-base64/package.json').version },
+  protectedInputs: protectedBefore, protectedUnchanged: true, harnessSha256: sha(readFileSync(new URL(import.meta.url))),
+  scope: 'Bounded full-readEml-output and explicit expected-value comparisons on public synthetic cases, native Node CJS/ES and VM IIFE/UMD with string code generation disabled. This does not prove arbitrary-input equivalence or installed Windows/Intel behavior.' };
+writeFileSync(join(scratch, 'semantic-parity.json'), JSON.stringify(result, null, 2) + '\n');
+console.log(`PASS ${result.totalFormatCases} four-format parsing comparisons, metadata and ${declarations.length} declaration files unchanged. External js-base64: ${result.externalBase64.installed}/${result.externalBase64.generated}.`);

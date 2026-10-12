@@ -1,0 +1,54 @@
+{
+	"version": 1,
+	"fixtures": [
+		{
+			"id": "dxf-wire-baseline",
+			"file": "dxf_wire_baseline.dxf",
+			"format": "dxf",
+			"expectedPreviewMode": "wire",
+			"note": "Minimal DXF line entity used to keep the derived SVG preview baseline under source control."
+		},
+		{
+			"id": "iges-line-wire",
+			"file": "iges_line_wire.iges",
+			"format": "iges",
+			"expectedPreviewMode": "wire",
+			"note": "Minimal IGES parameter-section line entity (type 110) for wire fallback coverage."
+		},
+		{
+			"id": "step-line-wire",
+			"file": "step_line_or_polyline_wire.step",
+			"format": "step",
+			"expectedPreviewMode": "wire",
+			"note": "Minimal STEP polyline geometry to exercise the text-based wire fallback path."
+		},
+		{
+			"id": "step-surface-mesh",
+			"file": "step_surface_or_solid_mesh.step",
+			"format": "step",
+			"expectedPreviewMode": "mesh",
+			"note": "Marker fixture used with the OCCT worker stub to assert previewable mesh handling through the shared loader contract."
+		},
+		{
+			"id": "step-metadata-only",
+			"file": "step_metadata_only.step",
+			"format": "step",
+			"expectedPreviewMode": "metadata_only",
+			"note": "Minimal STEP metadata-only sample with no drawable entities."
+		},
+		{
+			"id": "iges-metadata-only",
+			"file": "iges_metadata_only.iges",
+			"format": "iges",
+			"expectedPreviewMode": "metadata_only",
+			"note": "Minimal IGES sample that omits drawable line entities so the loader returns metadata-only."
+		},
+		{
+			"id": "obj-line-wire",
+			"file": "obj_line_wire.obj",
+			"format": "obj",
+			"expectedPreviewMode": "wire",
+			"note": "Line-only OBJ sample proving non-mesh drawable geometry stays previewable."
+		}
+	]
+}

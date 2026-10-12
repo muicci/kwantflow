@@ -1,0 +1,25 @@
+@layer utilities {
+	.motion-standard {
+		transition-duration: var(--duration-standard);
+		transition-timing-function: var(--ease-standard);
+	}
+
+	.motion-productive {
+		transition-duration: var(--duration-productive);
+		transition-timing-function: var(--ease-emphasized);
+	}
+
+	.motion-fast {
+		transition-duration: var(--duration-fast);
+		transition-timing-function: var(--ease-standard);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.motion-standard,
+		.motion-productive,
+		.motion-fast {
+			transition-duration: 0ms;
+			animation-duration: 0ms;
+		}
+	}
+}

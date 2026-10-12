@@ -1,0 +1,303 @@
+diff --git a/src/index.ts b/src/index.ts
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -47,6 +47,12 @@ function getFileExtension(mimeType: string): string {
+ 	return fileExtensions[mimeType] || '';
+ }
+ 
++function getHeader(headers: EmlHeaders, name: string) {
++	if (typeof headers[name] !== 'undefined') return headers[name];
++	const key = Object.keys(headers).find(key => key.toLowerCase() === name.toLowerCase());
++	return typeof key === 'undefined' ? undefined : headers[key];
++}
++
+ /**
+  * create a boundary
+  */
+@@ -98,7 +104,7 @@ function toEmailAddress(data?: string | EmailAddress | EmailAddress[] | null): s
+  * @returns {String|undefined}
+  */
+ function getCharset(contentType: string) {
+-	const match = /charset\s*=\W*([\w\-]+)/g.exec(contentType);
++	const match = /charset\s*=\W*([\w\-]+)/gi.exec(contentType);
+ 	return match ? match[1] : undefined;
+ }
+ 
+@@ -256,8 +262,6 @@ function parseRecursive(lines: string[], start: number, parent: any, options: Op
+ 	let insideBoundary = false;
+ 	let isMultiHeader = false;
+ 	let isMultipart = false;
+-	let checkedForCt = false;
+-	let ctInBody = false;
+ 
+ 	parent.headers = {};
+ 	//parent.body = null;
+@@ -284,23 +288,8 @@ function parseRecursive(lines: string[], start: number, parent: any, options: Op
+ 				}
+ 
+ 				//Expected boundary
+-				let ct = parent.headers['Content-Type'] || parent.headers['Content-type'];
+-				if (!ct) {
+-					if (checkedForCt) {
+-						insideBody = !ctInBody;
+-					} else {
+-						checkedForCt = true;
+-						const lineClone = Array.from(lines);
+-						const string = lineClone.splice(i).join('\r\n');
+-						const trimmedStrin = string.trim();
+-						if (trimmedStrin.indexOf('Content-Type') === 0 || trimmedStrin.indexOf('Content-type') === 0) {
+-							insideBody = false;
+-							ctInBody = true;
+-						} else {
+-							console.warn('Warning: undefined Content-Type');
+-						}
+-					}
+-				} else if (/^multipart\//g.test(ct)) {
++				let ct = getHeader(parent.headers, 'Content-Type');
++				if (ct && /^multipart\//i.test(ct)) {
+ 					let b = getBoundary(ct);
+ 					if (b && b.length) {
+ 						findBoundary = b;
+@@ -443,7 +432,7 @@ function completeBoundary(boundary: BoundaryRawData): BoundaryConvertedData | nu
+ 		} else {
+ 			// part.body
+ 			const match = /^\-\-([^\r\n]+)(\r?\n)?$/g.exec(line);
+-			const childBoundaryStr = getBoundary(result.part.headers['Content-Type'] || result.part.headers['Content-type']);
++			const childBoundaryStr = getBoundary(getHeader(result.part.headers, 'Content-Type'));
+ 			if (verbose) {
+ 				if (match) {
+ 					console.log(`line 568: line is ${line}, ${'--' + childBoundaryStr}`, `${line.indexOf('--' + childBoundaryStr)}`);
+@@ -553,7 +542,7 @@ function build(
+ 		//   throw new Error('Missing "To" e-mail address!');
+ 		// }
+ 
+-		const emlBoundary = getBoundary(data.headers['Content-Type'] || data.headers['Content-type'] || '');
++		const emlBoundary = getBoundary(getHeader(data.headers, 'Content-Type') || '');
+ 		let hasBoundary = false;
+ 		let boundary = createBoundary();
+ 		let multipartBoundary = '';
+@@ -701,16 +690,16 @@ function read(
+ 
+ 	//Appends the boundary to the result
+ 	function _append(headers: EmlHeaders, content: string | Uint8Array | Attachment, result: ReadedEmlJson) {
+-		const contentType = headers['Content-Type'] || headers['Content-type'];
+-		const contentDisposition = headers['Content-Disposition'];
++		const contentType = getHeader(headers, 'Content-Type') || 'text/plain; charset=us-ascii';
++		const contentDisposition = getHeader(headers, 'Content-Disposition');
+ 
+ 		const charset = getCharsetName(getCharset(contentType as string) || defaultCharset);
+-		let encoding = headers['Content-Transfer-Encoding'] || headers['Content-transfer-encoding'];
++		let encoding = getHeader(headers, 'Content-Transfer-Encoding');
+ 		if (typeof encoding === 'string') {
+ 			encoding = encoding.toLowerCase();
+ 		}
+ 		if (encoding === 'base64') {
+-			if (contentType && contentType.indexOf('gbk') >= 0) {
++			if (contentType && contentType.toLowerCase().indexOf('gbk') >= 0) {
+ 				// is work?  I'm not sure
+ 				content = encode(GB2312UTF8.GB2312ToUTF8((content as string).replace(/\r?\n/g, '')));
+ 			} else {
+@@ -724,7 +713,7 @@ function read(
+ 			content = decode(content as Uint8Array, charset);
+ 		}
+ 
+-		if (!contentDisposition && contentType && contentType.indexOf('text/html') >= 0) {
++		if (!contentDisposition && contentType && contentType.toLowerCase().indexOf('text/html') >= 0) {
+ 			if (typeof content !== 'string') {
+ 				content = decode(content as Uint8Array, charset);
+ 			}
+@@ -737,7 +726,7 @@ function read(
+ 				if (encoding === 'base64') {
+ 					const compact = htmlContent.replace(/\s+/g, '');
+ 					if (/^[A-Za-z0-9+/=]+$/.test(compact) && compact.length % 4 === 0) {
+-						htmlContent = Base64.decode(compact);
++						htmlContent = decode(Base64.toUint8Array(compact), charset);
+ 					}
+ 				} else {
+ 					// Heuristic: if compact text looks base64 (chars + padding, length %4==0) attempt decode.
+@@ -766,12 +755,12 @@ function read(
+ 				'Content-Transfer-Encoding': encoding || '',
+ 			};
+ 			// self boundary Not used at conversion
+-		} else if (!contentDisposition && contentType && contentType.indexOf('text/plain') >= 0) {
++		} else if (!contentDisposition && contentType && contentType.toLowerCase().indexOf('text/plain') >= 0) {
+ 			if (typeof content !== 'string') {
+ 				content = decode(content as Uint8Array, charset);
+ 			}
+ 			if (encoding === 'base64') {
+-				content = Base64.decode(content);
++				content = decode(Base64.toUint8Array(content), charset);
+ 			}
+ 			//Plain text message
+ 
+@@ -794,44 +783,48 @@ function read(
+ 
+ 			const attachment = {} as Attachment;
+ 
+-			const id = headers['Content-ID'] || headers['Content-Id'];
++			const id = getHeader(headers, 'Content-ID');
+ 			if (id) {
+ 				attachment.id = id;
+ 			}
+ 
+-			const NameContainer = ['Content-Disposition', 'Content-Type', 'Content-type'];
+-
++			const NameContainer = ["Content-Disposition", "Content-Type"];
+ 			let result_name;
+ 			for (const key of NameContainer) {
+-				const name: string = headers[key];
+-				if (name) {
+-					result_name = name
+-						.replace(/(\s|'|utf-8|\*[0-9]\*)/g, '')
+-						.split(';')
+-						.map((v) => /name[\*]?="?(.+?)"?$/gi.exec(v))
+-						.reduce((a, b) => {
+-							if (b && b[1]) {
+-								a += b[1];
+-							}
+-							return a;
+-						}, '');
+-					if (result_name) {
+-						break;
+-					}
+-				}
++			  const name: string = getHeader(headers, key);
++			  if (!name) continue;
++			  const parameters = Array.from(name.matchAll(/(?:^|;)\s*(?:filename|name)(\*(?:\d+\*?)?)?\s*=\s*("(?:\\.|[^"\\])*"|[^;]*)/gi));
++			  const extended = parameters.find(parameter => parameter[1] === "*");
++			  const regular = parameters.find(parameter => !parameter[1]);
++			  const continuations = parameters.filter(parameter => /^\*\d+\*?$/.test(parameter[1] || ""))
++			    .sort((left, right) => parseInt(left[1].slice(1), 10) - parseInt(right[1].slice(1), 10));
++			  const complete = continuations.length > 0 && continuations.every((parameter, index) => parseInt(parameter[1].slice(1), 10) === index);
++			  const selected = extended ? [extended] : complete ? continuations : regular ? [regular] : [];
++			  const encoded = selected.some(parameter => parameter[1]?.endsWith("*"));
++			  result_name = selected.map(parameter => {
++			    let value = parameter[2].trim();
++			    if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1).replace(/\\(["\\])/g, "$1");
++			    if (encoded && !parameter[1]?.endsWith("*")) value = value.replace(/%/g, "%25");
++			    return value;
++			  }).join("");
++			  if (encoded) {
++			    if (selected[0]?.[1]?.endsWith("*")) result_name = result_name.replace(/^[^']*'[^']*'/, "");
++			    try { result_name = decodeURIComponent(result_name); } catch { /* Preserve malformed encoded names as text. */ }
++			  }
++			  if (result_name) break;
+ 			}
+ 			if (result_name) {
+-				attachment.name = decodeURI(result_name);
++			  attachment.name = result_name;
+ 			}
+ 
+-			const ct = headers['Content-Type'] || headers['Content-type'];
++			const ct = getHeader(headers, 'Content-Type');
+ 			if (ct) {
+ 				attachment.contentType = ct;
+ 			}
+ 
+-			const cd = headers['Content-Disposition'];
++			const cd = getHeader(headers, 'Content-Disposition');
+ 			if (cd) {
+-				attachment.inline = /^\s*inline/g.test(cd);
++				attachment.inline = /^\s*inline/i.test(cd);
+ 			}
+ 
+ 			attachment.data = content as Uint8Array;
+@@ -849,30 +842,30 @@ function read(
+ 			if (!data.headers) {
+ 				throw new Error("data does't has headers");
+ 			}
+-			if (data.headers['Date']) {
+-				result.date = new Date(data.headers['Date']);
++			if (getHeader(data.headers, 'Date')) {
++				result.date = new Date(getHeader(data.headers, 'Date'));
+ 			}
+-			if (data.headers['Subject']) {
+-				result.subject = unquoteString(data.headers['Subject']);
++			if (getHeader(data.headers, 'Subject')) {
++				result.subject = unquoteString(getHeader(data.headers, 'Subject'));
+ 			}
+-			if (data.headers['From']) {
+-				result.from = getEmailAddress(data.headers['From']);
++			if (getHeader(data.headers, 'From')) {
++				result.from = getEmailAddress(getHeader(data.headers, 'From'));
+ 			}
+-			if (data.headers['To']) {
+-				result.to = getEmailAddress(data.headers['To']);
++			if (getHeader(data.headers, 'To')) {
++				result.to = getEmailAddress(getHeader(data.headers, 'To'));
+ 			}
+-			if (data.headers['CC']) {
+-				result.cc = getEmailAddress(data.headers['CC']);
++			if (getHeader(data.headers, 'CC')) {
++				result.cc = getEmailAddress(getHeader(data.headers, 'CC'));
+ 			}
+-			if (data.headers['Cc']) {
+-				result.cc = getEmailAddress(data.headers['Cc']);
++			if (getHeader(data.headers, 'Cc')) {
++				result.cc = getEmailAddress(getHeader(data.headers, 'Cc'));
+ 			}
+ 			result.headers = data.headers;
+ 
+ 			//Content mime type
+ 			let boundary: any = null;
+-			const ct = data.headers['Content-Type'] || data.headers['Content-type'];
+-			if (ct && /^multipart\//g.test(ct)) {
++			const ct = getHeader(data.headers, 'Content-Type');
++			if (ct && /^multipart\//i.test(ct)) {
+ 				const b = getBoundary(ct);
+ 				if (b && b.length) {
+ 					boundary = b;
+@@ -898,12 +891,12 @@ function read(
+ 						} else {
+ 							// keep multipart/alternative
+ 							const currentHeaders = boundaryBlock.part.headers;
+-							const currentHeadersContentType = currentHeaders['Content-Type'] || currentHeaders['Content-type'];
++							const currentHeadersContentType = getHeader(currentHeaders, 'Content-Type');
+ 							if (verbose) {
+ 								console.log(`line 969 currentHeadersContentType: ${currentHeadersContentType}`);
+ 							}
+ 							// Hasmore ?
+-							if (currentHeadersContentType && currentHeadersContentType.indexOf('multipart') >= 0 && !result.multipartAlternative) {
++							if (currentHeadersContentType && currentHeadersContentType.toLowerCase().indexOf('multipart') >= 0 && !result.multipartAlternative) {
+ 								result.multipartAlternative = {
+ 									'Content-Type': currentHeadersContentType,
+ 								};
+diff --git a/src/utils.ts b/src/utils.ts
+--- a/src/utils.ts
++++ b/src/utils.ts
+@@ -5,7 +5,7 @@ import { decode } from './charset';
+  * @param contentType - string
+  */
+ export function getBoundary(contentType: string) {
+-	const match = /(?:B|b)oundary=(?:'|")?(.+?)(?:'|")?(\s*;[\s\S]*)?$/g.exec(contentType);
++	const match = /boundary=(?:'|")?(.+?)(?:'|")?(\s*;[\s\S]*)?$/gi.exec(contentType);
+ 	return match ? match[1] : undefined;
+ }
+ //Gets the character encoding name for iconv, e.g. 'iso-8859-2' -> 'iso88592'
+@@ -73,7 +73,7 @@ export const GB2312UTF8 = {
+ 		let retV = 0;
+ 		if (s.length == 4) {
+ 			for (let i = 0; i < 4; i++) {
+-				retV += eval(s.charAt(i)) * Math.pow(2, 3 - i);
++				retV += Number(s.charAt(i)) * Math.pow(2, 3 - i);
+ 			}
+ 			return retV;
+ 		}
+@@ -91,7 +91,7 @@ export const GB2312UTF8 = {
+ 			let sss = '0123456789ABCDEF';
+ 			for (let i = 0; i < 3; i++) {
+ 				retS += '%';
+-				ss = tempS.substring(i * 8, (eval(i.toString()) + 1) * 8);
++				ss = tempS.substring(i * 8, (Number(i.toString()) + 1) * 8);
+ 				retS += sss.charAt(this.Dig2Dec(ss.substring(0, 4)));
+ 				retS += sss.charAt(this.Dig2Dec(ss.substring(4, 8)));
+ 			}
+@@ -123,7 +123,7 @@ export const GB2312UTF8 = {
+ 		for (let i = 0; i < s.length; i++) {
+ 			c = s.charAt(i);
+ 			n = ss.indexOf(c);
+-			digS += this.Dec2Dig(eval(n.toString()));
++			digS += this.Dec2Dig(Number(n.toString()));
+ 		}
+ 		return digS;
+ 	},

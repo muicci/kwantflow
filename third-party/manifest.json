@@ -1,0 +1,474 @@
+{
+	"schemaVersion": 1,
+	"applicationLicense": "GPL-3.0-only",
+	"scope": "Pinned manually bundled CAD/font/HEIC inputs and local email-parser patches with preferred source. See dependency-inventory.json for installed npm and Cargo metadata; native-inputs.json and native license directories for native inputs. This is not a complete binary SBOM.",
+	"components": [
+		{
+			"name": "LibreDWG JavaScript/WASM",
+			"version": "0.7.9",
+			"npmPackage": "@mlightcad/libredwg-web@0.7.9",
+			"license": "GPL-3.0-or-later (distributed under GPL version 3)",
+			"notices": ["third-party/licenses/libredwg-GPL-3.0.txt"],
+			"sourceArchives": ["third-party/sources/libredwg-web-0.7.9.tar.gz"],
+			"artifacts": [
+				{
+					"path": "static/wasm/libredwg-web.wasm",
+					"sha256": "d8b78f6d5e63e6e178cf7343cfd08ebe798d75b6754c593e15d8f948b823e038",
+					"source": "upstream bindings/javascript/wasm/libredwg-web.wasm"
+				},
+				{
+					"path": "static/workers/libredwg-web.wasm",
+					"sha256": "d8b78f6d5e63e6e178cf7343cfd08ebe798d75b6754c593e15d8f948b823e038",
+					"source": "same upstream WASM"
+				}
+			]
+		},
+		{
+			"name": "CAD viewer DWG parser worker",
+			"version": "1.5.11",
+			"license": "MIT wrapper; embedded LibreDWG GPL-3.0-or-later",
+			"notices": [
+				"third-party/licenses/cad-viewer-MIT.txt",
+				"third-party/licenses/libredwg-GPL-3.0.txt"
+			],
+			"sourceArchives": [
+				"third-party/sources/cad-viewer-1.5.11.tar.gz",
+				"third-party/sources/libredwg-web-0.7.9.tar.gz"
+			],
+			"artifacts": [
+				{
+					"path": "static/workers/libredwg-parser-worker.js",
+					"sha256": "71243d5bc391c98c18eb1dac9129e44c640a2b3f251de7762d71e5c083027cd7",
+					"source": "@mlightcad/cad-simple-viewer@1.5.11/dist/libredwg-parser-worker.js; trailing whitespace normalized"
+				}
+			]
+		},
+		{
+			"name": "MText worker",
+			"version": "0.12.4",
+			"license": "MIT plus npm dependency notices",
+			"notices": [],
+			"sourceArchives": [],
+			"artifacts": [
+				{
+					"path": "static/workers/mtext-renderer-worker.js",
+					"sha256": "c00468b281e32a57ecb985f9966e11990a6d1cc4ceac9c181a3ee42bfcf9bea0",
+					"source": "@mlightcad/mtext-renderer@0.12.4/dist/mtext-renderer-worker.js; trailing whitespace normalized"
+				}
+			]
+		},
+		{
+			"name": "OCCT STEP/IGES importer",
+			"version": "occt-import-js 0.0.23 / OCCT 7.6.1",
+			"npmPackage": "occt-import-js@0.0.23",
+			"license": "LGPL-2.1 with OCCT exception applying only to OCCT",
+			"notices": [
+				"third-party/licenses/occt-import-js-LGPL-2.1.txt",
+				"third-party/licenses/OCCT-LGPL-2.1.txt",
+				"third-party/licenses/OCCT-LGPL-exception.txt",
+				"third-party/licenses/emscripten-3.1.69/LICENSE",
+				"third-party/licenses/emscripten-3.1.69/system/lib/libc/musl/COPYRIGHT",
+				"third-party/licenses/emscripten-3.1.69/system/lib/libcxx/LICENSE.TXT",
+				"third-party/licenses/emscripten-3.1.69/system/lib/libcxxabi/LICENSE.TXT",
+				"third-party/licenses/emscripten-3.1.69/system/lib/compiler-rt/LICENSE.TXT",
+				"third-party/licenses/emscripten-3.1.69/system/lib/libunwind/LICENSE.TXT"
+			],
+			"sourceArchives": [
+				"third-party/sources/occt-import-js-0.0.23.tar.gz",
+				"third-party/sources/OCCT-7.6.1.tar.gz",
+				"third-party/sources/emscripten-3.1.69.tar.gz"
+			],
+			"artifacts": []
+		},
+		{
+			"name": "HEIC/HEIF decoder",
+			"version": "local libheif-js 1.23.6-kwantflow.1 / libheif 1.23.6 / libde265 1.1.3",
+			"npmPackage": "libheif-js@1.23.6-kwantflow.1",
+			"license": "LGPL-3.0-only (JS factory derivative); LGPL-3.0-or-later (codec libraries), MIT (upstream C++ wrappers), separate Emscripten runtime notices",
+			"notices": [
+				"third-party/licenses/libheif-js-LGPL-3.0.txt",
+				"third-party/licenses/libheif-LGPL-3.0.txt",
+				"third-party/licenses/libde265-LGPL-3.0.txt",
+				"third-party/licenses/libheif-compiled-NOTICE.txt",
+				"third-party/licenses/emscripten-3.1.61/LICENSE",
+				"third-party/licenses/emscripten-3.1.61/system/lib/libc/musl/COPYRIGHT",
+				"third-party/licenses/emscripten-3.1.61/system/lib/libcxx/LICENSE.TXT",
+				"third-party/licenses/emscripten-3.1.61/system/lib/libcxxabi/LICENSE.TXT",
+				"third-party/licenses/emscripten-3.1.61/system/lib/compiler-rt/LICENSE.TXT",
+				"third-party/licenses/emscripten-3.1.61/system/lib/libunwind/LICENSE.TXT"
+			],
+			"sourceArchives": [
+				"third-party/sources/libheif-js-1.23.5.tar.gz",
+				"third-party/sources/libheif-1.23.6.tar.gz",
+				"third-party/sources/libde265-1.1.3.tar.gz",
+				"third-party/sources/emscripten-3.1.61.tar.gz"
+			],
+			"artifacts": [
+				{
+					"path": "packages/libheif-js/package.json",
+					"sha256": "7d21ecde988a44973a322ea58f294e44bdf4d5424445752ce650cbdab497d6c0"
+				},
+				{
+					"path": "packages/libheif-js/LICENSE",
+					"sha256": "abd93e1994662386498dbe43246c691ac47e16c6690d35beb75c854b163b5c23"
+				},
+				{
+					"path": "packages/libheif-js/libheif-wasm/libheif-bundle.mjs",
+					"sha256": "733721bdec088907ba4c528a4a6bb344d07c1924c43197614139605cfa75dc4b"
+				},
+				{
+					"path": "third-party/recipes/libheif/build-wrapper.mjs",
+					"sha256": "7607a6405e54d1c31d0ce4f8d53fa40383d52ea52d5fdb36f9adcf016532ce3f"
+				},
+				{
+					"path": "third-party/recipes/libheif/rebuild.sh",
+					"sha256": "62fec13c6b9c7e689d2b733a193b583b86fed9af91abdd67af70c94c8018f3c1"
+				},
+				{
+					"path": "third-party/rebuild-evidence.json",
+					"sha256": "ab5ed7edf520095afbdec0ebf89d27bb18b7af3ac1b5fd01849898d26c618575"
+				}
+			],
+			"scope": "Custom local source-built package, distinct from registry libheif-js 1.23.5; no registry version is relabelled. The factory embeds its matching WASM and uses no network decoder."
+		},
+		{
+			"name": "Liberation Sans",
+			"version": "2.1.5",
+			"license": "OFL-1.1",
+			"notices": ["third-party/licenses/liberation-fonts-OFL.txt"],
+			"sourceArchives": [
+				"third-party/sources/liberation-fonts-2.1.5.tar.gz",
+				"third-party/sources/liberation-fonts-ttf-2.1.5.tar.gz"
+			],
+			"artifacts": [
+				{
+					"path": "static/cad-data/fonts/LiberationSans-Regular.ttf",
+					"sha256": "76d04c18ea243f426b7de1f3ad208e927008f961dc5945e5aad352d0dfde8ee8",
+					"source": "official liberation-fonts-ttf-2.1.5 release tar"
+				}
+			]
+		},
+		{
+			"name": "Noto Sans CJK SC",
+			"version": "2.004 / source f8d157532fbfaeda587e826d4cd5b21a49186f7c",
+			"license": "OFL-1.1",
+			"notices": ["third-party/licenses/noto-cjk-OFL.txt"],
+			"sourceArchives": [],
+			"artifacts": [
+				{
+					"path": "static/cad-data/fonts/NotoSansCJKsc-Regular.otf",
+					"sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+					"source": "https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf"
+				}
+			]
+		},
+		{
+			"name": "Kwantflow Open CAD Outline",
+			"version": "1",
+			"license": "OFL-1.1; renamed Liberation Sans outline derivative with original dimension-symbol strokes",
+			"notices": ["third-party/licenses/liberation-fonts-OFL.txt"],
+			"sourceArchives": ["third-party/sources/liberation-fonts-ttf-2.1.5.tar.gz"],
+			"artifacts": [
+				{
+					"path": "static/cad-data/fonts/KwantflowOpenCad.shx",
+					"sha256": "d2dba3d070c6a52b553284e0eeb1b8f7352e40d8de122fcbbf9704c0261f1976",
+					"source": "scripts/build-cad-open-font.ts from pinned LiberationSans-Regular.ttf"
+				}
+			]
+		},
+		{
+			"name": "Earlier Kwantflow source attribution",
+			"version": "2026",
+			"license": "MIT retained attribution, copyright Caliper",
+			"notices": ["third-party/licenses/kwantflow-prior-mit.txt"],
+			"sourceArchives": [],
+			"artifacts": []
+		},
+		{
+			"name": "Kwantflow Open GDT",
+			"version": "1",
+			"license": "OFL-1.1; renamed Liberation Sans derivative with original GD&T geometry implementing documented character slots",
+			"notices": ["third-party/licenses/liberation-fonts-OFL.txt"],
+			"sourceArchives": ["third-party/sources/liberation-fonts-ttf-2.1.5.tar.gz"],
+			"artifacts": [
+				{
+					"path": "static/cad-data/fonts/KwantflowOpenGdt.shx",
+					"sha256": "36bb78fc137cece43676198665dcbbdf34ef118cb772e96e825931a8b2ad8a0a",
+					"source": "scripts/build-cad-open-font.ts; documented Autodesk GDT character codes, original geometry"
+				}
+			]
+		},
+		{
+			"name": "Verified LibreDWG rebuild linked runtime",
+			"version": "Emscripten 4.0.13 / zlib 1.3.1",
+			"license": "Emscripten MIT/NCSA; musl/mimalloc MIT; LLVM runtime Apache-2.0 with LLVM exception; zlib",
+			"notices": [
+				"third-party/licenses/emscripten-4.0.13/LICENSE",
+				"third-party/licenses/emscripten-4.0.13/system/lib/libc/musl/COPYRIGHT",
+				"third-party/licenses/emscripten-4.0.13/system/lib/mimalloc/LICENSE",
+				"third-party/licenses/emscripten-4.0.13/system/lib/libcxx/LICENSE.TXT",
+				"third-party/licenses/emscripten-4.0.13/system/lib/libcxxabi/LICENSE.TXT",
+				"third-party/licenses/emscripten-4.0.13/system/lib/compiler-rt/LICENSE.TXT",
+				"third-party/licenses/emscripten-4.0.13/system/lib/libunwind/LICENSE.TXT",
+				"third-party/licenses/zlib-1.3.1-README.txt"
+			],
+			"sourceArchives": [
+				"third-party/sources/emscripten-4.0.13.tar.gz",
+				"third-party/sources/zlib-1.3.1.tar.gz"
+			],
+			"artifacts": []
+		},
+		{
+			"name": "MLightCAD model, geometry and graphic interfaces",
+			"version": "common/data-model 1.12.5, geometry-engine/graphic-interface 3.12.5",
+			"license": "MIT; preserving original source component license declarations",
+			"notices": ["third-party/licenses/mlightcad-source-realdwg-web/LICENSE"],
+			"sourceArchives": ["third-party/sources/mlightcad-core-1.12.5.tar.gz"],
+			"artifacts": [],
+			"npmPackages": [
+				"@mlightcad/common@1.12.5",
+				"@mlightcad/data-model@1.12.5",
+				"@mlightcad/geometry-engine@3.12.5",
+				"@mlightcad/graphic-interface@3.12.5"
+			]
+		},
+		{
+			"name": "MText parser preferred source",
+			"version": "1.5.0",
+			"license": "MIT; preserving original source component license declarations",
+			"notices": [],
+			"sourceArchives": ["third-party/sources/mtext-parser-1.5.0.tar.gz"],
+			"artifacts": [],
+			"npmPackage": "@mlightcad/mtext-parser@1.5.0"
+		},
+		{
+			"name": "MText renderer preferred source",
+			"version": "0.12.4",
+			"license": "MIT; preserving original source component license declarations",
+			"notices": ["third-party/licenses/mlightcad-source-mtext-renderer/LICENSE"],
+			"sourceArchives": ["third-party/sources/mtext-renderer-0.12.4.tar.gz"],
+			"artifacts": [],
+			"npmPackage": "@mlightcad/mtext-renderer@0.12.4"
+		},
+		{
+			"name": "SHX parser preferred source",
+			"version": "1.4.5",
+			"license": "MIT; preserving original source component license declarations",
+			"notices": ["third-party/licenses/mlightcad-source-shx-parser/LICENSE"],
+			"sourceArchives": ["third-party/sources/shx-parser-1.4.5-source.tar.gz"],
+			"artifacts": [],
+			"npmPackage": "@mlightcad/shx-parser@1.4.5"
+		},
+		{
+			"name": "Outlook MSG parser local safety patch",
+			"version": "@kenjiuno/msgreader 1.28.0",
+			"npmPackage": "@kenjiuno/msgreader@1.28.0",
+			"license": "Apache-2.0",
+			"notices": ["third-party/licenses/npm/@kenjiuno+msgreader@1.28.0/LICENSE"],
+			"sourceArchives": ["third-party/sources/msgreader-1.28.0-source.tar.gz"],
+			"artifacts": [
+				{
+					"path": "third-party/recipes/email-parsers/msgreader-1.28.0.patch",
+					"sha256": "10c8df39e53e5b5e6ab40bc4fb203e5ade881bc2e646df71a411a129a88796f5",
+					"source": "Local pnpm patch against the npm integrity-verified runtime package."
+				},
+				{
+					"path": "third-party/recipes/email-parsers/msgreader-1.28.0-source.patch",
+					"sha256": "96ba08a123d9e40bda78badb42c0faf8cff5883b2636fc09f63cef95843d5ea6",
+					"source": "Local patch against the pinned preferred TypeScript source."
+				},
+				{
+					"path": "third-party/recipes/email-parsers/README.md",
+					"sha256": "8c4cf2e336bef2880466ff4ff1ceb67c9ebfbca559eaf80a4134033bff99ac16",
+					"source": "Rebuild instructions and exact scope of the email-parser patches."
+				},
+				{
+					"path": "third-party/recipes/email-parsers/verification.json",
+					"sha256": "6736676024990902deb73196ef5d14ed685829829525060bbe305afac4977cf6",
+					"source": "Email-parser patch/source/rebuild and synthetic regression verification."
+				}
+			]
+		},
+		{
+			"name": "EML parser local compatibility patch",
+			"version": "eml-parse-js 1.2.0-beta.1",
+			"npmPackage": "eml-parse-js@1.2.0-beta.1",
+			"license": "MIT",
+			"notices": ["third-party/licenses/npm/eml-parse-js@1.2.0-beta.1/LICENSE"],
+			"sourceArchives": ["third-party/sources/eml-parse-js-1.2.0-beta.1-source.tar.gz"],
+			"artifacts": [
+				{
+					"path": "third-party/recipes/email-parsers/eml-parse-js-1.2.0-beta.1.patch",
+					"sha256": "9fde3029708b6b342504aa43e539cc138f9d4a39e9ae402e69bc73fa829111b8",
+					"source": "Local pnpm patch generated directly from the pinned preferred-source Vite 6.0.3 build against the integrity-verified npm package."
+				},
+				{
+					"path": "third-party/recipes/email-parsers/eml-parse-js-1.2.0-beta.1-source.patch",
+					"sha256": "b066f3496e814caff230bdcba184d8576719ecfb96126ccec18f39b702050e74",
+					"source": "Local patch against the pinned preferred TypeScript source."
+				},
+				{
+					"path": "third-party/recipes/email-parsers/preferred-source-build-verification.json",
+					"sha256": "ee6e434c6ed16596752f0acb882e25e6756413d6a3e1ba8d9e7b7d8b8fdc145d",
+					"source": "Actual isolated pinned-source Vite build, exact generated runtime promotion and bounded regression evidence."
+				},
+				{
+					"path": "third-party/recipes/email-parsers/eml-runtime-before-source-build.patch",
+					"sha256": "eacdde4e58b99feaa40a4d7176cc812f87d674f4670e1b4f68ddcf8e9fa784ab",
+					"source": "Historical manual runtime patch retained solely as pre-promotion comparison evidence."
+				},
+				{
+					"path": "third-party/recipes/email-parsers/verification-before-source-build.json",
+					"sha256": "5f82748e5d67b6683c0c3979e9a06fe26e26a3a577af8eb635457908285a8cb7",
+					"source": "Historical pre-promotion parser receipt; its hashes describe the preceding lock and runtime."
+				}
+			]
+		}
+	],
+	"sourceArchives": [
+		{
+			"path": "third-party/sources/libredwg-web-0.7.9.tar.gz",
+			"url": "https://codeload.github.com/mlightcad/libredwg-web/tar.gz/b70b5573a6bf2345e5fb10f2adff7fb74a8123c5",
+			"revision": "b70b5573a6bf2345e5fb10f2adff7fb74a8123c5",
+			"sha256": "af350d628535a2842262af5b49d50568b6dae62854667e13bb9f161b26c00431"
+		},
+		{
+			"path": "third-party/sources/cad-viewer-1.5.11.tar.gz",
+			"url": "https://codeload.github.com/mlightcad/cad-viewer/tar.gz/0b6a92470496813583528b659c3ba678754c6948",
+			"revision": "0b6a92470496813583528b659c3ba678754c6948",
+			"sha256": "a41f003b4994fcff4b665821eb22f95b5cc9b897224f2c6f253121b98b8d13ef"
+		},
+		{
+			"path": "third-party/sources/occt-import-js-0.0.23.tar.gz",
+			"url": "https://codeload.github.com/kovacsv/occt-import-js/tar.gz/c2148e54b456b571238d35cac037d304053d64b2",
+			"revision": "c2148e54b456b571238d35cac037d304053d64b2",
+			"sha256": "2bd3799b2ac56cbf3f0df6300a51c8890e137bd001462702b356f621e33ff192"
+		},
+		{
+			"path": "third-party/sources/OCCT-7.6.1.tar.gz",
+			"url": "https://codeload.github.com/Open-Cascade-SAS/OCCT/tar.gz/d2abb6d844231cb8f29be6894440874a4700e4a5",
+			"revision": "d2abb6d844231cb8f29be6894440874a4700e4a5",
+			"sha256": "2715d89a1bc44dfd34dab88f729c445ea93f6b57d6539b0c89614a80ae144a6c"
+		},
+		{
+			"path": "third-party/sources/libheif-js-1.23.5.tar.gz",
+			"url": "https://codeload.github.com/catdad-experiments/libheif-js/tar.gz/d8ec4bc3bc5bf8055975577bccbbc7e1d7313c2d",
+			"revision": "d8ec4bc3bc5bf8055975577bccbbc7e1d7313c2d",
+			"sha256": "db9c0c25b15c5c351ac5b045b01009cc446f5712091300656902f9e40a2934db"
+		},
+		{
+			"path": "third-party/sources/libheif-emscripten-1.23.5.tar.gz",
+			"url": "https://codeload.github.com/catdad-experiments/libheif-emscripten/tar.gz/5c8968a44e9c68ae677e24790d77d001ed7fe7cc",
+			"revision": "5c8968a44e9c68ae677e24790d77d001ed7fe7cc",
+			"sha256": "5e524ec5746bb0676c5865c9ce76d40cee871def4a9d437d0a96595830cd235a"
+		},
+		{
+			"path": "third-party/sources/libheif-1.23.5.tar.gz",
+			"url": "https://codeload.github.com/strukturag/libheif/tar.gz/413e2a87e6a70b3eccc3a3adc5801179dd2d9e00",
+			"revision": "413e2a87e6a70b3eccc3a3adc5801179dd2d9e00",
+			"sha256": "ef8e86a4e5670b7338a58b17553e306b8be88e506587b265dfdfe44495896999"
+		},
+		{
+			"path": "third-party/sources/libde265-1.0.15.tar.gz",
+			"url": "https://github.com/strukturag/libde265/releases/download/v1.0.15/libde265-1.0.15.tar.gz",
+			"revision": "v1.0.15",
+			"sha256": "00251986c29d34d3af7117ed05874950c875dd9292d016be29d3b3762666511d"
+		},
+		{
+			"path": "third-party/sources/liberation-fonts-ttf-2.1.5.tar.gz",
+			"url": "https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz",
+			"revision": "2.1.5",
+			"sha256": "7191c669bf38899f73a2094ed00f7b800553364f90e2637010a69c0e268f25d0"
+		},
+		{
+			"path": "third-party/sources/liberation-fonts-2.1.5.tar.gz",
+			"url": "https://github.com/liberationfonts/liberation-fonts/files/7261483/liberation-fonts-2.1.5.tar.gz",
+			"revision": "2.1.5",
+			"sha256": "fb22c2109dcbb25202aeb6202c0a58fd2e536dbf7c72879c4bbfa2b8a9a75d60"
+		},
+		{
+			"path": "third-party/sources/emscripten-4.0.13.tar.gz",
+			"url": "https://codeload.github.com/emscripten-core/emscripten/tar.gz/refs/tags/4.0.13",
+			"revision": "4.0.13",
+			"sha256": "05501a883b12379bd51bf824ddde1dbb457cb270bc0dd02520377e7b636a30f2"
+		},
+		{
+			"path": "third-party/sources/zlib-1.3.1.tar.gz",
+			"url": "https://codeload.github.com/madler/zlib/tar.gz/refs/tags/v1.3.1",
+			"revision": "v1.3.1",
+			"sha256": "17e88863f3600672ab49182f217281b6fc4d3c762bde361935e436a95214d05c"
+		},
+		{
+			"path": "third-party/sources/emscripten-3.1.61.tar.gz",
+			"url": "https://codeload.github.com/emscripten-core/emscripten/tar.gz/refs/tags/3.1.61",
+			"revision": "3.1.61",
+			"sha256": "bc5eff3d929a208173a61de47f0084e687d06df442c03684a796538d51e4a38b"
+		},
+		{
+			"path": "third-party/sources/emscripten-3.1.69.tar.gz",
+			"url": "https://codeload.github.com/emscripten-core/emscripten/tar.gz/refs/tags/3.1.69",
+			"revision": "3.1.69",
+			"sha256": "3ceb2acbf3551146753c1abef8feb24347403bf13713820ea9dddbd946f9e4ac"
+		},
+		{
+			"path": "third-party/sources/mlightcad-core-1.12.5.tar.gz",
+			"url": "https://codeload.github.com/mlightcad/realdwg-web/tar.gz/6757ff9e4da84a3edb0bb2a01a733f8063b9567f",
+			"revision": "6757ff9e4da84a3edb0bb2a01a733f8063b9567f",
+			"sha256": "6767e8493fa2db11776d2b6d2e9db4bf4536e852808ec767951f80102b5d19c4"
+		},
+		{
+			"path": "third-party/sources/mtext-parser-1.5.0.tar.gz",
+			"url": "https://codeload.github.com/mlightcad/mtext-parser/tar.gz/8ff80704d68007641a3d13993063be0ff6000d2f",
+			"revision": "8ff80704d68007641a3d13993063be0ff6000d2f",
+			"sha256": "800a4275a04f4c5fa9b0f6c3633cb069b14d19a18323c765ddd744d69bb0a860"
+		},
+		{
+			"path": "third-party/sources/mtext-renderer-0.12.4.tar.gz",
+			"url": "https://codeload.github.com/mlightcad/mtext-renderer/tar.gz/3393325fb7296a7b1180c36936790fa0be6f2a4a",
+			"revision": "3393325fb7296a7b1180c36936790fa0be6f2a4a",
+			"sha256": "6594da7929ccf5e41eacbf4b23b00cffa252d6cc7b66deafb8523cc21a6b458c"
+		},
+		{
+			"path": "third-party/sources/shx-parser-1.4.5-source.tar.gz",
+			"url": "https://codeload.github.com/mlightcad/shx-parser/tar.gz/5100b5f29083d1f39d24ac57d68ec05cc702d647",
+			"revision": "5100b5f29083d1f39d24ac57d68ec05cc702d647",
+			"sha256": "c7d8f6d1bfa7acfa9b362ce3b03e4881da76c96be002530c3fb1d2509ce2b946",
+			"upstreamSha256": "4dbb2a84c9612cbdbff83d7453bc429bc275b817caae637bc0e71102561f9f68",
+			"omittedPaths": ["data/ISO.shx", "data/SIMPLEX8.shx", "examples/fonts/gdt.shx"],
+			"transformation": "scripts/source-archive-transform.ts: retain all other tar members verbatim, emit deterministic gzip with stored DEFLATE blocks; omitted unused fonts have unresolved rights"
+		},
+		{
+			"path": "third-party/sources/libheif-1.23.6.tar.gz",
+			"url": "https://github.com/strukturag/libheif/releases/download/v1.23.6/libheif-1.23.6.tar.gz",
+			"revision": "f81f28ac014b1c28dee483ac45b72c6b05bc421a",
+			"sha256": "4484346dc5995319dbc11e3a1c35d0a2ec46511ce370900869337fd2c7033125"
+		},
+		{
+			"path": "third-party/sources/libde265-1.1.3.tar.gz",
+			"url": "https://github.com/strukturag/libde265/releases/download/v1.1.3/libde265-1.1.3.tar.gz",
+			"revision": "ba62bf4cfb3242f3bf0a45617ff09e35236e4d82",
+			"sha256": "554228bd17788c99a7e63b37ab5634722190e6e2bf60c1dcb01cef328e133905"
+		},
+		{
+			"path": "third-party/sources/msgreader-1.28.0-source.tar.gz",
+			"url": "https://codeload.github.com/HiraokaHyperTools/msgreader/tar.gz/698f600631759f29165f2c538ae8130de8aa8a00",
+			"revision": "698f600631759f29165f2c538ae8130de8aa8a00",
+			"sha256": "3cafd82b0d758f28351611d737306bf28b2766946e854e1f091d54006f8d4869"
+		},
+		{
+			"path": "third-party/sources/eml-parse-js-1.2.0-beta.1-source.tar.gz",
+			"url": "https://codeload.github.com/MQpeng/eml-parse-js/tar.gz/6e622ae5f01d760b88aa7e84951b4b9a71764b7e",
+			"revision": "6e622ae5f01d760b88aa7e84951b4b9a71764b7e",
+			"sha256": "5a18eaee2351b11d4813503a29427ff8093473673461f4c5e2c258466291cfbb"
+		}
+	],
+	"distributionReview": {
+		"ready": false,
+		"unresolved": [
+			"Final matching macOS/Windows builds must regenerate and validate dependency notices against their exact installed production graphs; current local inventory has zero uncovered text/declaration cases.",
+			"Exact native runtime preferred-source reconstruction and Windows/macOS universal delivery remain under validation; official Apple notice closure is included.",
+			"Complete preferred-source archives for locked npm/Cargo dependencies must be acquired, hash verified and included with the final release.",
+			"Representative installed CAD Latin/CJK, dimension and GD&T rendering and unusual legacy SHAPE compatibility remain release acceptance requirements."
+		]
+	}
+}

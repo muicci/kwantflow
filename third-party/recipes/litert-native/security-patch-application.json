@@ -1,0 +1,72 @@
+{
+	"scope": "Four ordered patches replayed on exact archived members and every modified upstream file equals the tested source tree. No opaque archive files restored.",
+	"sourceArchiveSha256": "c53f07830fe8acfc3f1b8512847ccc6d616bb30c189a5bccc89e8f39a0e96d5b",
+	"orderedPatches": [
+		{
+			"path": "third-party/recipes/litert-native/open-gemma-provider.patch",
+			"sha256": "a4d71f5dd4bf1ecff2e40f3a6409ccff5af9275ca8c3f0bd914ad451ff023a8b"
+		},
+		{
+			"path": "third-party/recipes/litert-native/open-cpu-c-api.patch",
+			"sha256": "08fb8efc25f5e868fdc5ff2a56b3d69b1928b58ed60c8b724bfba22911ee15e5"
+		},
+		{
+			"path": "third-party/recipes/litert-native/open-cpu-greedy.patch",
+			"sha256": "d8aae33b97f358881733ac88c1828d07ebed89781ff8936a8e92877432857504"
+		},
+		{
+			"path": "third-party/recipes/litert-native/open-rust-security.patch",
+			"sha256": "452bf477b33ec4fae24d8be6889a265680fac697d477e7688e759124a3bc4b96"
+		}
+	],
+	"modifiedUpstreamFiles": [
+		{
+			"path": "Cargo.lock",
+			"sha256": "c09f64cc772dbb20a0e828ea22805fc0faa9cbc762a89aaffe706941340df474"
+		},
+		{
+			"path": "Cargo.toml",
+			"sha256": "8d971aa797625ef76cbab1b994246604b8610211f8a54d33d77b3b93ad3e5c7d"
+		},
+		{
+			"path": "WORKSPACE",
+			"sha256": "e05fa75b7d0552de68387cbda7fdb3ec453cb94c11ec45f824bca6db199e96c5"
+		},
+		{
+			"path": "c/BUILD",
+			"sha256": "cd13a793e613eba99c151139a6810a12a3f4ccb07b3ba0c326d43b8458f97ac3"
+		},
+		{
+			"path": "cargo-bazel-lock.json",
+			"sha256": "fb2916282f932b4000df897be177b880ea4a3d27a10f772748024e9471fa60e2"
+		},
+		{
+			"path": "cxxbridge_cmd/BUILD.cxxbridge_cmd.bazel",
+			"sha256": "e1cad1d0e4a8f1a479cfae9fb7d19cb82365cd8bcbe02c7bfb1e771a0bca7a3e"
+		},
+		{
+			"path": "cxxbridge_cmd/Cargo.lock",
+			"sha256": "753498ac4051f059f6ad38cbda239f6a3fdbc1c6818852e47c25e2faf05b83cb"
+		},
+		{
+			"path": "runtime/components/BUILD",
+			"sha256": "b639e8a13753a2c0491745dc343b96b6045360a8d26d917926b6e87601f0bc9f"
+		},
+		{
+			"path": "runtime/components/logits_processor/constrained_decoding/BUILD",
+			"sha256": "53070efd88816fcbe1133005acc3ec07160e6cff0cdaa00ac05bf514a75c94c2"
+		},
+		{
+			"path": "runtime/components/sampler_factory.cc",
+			"sha256": "0536ba02d961cc57436c27c76797635ea47a69abae1ea252e394905132d68867"
+		},
+		{
+			"path": "runtime/components/sampler_factory_test.cc",
+			"sha256": "aa6ec011e4db4dc7de22a967c082e7bfbc648a35eb18a5851a41f612a86ad348"
+		},
+		{
+			"path": "runtime/components/top_p_cpu_sampler.cc",
+			"sha256": "bc8c0d986e29a451058212948f9946fcae11bff98e747fe79c51a726d4c0a913"
+		}
+	]
+}

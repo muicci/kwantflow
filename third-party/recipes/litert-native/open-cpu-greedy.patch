@@ -1,0 +1,95 @@
+--- a/runtime/components/sampler_factory.cc
++++ b/runtime/components/sampler_factory.cc
+@@ -620,6 +620,10 @@
+       ABSL_VLOG(1) << "Sampler type is unspecified. Assume the LLM Executor "
+                       "handles the sampling logic.";
+       return nullptr;
++    case proto::SamplerParameters::GREEDY:
++      // The public CPU sampler returns the top logit directly when k == 1.
++      return TopPSampler::Create(1, 1.0f, 1.0f, batch_size, sequence_size,
++                                sampler_params.seed());
+     case proto::SamplerParameters::TOP_P:
+       return TopPSampler::Create(sampler_params.k(), sampler_params.p(),
+                                  sampler_params.temperature(), batch_size,
+--- a/runtime/components/top_p_cpu_sampler.cc
++++ b/runtime/components/top_p_cpu_sampler.cc
+@@ -168,9 +168,10 @@
+ absl::Status TopPSampler::UpdateConfig(
+     const proto::SamplerParameters& sampler_params, int batch_size,
+     std::shared_ptr<std::default_random_engine> rand_gen) {
+-  k_ = sampler_params.k();
+-  p_ = sampler_params.p();
+-  temperature_ = sampler_params.temperature();
++  const bool greedy = sampler_params.type() == proto::SamplerParameters::GREEDY;
++  k_ = greedy ? 1 : sampler_params.k();
++  p_ = greedy ? 1.0f : sampler_params.p();
++  temperature_ = greedy ? 1.0f : sampler_params.temperature();
+   batch_size_ = batch_size;
+   if (rand_gen != nullptr) {
+     generator_ = rand_gen;
+--- a/runtime/components/sampler_factory_test.cc
++++ b/runtime/components/sampler_factory_test.cc
+@@ -15,6 +15,9 @@
+ #include "runtime/components/sampler_factory.h"
+ 
+ #include <memory>
++#include <limits>
++#include <random>
++#include <vector>
+ #include <utility>
+ 
+ #include <gmock/gmock.h>
+@@ -24,6 +27,7 @@
+ #include "runtime/components/top_p_cpu_sampler.h"
+ #include "runtime/executor/executor_settings_base.h"
+ #include "runtime/proto/sampler_params.pb.h"
++#include "runtime/util/convert_tensor_buffer.h"
+ #include "runtime/util/test_utils.h"  // IWYU pragma: keep
+ 
+ namespace litert::lm {
+@@ -46,6 +50,35 @@
+   // Make sure the factory creates the correct sampler.
+   TopPSampler* top_p_sampler = dynamic_cast<TopPSampler*>(sampler.get());
+   EXPECT_NE(top_p_sampler, nullptr);
++}
++
++TEST(SamplerFactoryTest, GreedyUsesArgmaxBeforeAndAfterConfigUpdate) {
++  proto::SamplerParameters params;
++  params.set_type(proto::SamplerParameters::GREEDY);
++  params.set_k(25);  // Greedy ignores top-k/top-p and zero temperature.
++  params.set_p(0.5f);
++  params.set_temperature(0.0f);
++  ASSERT_OK_AND_ASSIGN(auto sampler, CreateSampler(Backend::CPU, 2, params));
++  const std::vector<float> values{
++      -std::numeric_limits<float>::infinity(), 5.0f, -2.0f,
++      -7.0f, -3.0f, -4.0f};
++  auto logits = CopyToTensorBuffer<float>(values, {2, 3});
++  auto ids = CopyToTensorBuffer<int>(std::vector<int>{0, 0}, {2});
++  ASSERT_TRUE(logits.HasValue());
++  ASSERT_TRUE(ids.HasValue());
++  for (int phase = 0; phase < 2; ++phase) {
++    for (int sample = 0; sample < 20; ++sample) {
++      ASSERT_OK(sampler->SampleToIdAndScoreBuffer(*logits, *ids, nullptr));
++      auto result = CopyFromTensorBuffer<int>(*ids);
++      ASSERT_TRUE(result.HasValue());
++      EXPECT_THAT(*result, testing::ElementsAre(1, 1));
++    }
++    params.set_k(17);
++    params.set_p(0.7f);
++    params.set_temperature(2.5f);
++    ASSERT_OK(sampler->UpdateConfig(
++        params, 2, std::make_shared<std::default_random_engine>(987)));
++  }
+ }
+ 
+ TEST(SamplerFactoryTest, CreateSamplerForCpuWithUnsupportedSamplerTypeFails) {
+--- a/runtime/components/BUILD
++++ b/runtime/components/BUILD
+@@ -260,6 +260,7 @@
+         "@com_google_absl//absl/status:statusor",
+         "//runtime/executor:executor_settings_base",
+         "//runtime/proto:sampler_params_cc_proto",
++        "//runtime/util:convert_tensor_buffer",
+         "//runtime/util:test_utils",
+     ],
+ )

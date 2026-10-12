@@ -1,0 +1,179 @@
+{
+	"$description": "Layout and shell sizing tokens for shared desktop utilities.",
+	"page": {
+		"gutter": {
+			"$type": "dimension",
+			"$value": "{space.4}",
+			"$description": "Default page gutter."
+		},
+		"stackGap": {
+			"$type": "dimension",
+			"$value": "{space.4}",
+			"$description": "Default page stack gap."
+		},
+		"contentMaxWidth": {
+			"$type": "dimension",
+			"$value": "80rem",
+			"$description": "Bounded desktop content column width for list pages and primary work surfaces."
+		}
+	},
+	"section": {
+		"stackGap": {
+			"$type": "dimension",
+			"$value": "{space.3}",
+			"$description": "Default section gap."
+		}
+	},
+	"field": {
+		"shellGap": { "$type": "dimension", "$value": "0.375rem", "$description": "Field shell gap." },
+		"labelRowGap": {
+			"$type": "dimension",
+			"$value": "0.375rem",
+			"$description": "Field label row gap."
+		}
+	},
+	"dialog": {
+		"frame": {
+			"widthSm": {
+				"$type": "dimension",
+				"$value": "36rem",
+				"$description": "Semantic small framed-dialog width."
+			},
+			"widthMd": {
+				"$type": "dimension",
+				"$value": "50rem",
+				"$description": "Semantic medium framed-dialog width."
+			},
+			"widthLg": {
+				"$type": "dimension",
+				"$value": "64rem",
+				"$description": "Semantic large framed-dialog width for roomy settings and review surfaces."
+			},
+			"heightSm": {
+				"$type": "dimension",
+				"$value": "24rem",
+				"$description": "Semantic small framed-dialog height."
+			},
+			"heightMd": {
+				"$type": "dimension",
+				"$value": "33rem",
+				"$description": "Semantic medium framed-dialog height."
+			},
+			"heightLg": {
+				"$type": "dimension",
+				"$value": "42rem",
+				"$description": "Semantic large framed-dialog height."
+			},
+			"contentWidthForm": {
+				"$type": "dimension",
+				"$value": "47rem",
+				"$description": "Centered content column width for form-like dialog bodies inside wider shells."
+			}
+		},
+		"shell": {
+			"standardHeight": {
+				"$type": "dimension",
+				"$value": "min(500px, 74vh)",
+				"$description": "Standard shell dialog height."
+			},
+			"mediumHeight": {
+				"$type": "dimension",
+				"$value": "min(500px, 74vh)",
+				"$description": "Medium shell dialog height."
+			},
+			"compactHeight": {
+				"$type": "dimension",
+				"$value": "min(460px, 70vh)",
+				"$description": "Compact shell dialog height."
+			},
+			"workflowHeight": {
+				"$type": "dimension",
+				"$value": "min(42rem, 84vh)",
+				"$description": "Workflow/admin dialog height for wider review surfaces that need a visible rail and scrollable main content."
+			},
+			"workbenchHeight": {
+				"$type": "dimension",
+				"$value": "min(46rem, calc(100vh - 5rem))",
+				"$description": "Oversized review-dialog height for full-workbench flows such as setup import."
+			},
+			"formHeight": {
+				"$type": "dimension",
+				"$value": "min(640px, 82vh)",
+				"$description": "Short-form dialog height for compact record create/edit flows."
+			},
+			"widthMd": {
+				"$type": "dimension",
+				"$value": "43.75rem",
+				"$description": "Standard shell dialog width on medium screens."
+			},
+			"widthLg": {
+				"$type": "dimension",
+				"$value": "50rem",
+				"$description": "Standard shell dialog width on large screens, matching the shadcn sidebar-dialog reference."
+			},
+			"widthWorkbench": {
+				"$type": "dimension",
+				"$value": "min(66rem, calc(100vw - 8rem))",
+				"$description": "Oversized review-dialog width for workbench-style mapping and review flows."
+			},
+			"widthForm": {
+				"$type": "dimension",
+				"$value": "43.75rem",
+				"$description": "Short-form dialog width."
+			},
+			"widthWorkflow": {
+				"$type": "dimension",
+				"$value": "50rem",
+				"$description": "Workflow dialog width aligned to the shadcn sidebar-dialog reference."
+			}
+		},
+		"max": {
+			"sm": {
+				"$type": "dimension",
+				"$value": "{size.dialog.xs}",
+				"$description": "Compact dialog max width."
+			},
+			"md": {
+				"$type": "dimension",
+				"$value": "{size.dialog.md}",
+				"$description": "Medium dialog max width."
+			},
+			"xl": {
+				"$type": "dimension",
+				"$value": "{size.dialog.4xl}",
+				"$description": "Wide workflow dialog max width."
+			}
+		},
+		"sidebarWidth": {
+			"$type": "dimension",
+			"$value": "15rem",
+			"$description": "Sidebar width inside shell dialogs, tuned to the shadcn sidebar-dialog example without starving the main content column."
+		},
+		"bodyPaddingX": {
+			"$type": "dimension",
+			"$value": "{space.4}",
+			"$description": "Shell dialog body horizontal padding."
+		}
+	},
+	"surface": {
+		"stripRowHeight": {
+			"$type": "dimension",
+			"$value": "2.5rem",
+			"$description": "Viewer/editor strip row height."
+		}
+	},
+	"projectStructure": {
+		"sidebarWidth": {
+			"$type": "dimension",
+			"$value": "12rem",
+			"$description": "Project structure sidebar width."
+		}
+	},
+	"onboarding": {
+		"cornerMark": {
+			"$type": "dimension",
+			"$value": "3.375rem",
+			"$description": "Onboarding corner logo size."
+		}
+	}
+}

@@ -1,0 +1,569 @@
+{
+	"$description": "Narrow component-token layer for core owned shared wrappers.",
+	"button": {
+		"$description": "Owned button wrapper contract.",
+		"radius": {
+			"$type": "dimension",
+			"$value": "{radius.md}",
+			"$description": "Default button radius."
+		},
+		"heightXs": {
+			"$type": "dimension",
+			"$value": "{size.control.xs}",
+			"$description": "Extra-small button height."
+		},
+		"heightSm": {
+			"$type": "dimension",
+			"$value": "{size.control.sm}",
+			"$description": "Small button height."
+		},
+		"heightMd": {
+			"$type": "dimension",
+			"$value": "{size.control.md}",
+			"$description": "Default button height."
+		},
+		"heightLg": {
+			"$type": "dimension",
+			"$value": "{size.control.lg}",
+			"$description": "Large button height."
+		},
+		"paddingInlineXs": {
+			"$type": "dimension",
+			"$value": "{space.2}",
+			"$description": "Extra-small button inline padding."
+		},
+		"paddingInlineSm": {
+			"$type": "dimension",
+			"$value": "0.625rem",
+			"$description": "Small button inline padding."
+		},
+		"paddingInlineMd": {
+			"$type": "dimension",
+			"$value": "{space.3}",
+			"$description": "Default button inline padding."
+		},
+		"paddingInlineLg": {
+			"$type": "dimension",
+			"$value": "{space.4}",
+			"$description": "Large button inline padding."
+		},
+		"gapXs": {
+			"$type": "dimension",
+			"$value": "0.375rem",
+			"$description": "Extra-small button content gap."
+		},
+		"gapSm": {
+			"$type": "dimension",
+			"$value": "0.375rem",
+			"$description": "Small button content gap."
+		},
+		"gapMd": {
+			"$type": "dimension",
+			"$value": "{space.2}",
+			"$description": "Default button content gap."
+		},
+		"gapLg": {
+			"$type": "dimension",
+			"$value": "{space.2}",
+			"$description": "Large button content gap."
+		},
+		"iconXs": {
+			"$type": "dimension",
+			"$value": "0.875rem",
+			"$description": "Extra-small button icon size."
+		},
+		"iconSm": {
+			"$type": "dimension",
+			"$value": "0.875rem",
+			"$description": "Small button icon size."
+		},
+		"iconMd": {
+			"$type": "dimension",
+			"$value": "1rem",
+			"$description": "Default button icon size."
+		},
+		"iconLg": {
+			"$type": "dimension",
+			"$value": "1rem",
+			"$description": "Large button icon size."
+		}
+	},
+	"field": {
+		"$description": "Shared single-line field sizing contract for inputs, selects, and search controls.",
+		"heightXs": {
+			"$type": "dimension",
+			"$value": "{size.control.xs}",
+			"$description": "Extra-small field height."
+		},
+		"heightSm": {
+			"$type": "dimension",
+			"$value": "{size.control.sm}",
+			"$description": "Small field height."
+		},
+		"heightMd": {
+			"$type": "dimension",
+			"$value": "{size.control.md}",
+			"$description": "Default field height."
+		},
+		"heightLg": {
+			"$type": "dimension",
+			"$value": "{size.control.lg}",
+			"$description": "Large field height."
+		},
+		"paddingInlineXs": {
+			"$type": "dimension",
+			"$value": "{space.2}",
+			"$description": "Extra-small field inline padding."
+		},
+		"paddingInlineSm": {
+			"$type": "dimension",
+			"$value": "0.625rem",
+			"$description": "Small field inline padding."
+		},
+		"paddingInlineMd": {
+			"$type": "dimension",
+			"$value": "{space.3}",
+			"$description": "Default field inline padding."
+		},
+		"paddingInlineLg": {
+			"$type": "dimension",
+			"$value": "0.875rem",
+			"$description": "Large field inline padding."
+		},
+		"gapXs": {
+			"$type": "dimension",
+			"$value": "0.375rem",
+			"$description": "Extra-small field content gap."
+		},
+		"gapSm": {
+			"$type": "dimension",
+			"$value": "0.375rem",
+			"$description": "Small field content gap."
+		},
+		"gapMd": {
+			"$type": "dimension",
+			"$value": "{space.2}",
+			"$description": "Default field content gap."
+		},
+		"gapLg": {
+			"$type": "dimension",
+			"$value": "{space.2}",
+			"$description": "Large field content gap."
+		},
+		"iconXs": {
+			"$type": "dimension",
+			"$value": "0.875rem",
+			"$description": "Extra-small field icon size."
+		},
+		"iconSm": {
+			"$type": "dimension",
+			"$value": "0.875rem",
+			"$description": "Small field icon size."
+		},
+		"iconMd": {
+			"$type": "dimension",
+			"$value": "1rem",
+			"$description": "Default field icon size."
+		},
+		"iconLg": {
+			"$type": "dimension",
+			"$value": "1rem",
+			"$description": "Large field icon size."
+		}
+	},
+	"input": {
+		"$description": "Owned text input wrapper contract.",
+		"radius": {
+			"$type": "dimension",
+			"$value": "{radius.sm}",
+			"$description": "Default input radius."
+		}
+	},
+	"select": {
+		"$description": "Owned select trigger contract.",
+		"radius": {
+			"$type": "dimension",
+			"$value": "{radius.sm}",
+			"$description": "Default select trigger radius."
+		}
+	},
+	"badge": {
+		"$description": "Owned badge contract.",
+		"radius": {
+			"$type": "dimension",
+			"$value": "{radius.pill}",
+			"$description": "Badge pill radius."
+		}
+	},
+	"switch": {
+		"$description": "Owned switch contract.",
+		"width": {
+			"$type": "dimension",
+			"$value": "2.25rem",
+			"$description": "Default switch width."
+		},
+		"height": {
+			"$type": "dimension",
+			"$value": "1.25rem",
+			"$description": "Default switch height."
+		},
+		"padding": {
+			"$type": "dimension",
+			"$value": "0.125rem",
+			"$description": "Switch inner padding."
+		},
+		"thumbSize": {
+			"$type": "dimension",
+			"$value": "0.875rem",
+			"$description": "Switch thumb size."
+		},
+		"thumbTranslate": {
+			"$type": "dimension",
+			"$value": "1rem",
+			"$description": "Checked thumb translate distance."
+		}
+	},
+	"progress": {
+		"$description": "Owned progress contract.",
+		"height": {
+			"$type": "dimension",
+			"$value": "0.375rem",
+			"$description": "Default progress bar height."
+		},
+		"heightEmphasis": {
+			"$type": "dimension",
+			"$value": "{space.2}",
+			"$description": "Emphasised progress bar height."
+		},
+		"radius": {
+			"$type": "dimension",
+			"$value": "{radius.pill}",
+			"$description": "Progress track radius."
+		}
+	},
+	"tabs": {
+		"$description": "Owned segmented tabs contract.",
+		"radius": {
+			"$type": "dimension",
+			"$value": "{radius.md}",
+			"$description": "Tabs list radius."
+		},
+		"listPadding": {
+			"$type": "dimension",
+			"$value": "{space.1}",
+			"$description": "Tabs list inner padding."
+		},
+		"triggerPaddingInline": {
+			"$type": "dimension",
+			"$value": "{space.2}",
+			"$description": "Tabs trigger inline padding."
+		}
+	},
+	"dialog": {
+		"$description": "Owned dialog sizing contract.",
+		"radius": {
+			"$type": "dimension",
+			"$value": "{radius.lg}",
+			"$description": "Dialog content radius."
+		},
+		"defaultWidth": {
+			"$type": "dimension",
+			"$value": "{size.dialog.lg}",
+			"$description": "Default dialog width."
+		},
+		"alertWidth": {
+			"$type": "dimension",
+			"$value": "{size.dialog.alert}",
+			"$description": "Alert dialog width."
+		}
+	},
+	"accordion": {
+		"$description": "Owned accordion chrome contract.",
+		"divider": {
+			"$type": "string",
+			"$value": "border",
+			"$description": "Accordion divider token family."
+		}
+	},
+	"popover": {
+		"$description": "Owned popover sizing contract.",
+		"radius": { "$type": "dimension", "$value": "{radius.lg}", "$description": "Popover radius." },
+		"defaultWidth": {
+			"$type": "dimension",
+			"$value": "{size.popover.sm}",
+			"$description": "Default popover width."
+		},
+		"padding": {
+			"$type": "dimension",
+			"$value": "{space.4}",
+			"$description": "Default popover padding."
+		}
+	},
+	"sidebar": {
+		"$description": "Owned shell/sidebar chrome contract.",
+		"itemRadius": {
+			"$type": "dimension",
+			"$value": "{radius.lg}",
+			"$description": "Sidebar button radius."
+		},
+		"controlHeight": {
+			"$type": "dimension",
+			"$value": "{size.control.lg}",
+			"$description": "Sidebar compact control height."
+		}
+	},
+	"table": {
+		"$description": "Owned table shell contract.",
+		"headerSurface": {
+			"$type": "string",
+			"$value": "surface-subtle",
+			"$description": "Default sticky header surface helper."
+		},
+		"textRole": {
+			"$type": "string",
+			"$value": "table-copy",
+			"$description": "Default table text role."
+		}
+	},
+	"empty": {
+		"$description": "Owned empty-state contract.",
+		"titleRole": {
+			"$type": "string",
+			"$value": "title-copy",
+			"$description": "Empty-state title role."
+		},
+		"descriptionRole": {
+			"$type": "string",
+			"$value": "muted",
+			"$description": "Empty-state description role."
+		}
+	},
+	"textarea": {
+		"$description": "Owned textarea contract.",
+		"radius": { "$type": "dimension", "$value": "{radius.sm}", "$description": "Textarea radius." },
+		"paddingInline": {
+			"$type": "dimension",
+			"$value": "{space.3}",
+			"$description": "Textarea inline padding."
+		},
+		"paddingBlockXs": {
+			"$type": "dimension",
+			"$value": "0.375rem",
+			"$description": "Extra-small textarea vertical padding."
+		},
+		"paddingBlockSm": {
+			"$type": "dimension",
+			"$value": "{space.2}",
+			"$description": "Small textarea vertical padding."
+		},
+		"paddingBlockMd": {
+			"$type": "dimension",
+			"$value": "0.625rem",
+			"$description": "Default textarea vertical padding."
+		},
+		"paddingBlockLg": {
+			"$type": "dimension",
+			"$value": "0.75rem",
+			"$description": "Large textarea vertical padding."
+		},
+		"minHeight": {
+			"$type": "dimension",
+			"$value": "4rem",
+			"$description": "Default textarea minimum height."
+		}
+	},
+	"dropdownMenu": {
+		"$description": "Owned dropdown menu contract.",
+		"radius": {
+			"$type": "dimension",
+			"$value": "{radius.lg}",
+			"$description": "Dropdown menu radius."
+		},
+		"widthSm": {
+			"$type": "dimension",
+			"$value": "{size.menu.sm}",
+			"$description": "Small dropdown width."
+		},
+		"widthMd": {
+			"$type": "dimension",
+			"$value": "{size.menu.md}",
+			"$description": "Medium dropdown width."
+		}
+	},
+	"tooltip": {
+		"$description": "Owned tooltip contract.",
+		"radius": {
+			"$type": "dimension",
+			"$value": "{radius.tight}",
+			"$description": "Tooltip bubble radius."
+		},
+		"arrowRadius": {
+			"$type": "dimension",
+			"$value": "0.125rem",
+			"$description": "Tooltip arrow radius."
+		},
+		"paddingX": {
+			"$type": "dimension",
+			"$value": "0.625rem",
+			"$description": "Tooltip horizontal padding."
+		},
+		"paddingY": {
+			"$type": "dimension",
+			"$value": "0.375rem",
+			"$description": "Tooltip vertical padding."
+		}
+	},
+	"sheet": {
+		"$description": "Owned sheet contract.",
+		"radius": { "$type": "dimension", "$value": "{radius.lg}", "$description": "Sheet radius." },
+		"widthMd": {
+			"$type": "dimension",
+			"$value": "{size.sheet.md}",
+			"$description": "Standard sheet width."
+		},
+		"widthLg": {
+			"$type": "dimension",
+			"$value": "{size.sheet.lg}",
+			"$description": "Compact shell sheet width."
+		}
+	},
+	"checkbox": {
+		"$description": "Owned checkbox contract.",
+		"radius": {
+			"$type": "dimension",
+			"$value": "{radius.tight}",
+			"$description": "Checkbox radius."
+		},
+		"size": { "$type": "dimension", "$value": "1rem", "$description": "Checkbox size." }
+	},
+	"label": {
+		"$description": "Owned label contract.",
+		"gap": {
+			"$type": "dimension",
+			"$value": "0.375rem",
+			"$description": "Gap between label text and inline affordances."
+		}
+	},
+	"avatar": {
+		"$description": "Owned avatar contract.",
+		"radius": { "$type": "dimension", "$value": "{radius.pill}", "$description": "Avatar radius." },
+		"size": { "$type": "dimension", "$value": "2rem", "$description": "Default avatar size." }
+	},
+	"breadcrumb": {
+		"$description": "Owned breadcrumb contract.",
+		"gap": {
+			"$type": "dimension",
+			"$value": "{space.2}",
+			"$description": "Default breadcrumb item gap."
+		},
+		"gapWide": {
+			"$type": "dimension",
+			"$value": "{space.3}",
+			"$description": "Wider breadcrumb item gap on larger screens."
+		},
+		"separatorSize": {
+			"$type": "dimension",
+			"$value": "0.875rem",
+			"$description": "Breadcrumb separator icon size."
+		}
+	},
+	"alert": {
+		"$description": "Owned alert contract.",
+		"radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "Alert radius." },
+		"paddingX": {
+			"$type": "dimension",
+			"$value": "{space.4}",
+			"$description": "Alert horizontal padding."
+		},
+		"paddingY": {
+			"$type": "dimension",
+			"$value": "{space.3}",
+			"$description": "Alert vertical padding."
+		}
+	},
+	"alertDialog": {
+		"$description": "Owned alert dialog contract.",
+		"width": {
+			"$type": "dimension",
+			"$value": "{size.dialog.alert}",
+			"$description": "Alert dialog width."
+		}
+	},
+	"calendar": {
+		"$description": "Owned calendar contract.",
+		"dayRadius": {
+			"$type": "dimension",
+			"$value": "{radius.sm}",
+			"$description": "Calendar day radius."
+		}
+	},
+	"dataTable": {
+		"$description": "Owned headless data-table contract.",
+		"textRole": {
+			"$type": "string",
+			"$value": "table-copy",
+			"$description": "Default data-table text role."
+		},
+		"headerRole": {
+			"$type": "string",
+			"$value": "table-heading",
+			"$description": "Default data-table header role."
+		}
+	},
+	"resizable": {
+		"$description": "Owned resizable-pane contract.",
+		"handleThickness": {
+			"$type": "dimension",
+			"$value": "1px",
+			"$description": "Base resizer handle thickness."
+		},
+		"hitArea": {
+			"$type": "dimension",
+			"$value": "{space.1}",
+			"$description": "Invisible hit area around the resizer handle."
+		},
+		"gripRadius": {
+			"$type": "dimension",
+			"$value": "{radius.xs}",
+			"$description": "Grip radius for visible resizer handles."
+		}
+	},
+	"scrollArea": {
+		"$description": "Owned scroll-area contract.",
+		"trackThickness": {
+			"$type": "dimension",
+			"$value": "0.625rem",
+			"$description": "Scrollbar track thickness."
+		},
+		"thumbRadius": {
+			"$type": "dimension",
+			"$value": "{radius.pill}",
+			"$description": "Scrollbar thumb radius."
+		}
+	},
+	"separator": {
+		"$description": "Owned separator contract.",
+		"thickness": {
+			"$type": "dimension",
+			"$value": "1px",
+			"$description": "Separator line thickness."
+		}
+	},
+	"skeleton": {
+		"$description": "Owned skeleton contract.",
+		"radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "Skeleton radius." }
+	},
+	"sonner": {
+		"$description": "Owned toast/toaster contract.",
+		"radius": {
+			"$type": "dimension",
+			"$value": "{radius.md}",
+			"$description": "Toast surface radius."
+		},
+		"width": {
+			"$type": "dimension",
+			"$value": "{size.popover.md}",
+			"$description": "Default maximum toast width."
+		}
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"owner": "src/lib/design/* + src/lib/components/ui/*",
+	"status": "active",
+	"modes": ["light", "dark", "compact", "default"],
+	"generatedOutputs": [
+		"src/lib/design/generated/primitives.css",
+		"src/lib/design/generated/typography.css",
+		"src/lib/design/generated/layout.css",
+		"src/lib/design/generated/components.css",
+		"src/lib/design/generated/modes.css",
+		"src/lib/design/generated/registry.ts"
+	],
+	"notes": [
+		"Figma is a downstream consumer of this registry, not the master source of truth.",
+		"Storybook documents primitives, owned ui wrappers, and golden patterns, not every full route.",
+		"Literal domain/business strings are not tokenized here; reusable visual and content roles are.",
+		"Shared copy patterns are documented in the UI conventions section of ARCHITECTURE.md instead of being stored as literal token values."
+	]
+}

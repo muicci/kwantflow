@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "scope": "Source-build validation receipt, not released prebuilt provenance or a complete binary SBOM",
+  "liteRtLmRevision": "924e79c91542761242244e4f1651851f822e4cbb",
+  "platform": "macOS arm64",
+  "host": {
+    "macOS": "27.0.1 (26A434)",
+    "xcode": "27.0 (27A266a)",
+    "bazel": "7.6.1"
+  },
+  "sourceChanges": [
+    {
+      "path": "third-party/recipes/litert-native/gemma-llguidance-provider-test.cc",
+      "sha256": "dc3395d818d94c1aeb3e61ef25291a5ded696f0c13c11a85241c10e3a5f0e5cd"
+    },
+    {
+      "path": "third-party/recipes/litert-native/gemma-llguidance-provider.cc",
+      "sha256": "0bfb5d2f6c3407d51ec7d3e04a0b093faa5b34af995de96092884dd6f34ffc24"
+    },
+    {
+      "path": "third-party/recipes/litert-native/open-cpu-c-api.patch",
+      "sha256": "08fb8efc25f5e868fdc5ff2a56b3d69b1928b58ed60c8b724bfba22911ee15e5"
+    },
+    {
+      "path": "third-party/recipes/litert-native/open-gemma-provider.patch",
+      "sha256": "a4d71f5dd4bf1ecff2e40f3a6409ccff5af9275ca8c3f0bd914ad451ff023a8b"
+    },
+    {
+      "path": "third-party/recipes/litert-native/open-cpu-greedy.patch",
+      "sha256": "d8aae33b97f358881733ac88c1828d07ebed89781ff8936a8e92877432857504"
+    },
+    {
+      "path": "third-party/recipes/litert-native/cpu-smoke.cc",
+      "sha256": "551690e866dad3e69b87ad4b01f565a9698466f98819680d1dc41091ac9ef878"
+    }
+  ],
+  "providerTests": {
+    "command": "bazelisk test --config=macos_arm64 --deleted_packages=swift --@litert//litert/build_common:build_include=cpu_only //runtime/components/logits_processor/constrained_decoding:gemma_llguidance_provider_test",
+    "exitCode": 0,
+    "testsPassed": 5,
+    "testRunSeconds": 6.2,
+    "buildElapsedSeconds": 519.944,
+    "buildActions": 2872,
+    "coverage": [
+      "FC valid tool, required arguments, enum and unknown-name rejection",
+      "Atomic reserved FC delimiters with mixed text and function calls",
+      "Gemma3 Python syntax with ordinary USER_DEFINED newline and null unused quote options",
+      "Empty tools permit ordinary text and exclude function-call fence",
+      "Null input/options fail provider creation"
+    ],
+    "dynamicDependencies": "Apple system libraries/frameworks only; no Gemma provider prebuilt"
+  },
+  "cpuCapi": {
+    "state": "built",
+    "command": "bazelisk build --config=macos_arm64 --deleted_packages=swift --@litert//litert/build_common:build_include=cpu_only //c:litert_lm_c_open_cpu",
+    "exitCode": 0,
+    "buildElapsedSeconds": 718.517,
+    "buildActions": 3218,
+    "artifactName": "liblitert_lm_c_open_cpu.dylib",
+    "bytes": 30521552,
+    "sha256": "cccf1b182e7a42742fb56e2836a9f17d45b33ccf491a52c24968c9d52ced05f9",
+    "architecture": "arm64",
+    "minimumMacOS": "11.0",
+    "sdk": "27.0",
+    "installName": "bazel-out/darwin_arm64-opt/bin/c/liblitert_lm_c_open_cpu.dylib",
+    "exportsVerified": [
+      "litert_lm_benchmark_info_delete",
+      "litert_lm_benchmark_info_get_decode_token_count_at",
+      "litert_lm_benchmark_info_get_decode_tokens_per_sec_at",
+      "litert_lm_benchmark_info_get_num_decode_turns",
+      "litert_lm_benchmark_info_get_num_prefill_turns",
+      "litert_lm_benchmark_info_get_prefill_token_count_at",
+      "litert_lm_benchmark_info_get_prefill_tokens_per_sec_at",
+      "litert_lm_benchmark_info_get_time_to_first_token",
+      "litert_lm_conversation_cancel_process",
+      "litert_lm_conversation_clone",
+      "litert_lm_conversation_config_create",
+      "litert_lm_conversation_config_delete",
+      "litert_lm_conversation_config_set_enable_constrained_decoding",
+      "litert_lm_conversation_config_set_extra_context",
+      "litert_lm_conversation_config_set_filter_channel_content_from_kv_cache",
+      "litert_lm_conversation_config_set_messages",
+      "litert_lm_conversation_config_set_session_config",
+      "litert_lm_conversation_config_set_system_message",
+      "litert_lm_conversation_config_set_tools",
+      "litert_lm_conversation_create",
+      "litert_lm_conversation_delete",
+      "litert_lm_conversation_get_benchmark_info",
+      "litert_lm_conversation_get_token_count",
+      "litert_lm_conversation_optional_args_create",
+      "litert_lm_conversation_optional_args_delete",
+      "litert_lm_conversation_optional_args_set_max_output_tokens",
+      "litert_lm_conversation_optional_args_set_visual_token_budget",
+      "litert_lm_conversation_send_message_stream",
+      "litert_lm_engine_create",
+      "litert_lm_engine_delete",
+      "litert_lm_engine_settings_create",
+      "litert_lm_engine_settings_delete",
+      "litert_lm_engine_settings_set_cache_dir",
+      "litert_lm_engine_settings_set_enable_speculative_decoding",
+      "litert_lm_engine_settings_set_litert_dispatch_lib_dir",
+      "litert_lm_engine_settings_set_max_num_images",
+      "litert_lm_engine_settings_set_max_num_tokens",
+      "litert_lm_engine_settings_set_num_decode_tokens",
+      "litert_lm_engine_settings_set_num_prefill_tokens",
+      "litert_lm_sampler_params_create",
+      "litert_lm_sampler_params_delete",
+      "litert_lm_sampler_params_set_seed",
+      "litert_lm_sampler_params_set_temperature",
+      "litert_lm_sampler_params_set_top_k",
+      "litert_lm_sampler_params_set_top_p",
+      "litert_lm_session_config_create",
+      "litert_lm_session_config_delete",
+      "litert_lm_session_config_set_apply_prompt_template",
+      "litert_lm_session_config_set_max_output_tokens",
+      "litert_lm_session_config_set_sampler_params",
+      "litert_lm_set_min_log_level",
+      "litert_lm_stream_chunk_get_error",
+      "litert_lm_stream_chunk_get_text",
+      "litert_lm_stream_chunk_is_final"
+    ],
+    "dynamicDependencies": [
+      "libc++.1.dylib",
+      "AudioToolbox.framework",
+      "AVFoundation.framework",
+      "libSystem.B.dylib",
+      "libresolv.9.dylib",
+      "CoreFoundation.framework",
+      "Metal.framework",
+      "Foundation.framework",
+      "libobjc.A.dylib"
+    ],
+    "dynamicDependencyScope": "Apple system libraries/frameworks only; no external LiteRT/Gemma prebuilt library",
+    "exportCount": 144,
+    "sourceChangesInclude": "LLGuidance provider replacement, open CPU C API target and GREEDY factory/UpdateConfig patch"
+  },
+  "inference": {
+    "state": "passed-GREEDY-type3",
+    "exitCode": 0,
+    "modelSha256": "0b2a8980ce155fd97673d8e820b4d29d9c7d99b8fa6806f425d969b145bd52e0",
+    "modelBytes": 3659530240,
+    "model": "gemma-4-e4b/model.litertlm",
+    "backend": "cpu",
+    "visionBackend": "cpu",
+    "sampler": {
+      "type": "GREEDY",
+      "cApiEnumValue": 3,
+      "k": 25,
+      "p": 0.95,
+      "temperature": 0.0,
+      "seed": 0
+    },
+    "constrainedDecoding": true,
+    "thinking": false,
+    "sourceArtifactSha256": "cccf1b182e7a42742fb56e2836a9f17d45b33ccf491a52c24968c9d52ced05f9",
+    "harness": "third-party/recipes/litert-native/cpu-smoke.cc",
+    "fixture": "third-party/recipes/litert-native/red-square.png",
+    "cases": [
+      {
+        "case": "text",
+        "result": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "READY."
+            }
+          ]
+        },
+        "seconds": 18.702
+      },
+      {
+        "case": "tool",
+        "result": {
+          "role": "assistant",
+          "tool_calls": [
+            {
+              "type": "function",
+              "function": {
+                "name": "lookup",
+                "arguments": {
+                  "color": "red"
+                }
+              }
+            }
+          ]
+        },
+        "seconds": 8.087
+      },
+      {
+        "case": "vision",
+        "result": {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "Red.\n"
+            }
+          ]
+        },
+        "seconds": 38.078
+      }
+    ],
+    "limits": "Synthetic standalone public C API proof only. Timings are not a controlled performance benchmark. No installed-app, GPU, Windows, Intel, older OS or complete JSON schema parity claim."
+  },
+  "unverified": [
+    "Windows native build/DLL exports/inference",
+    "macOS x86_64 and universal build",
+    "Older macOS runtime compatibility",
+    "Released upstream prebuilt exact source mapping"
+  ],
+  "greedySamplerTests": {
+    "state": "passed",
+    "command": "bazelisk test --config=macos_arm64 --deleted_packages=swift --@litert//litert/build_common:build_include=cpu_only //runtime/components:sampler_factory_test",
+    "exitCode": 0,
+    "testsPassed": 4,
+    "buildElapsedSeconds": 357.799,
+    "testRunSeconds": 0.4,
+    "coverage": [
+      "Create CPU sampler",
+      "Batched exact argmax with conflicting top-k/top-p/zero temperature",
+      "GREEDY UpdateConfig preserves exact argmax with new RNG and stochastic parameters",
+      "Unsupported and unspecified types retain existing behavior"
+    ]
+  },
+  "packagedSmokeLibrary": {
+    "artifactName": "liblitert_lm_c.dylib",
+    "sha256": "c85c770f0b4e02e76fa20c9820c6893943caa31806cf063153ca9152e0a8c7e3",
+    "normalization": "Install ID @rpath/liblitert_lm_c.dylib; ad-hoc code signed for isolated local smoke only. App/runtime bundles unchanged."
+  },
+  "priorInference": {
+    "state": "passed-TOP_P-k1",
+    "modelSha256": "0b2a8980ce155fd97673d8e820b4d29d9c7d99b8fa6806f425d969b145bd52e0",
+    "modelBytes": 3659530240,
+    "model": "gemma-4-e4b/model.litertlm",
+    "backend": "cpu",
+    "visionBackend": "cpu",
+    "sampler": {
+      "type": "TOP_P",
+      "k": 1,
+      "p": 1.0,
+      "temperature": 1.0,
+      "seed": 0
+    },
+    "constrainedDecoding": true,
+    "thinking": false,
+    "priorArtifactSha256": "974bebbad7fb675b3de534e4f444814a4c8973a4ea2ecfc828ebe3e48100de6c",
+    "cases": [
+      {
+        "case": "text",
+        "result": "READY.",
+        "seconds": 5.538
+      },
+      {
+        "case": "tool",
+        "result": {
+          "tool_calls": [
+            {
+              "type": "function",
+              "function": {
+                "name": "lookup",
+                "arguments": {
+                  "color": "red"
+                }
+              }
+            }
+          ]
+        },
+        "seconds": 2.025
+      },
+      {
+        "case": "vision",
+        "fixture": "synthetic 64x64 solid red PNG",
+        "result": "Red.",
+        "seconds": 15.076
+      }
+    ],
+    "limits": "Standalone public C API smoke on synthetic input; not installed-app acceptance, exhaustive schema semantics, GPU parity or platform delivery."
+  },
+  "sourceArchiveTransform": {
+    "state": "source-rebuild-after-omissions-passed",
+    "omittedOpaquePrebuilts": 45,
+    "configuredCcImports": 0,
+    "patchApplication": "All three patches apply to exact transformed archive; all six modified upstream files match built source.",
+    "exitCode": 0,
+    "buildElapsedSeconds": 639.284,
+    "buildActions": 3218,
+    "sourceArtifactSha256": "cccf1b182e7a42742fb56e2836a9f17d45b33ccf491a52c24968c9d52ced05f9",
+    "sourceArtifactIdentity": "Rebuilt after deleting exactly 45 hash-verified opaque prebuilt files; output digest equals successful GREEDY model smoke source artifact."
+  },
+  "knownSchemaLimitations": [
+    {
+      "scope": "Baseline upstream LLGuidance FC/Python grammar, not an exhaustive opaque-provider parity comparison.",
+      "source": "runtime/components/logits_processor/constrained_decoding/llg_tool_call_utils.cc:153 and llg_fc_tool_calls.cc:83 / llg_python_tool_calls.cc:91",
+      "behavior": "integer maps to the NUMBER terminal, allowing fractions and exponents.",
+      "upstreamFix": "https://github.com/google-ai-edge/LiteRT-LM/commit/f300c4f",
+      "state": "Recorded; not silently backported. Controlled upgrade or explicit backport with schema regression proof required."
+    }
+  ]
+}

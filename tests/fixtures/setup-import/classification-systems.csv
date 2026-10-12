@@ -1,0 +1,3 @@
+System Code,System Name,Family Type,Aliases,Default,Notes
+FAB,Workshop Fabrication,custom,steel coding; fabrication codes; workshop taxonomy,yes,Primary workshop coding
+EST,Estimator Secondary,custom,secondary coding; backup taxonomy,no,Secondary coding system

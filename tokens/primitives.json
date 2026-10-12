@@ -1,0 +1,460 @@
+{
+	"$description": "Primitive design tokens that back Kwantflow's owned desktop design system.",
+	"font": {
+		"sans": {
+			"$type": "fontFamily",
+			"$value": [
+				"Inter",
+				"ui-sans-serif",
+				"system-ui",
+				"sans-serif",
+				"Apple Color Emoji",
+				"Segoe UI Emoji",
+				"Segoe UI Symbol",
+				"Noto Color Emoji"
+			],
+			"$description": "Default application UI font stack."
+		},
+		"display": {
+			"$type": "fontFamily",
+			"$value": [
+				"SF Pro Display",
+				"Avenir Next",
+				"Segoe UI Variable Display",
+				"Inter",
+				"ui-sans-serif",
+				"system-ui",
+				"sans-serif",
+				"Apple Color Emoji",
+				"Segoe UI Emoji",
+				"Segoe UI Symbol",
+				"Noto Color Emoji"
+			],
+			"$description": "Display-oriented desktop title stack."
+		}
+	},
+	"color": {
+		"neutral": {
+			"50": { "$type": "color", "$value": "#f6f8fb", "$description": "Lightest neutral surface." },
+			"100": { "$type": "color", "$value": "#eef2f7", "$description": "Soft neutral surface." },
+			"200": {
+				"$type": "color",
+				"$value": "#dde4ee",
+				"$description": "Muted neutral border/surface."
+			},
+			"300": { "$type": "color", "$value": "#bdcad9", "$description": "Quiet neutral border." },
+			"400": { "$type": "color", "$value": "#97a8bc", "$description": "Quiet neutral metadata." },
+			"500": { "$type": "color", "$value": "#708197", "$description": "Muted neutral text." },
+			"600": { "$type": "color", "$value": "#56657a", "$description": "Secondary neutral text." },
+			"700": { "$type": "color", "$value": "#3d495a", "$description": "Strong neutral text." },
+			"800": { "$type": "color", "$value": "#262f3c", "$description": "Dark shell neutral." },
+			"900": { "$type": "color", "$value": "#161c24", "$description": "Primary dark text." },
+			"950": { "$type": "color", "$value": "#000000", "$description": "Deepest neutral." }
+		},
+		"darkSurface": {
+			"background": {
+				"$type": "color",
+				"$value": "#212121",
+				"$description": "Softer dark-mode application background."
+			},
+			"shell": {
+				"$type": "color",
+				"$value": "#242424",
+				"$description": "Softer dark-mode shell surface."
+			},
+			"panel": {
+				"$type": "color",
+				"$value": "#262626",
+				"$description": "Softer dark-mode field and lower panel surface."
+			},
+			"secondary": {
+				"$type": "color",
+				"$value": "#2a2a2a",
+				"$description": "Softer dark-mode secondary surface."
+			},
+			"muted": {
+				"$type": "color",
+				"$value": "#2b2b2b",
+				"$description": "Softer dark-mode muted surface."
+			},
+			"selected": {
+				"$type": "color",
+				"$value": "#2f2f2f",
+				"$description": "Softer dark-mode selected surface."
+			},
+			"strong": {
+				"$type": "color",
+				"$value": "#303030",
+				"$description": "Softer dark-mode raised card surface."
+			},
+			"hover": {
+				"$type": "color",
+				"$value": "#343434",
+				"$description": "Softer dark-mode hover surface."
+			}
+		},
+		"darkText": {
+			"muted": {
+				"$type": "color",
+				"$value": "#afafaf",
+				"$description": "Softer dark-mode secondary text."
+			}
+		},
+		"blue": {
+			"50": { "$type": "color", "$value": "#f0f7ff", "$description": "Lightest accent blue." },
+			"100": { "$type": "color", "$value": "#deefff", "$description": "Soft accent blue." },
+			"200": { "$type": "color", "$value": "#b8ddff", "$description": "Muted accent blue." },
+			"300": { "$type": "color", "$value": "#83c4ff", "$description": "Soft interactive blue." },
+			"400": { "$type": "color", "$value": "#46acff", "$description": "Bright interactive blue." },
+			"500": {
+				"$type": "color",
+				"$value": "#007aff",
+				"$description": "Primary brand/action blue."
+			},
+			"600": { "$type": "color", "$value": "#0077e6", "$description": "Pressed brand blue." },
+			"700": { "$type": "color", "$value": "#005dc0", "$description": "Strong blue contrast." },
+			"800": { "$type": "color", "$value": "#0a468e", "$description": "Dark blue emphasis." },
+			"900": { "$type": "color", "$value": "#11335f", "$description": "Deep blue contrast." },
+			"950": { "$type": "color", "$value": "#091c35", "$description": "Darkest blue." }
+		},
+		"error": {
+			"50": {
+				"$type": "color",
+				"$value": "#fff0f4",
+				"$description": "Lightest destructive surface."
+			},
+			"100": { "$type": "color", "$value": "#ffd9e4", "$description": "Soft destructive surface." },
+			"200": {
+				"$type": "color",
+				"$value": "#ffb0c6",
+				"$description": "Muted destructive surface."
+			},
+			"300": {
+				"$type": "color",
+				"$value": "#ff7b9e",
+				"$description": "Soft destructive emphasis."
+			},
+			"400": {
+				"$type": "color",
+				"$value": "#ff4f7d",
+				"$description": "Bright destructive accent."
+			},
+			"500": {
+				"$type": "color",
+				"$value": "#ff2b60",
+				"$description": "Default destructive accent."
+			},
+			"600": {
+				"$type": "color",
+				"$value": "#ea144e",
+				"$description": "Pressed destructive accent."
+			},
+			"700": { "$type": "color", "$value": "#bf0f40", "$description": "Strong destructive text." },
+			"800": { "$type": "color", "$value": "#981039", "$description": "Dark destructive text." },
+			"900": { "$type": "color", "$value": "#7f1235", "$description": "Deep destructive text." },
+			"950": { "$type": "color", "$value": "#4c071c", "$description": "Darkest destructive tone." }
+		},
+		"success": {
+			"50": { "$type": "color", "$value": "#ebfff8", "$description": "Lightest success surface." },
+			"100": { "$type": "color", "$value": "#cffff0", "$description": "Soft success surface." },
+			"200": { "$type": "color", "$value": "#9afee0", "$description": "Muted success surface." },
+			"300": { "$type": "color", "$value": "#59f5c6", "$description": "Soft success emphasis." },
+			"400": { "$type": "color", "$value": "#24e3ad", "$description": "Bright success accent." },
+			"500": { "$type": "color", "$value": "#00c78f", "$description": "Default success accent." },
+			"600": { "$type": "color", "$value": "#00a574", "$description": "Pressed success accent." },
+			"700": { "$type": "color", "$value": "#00835d", "$description": "Strong success text." },
+			"800": { "$type": "color", "$value": "#05684b", "$description": "Dark success text." },
+			"900": { "$type": "color", "$value": "#0b553f", "$description": "Deep success text." },
+			"950": { "$type": "color", "$value": "#032f23", "$description": "Darkest success tone." }
+		},
+		"warning": {
+			"50": { "$type": "color", "$value": "#fff8eb", "$description": "Lightest warning surface." },
+			"100": { "$type": "color", "$value": "#ffefc8", "$description": "Soft warning surface." },
+			"200": { "$type": "color", "$value": "#ffdd8a", "$description": "Muted warning surface." },
+			"300": { "$type": "color", "$value": "#ffc54c", "$description": "Soft warning emphasis." },
+			"400": { "$type": "color", "$value": "#ffb020", "$description": "Bright warning accent." },
+			"500": { "$type": "color", "$value": "#ff9700", "$description": "Default warning accent." },
+			"600": { "$type": "color", "$value": "#ea7b00", "$description": "Pressed warning accent." },
+			"700": { "$type": "color", "$value": "#c25d00", "$description": "Strong warning text." },
+			"800": { "$type": "color", "$value": "#9a4708", "$description": "Dark warning text." },
+			"900": { "$type": "color", "$value": "#7c3a0d", "$description": "Deep warning text." },
+			"950": { "$type": "color", "$value": "#472003", "$description": "Darkest warning tone." }
+		}
+	},
+	"space": {
+		"1": { "$type": "dimension", "$value": "0.25rem", "$description": "4px grid step." },
+		"1.5": { "$type": "dimension", "$value": "0.375rem", "$description": "6px grid step." },
+		"2": { "$type": "dimension", "$value": "0.5rem", "$description": "8px grid step." },
+		"3": { "$type": "dimension", "$value": "0.75rem", "$description": "12px grid step." },
+		"4": { "$type": "dimension", "$value": "1rem", "$description": "16px grid step." },
+		"5": { "$type": "dimension", "$value": "1.25rem", "$description": "20px grid step." },
+		"6": { "$type": "dimension", "$value": "1.5rem", "$description": "24px grid step." },
+		"8": { "$type": "dimension", "$value": "2rem", "$description": "32px grid step." },
+		"10": { "$type": "dimension", "$value": "2.5rem", "$description": "40px grid step." },
+		"12": { "$type": "dimension", "$value": "3rem", "$description": "48px grid step." },
+		"16": { "$type": "dimension", "$value": "4rem", "$description": "64px grid step." }
+	},
+	"radius": {
+		"xs": { "$type": "dimension", "$value": "0.1875rem", "$description": "Tight micro radius." },
+		"tight": {
+			"$type": "dimension",
+			"$value": "0.375rem",
+			"$description": "Dense menu and utility radius."
+		},
+		"base": {
+			"$type": "dimension",
+			"$value": "0.75rem",
+			"$description": "Soft floating-shell radius."
+		},
+		"md": {
+			"$type": "dimension",
+			"$value": "calc({radius.base} - 2px)",
+			"$description": "Standard surface radius."
+		},
+		"sm": {
+			"$type": "dimension",
+			"$value": "calc({radius.base} - 4px)",
+			"$description": "Standard control radius."
+		},
+		"lg": {
+			"$type": "dimension",
+			"$value": "{radius.base}",
+			"$description": "Floating shell radius."
+		},
+		"pill": {
+			"$type": "dimension",
+			"$value": "999px",
+			"$description": "Fully rounded pill/circle radius."
+		}
+	},
+	"size": {
+		"control": {
+			"xs": { "$type": "dimension", "$value": "1.5rem", "$description": "Micro control height." },
+			"sm": {
+				"$type": "dimension",
+				"$value": "1.75rem",
+				"$description": "Compact control height."
+			},
+			"md": { "$type": "dimension", "$value": "2rem", "$description": "Default control height." },
+			"lg": { "$type": "dimension", "$value": "2.25rem", "$description": "Large control height." }
+		},
+		"dialog": {
+			"compact": {
+				"$type": "dimension",
+				"$value": "26.5625rem",
+				"$description": "Compact dialog width."
+			},
+			"xs": {
+				"$type": "dimension",
+				"$value": "28rem",
+				"$description": "Extra-small dialog width."
+			},
+			"alert": {
+				"$type": "dimension",
+				"$value": "28.125rem",
+				"$description": "Alert dialog width."
+			},
+			"sm": { "$type": "dimension", "$value": "30rem", "$description": "Small dialog width." },
+			"md": { "$type": "dimension", "$value": "32.5rem", "$description": "Medium dialog width." },
+			"lg": { "$type": "dimension", "$value": "35rem", "$description": "Large dialog width." },
+			"xl": {
+				"$type": "dimension",
+				"$value": "43.75rem",
+				"$description": "Extra-large dialog width."
+			},
+			"2xl": { "$type": "dimension", "$value": "47.5rem", "$description": "2xl dialog width." },
+			"3xl": { "$type": "dimension", "$value": "48rem", "$description": "3xl dialog width." },
+			"4xl": { "$type": "dimension", "$value": "56rem", "$description": "4xl dialog width." },
+			"setupSm": {
+				"$type": "dimension",
+				"$value": "48rem",
+				"$description": "Setup wizard compact width."
+			},
+			"setupLg": {
+				"$type": "dimension",
+				"$value": "72rem",
+				"$description": "Setup wizard wide width."
+			},
+			"editorHeight": {
+				"$type": "dimension",
+				"$value": "min(440px, 68vh)",
+				"$description": "Compact editor dialog height."
+			},
+			"setupHeight": {
+				"$type": "dimension",
+				"$value": "min(90vh, 960px)",
+				"$description": "Setup wizard max height."
+			},
+			"setupCompactHeight": {
+				"$type": "dimension",
+				"$value": "min(85vh, 720px)",
+				"$description": "Setup wizard compact max height."
+			}
+		},
+		"sheet": {
+			"md": { "$type": "dimension", "$value": "28rem", "$description": "Standard sheet width." },
+			"lg": {
+				"$type": "dimension",
+				"$value": "18rem",
+				"$description": "Compact shell sheet width."
+			}
+		},
+		"popover": {
+			"sm": { "$type": "dimension", "$value": "18rem", "$description": "Small popover width." },
+			"md": { "$type": "dimension", "$value": "22rem", "$description": "Medium popover width." },
+			"lg": { "$type": "dimension", "$value": "24rem", "$description": "Large popover width." },
+			"xl": {
+				"$type": "dimension",
+				"$value": "26rem",
+				"$description": "Extra-large popover width."
+			}
+		},
+		"menu": {
+			"sm": { "$type": "dimension", "$value": "11.25rem", "$description": "Small menu width." },
+			"md": { "$type": "dimension", "$value": "12.5rem", "$description": "Medium menu width." }
+		},
+		"rail": {
+			"md": {
+				"$type": "dimension",
+				"$value": "13rem",
+				"$description": "Workspace/context rail width."
+			},
+			"sidebarFloatingIconWidth": {
+				"$type": "dimension",
+				"$value": "calc(var(--sidebar-width-icon) + {space.4} + 2px)",
+				"$description": "Floating sidebar icon width."
+			}
+		},
+		"bubble": {
+			"md": {
+				"$type": "dimension",
+				"$value": "18rem",
+				"$description": "Assistant/task bubble width."
+			}
+		},
+		"pane": {
+			"asideMd": {
+				"$type": "dimension",
+				"$value": "24rem",
+				"$description": "Medium aside pane width."
+			},
+			"asideLg": {
+				"$type": "dimension",
+				"$value": "min(34vw, 30rem)",
+				"$description": "Large aside pane width."
+			}
+		},
+		"field": {
+			"widthSm": {
+				"$type": "dimension",
+				"$value": "16rem",
+				"$description": "Compact field width."
+			},
+			"noteSm": {
+				"$type": "dimension",
+				"$value": "5.5rem",
+				"$description": "Small note field min height."
+			},
+			"noteMd": {
+				"$type": "dimension",
+				"$value": "6rem",
+				"$description": "Medium note field min height."
+			},
+			"noteLg": {
+				"$type": "dimension",
+				"$value": "7.5rem",
+				"$description": "Large note field min height."
+			},
+			"noteXl": {
+				"$type": "dimension",
+				"$value": "11.25rem",
+				"$description": "Extra-large note field min height."
+			},
+			"readonlySm": {
+				"$type": "dimension",
+				"$value": "3.75rem",
+				"$description": "Small readonly field min height."
+			},
+			"readonlyMd": {
+				"$type": "dimension",
+				"$value": "6.25rem",
+				"$description": "Medium readonly field min height."
+			}
+		},
+		"content": {
+			"widthSm": {
+				"$type": "dimension",
+				"$value": "16rem",
+				"$description": "Compact content width."
+			}
+		},
+		"scrollPanel": {
+			"default": {
+				"$type": "dimension",
+				"$value": "22rem",
+				"$description": "Default scroll panel max height."
+			},
+			"sm": {
+				"$type": "dimension",
+				"$value": "12.5rem",
+				"$description": "Small scroll panel max height."
+			}
+		},
+		"dropzone": {
+			"lg": {
+				"$type": "dimension",
+				"$value": "20rem",
+				"$description": "Large empty dropzone height."
+			}
+		},
+		"emptyState": {
+			"xl": { "$type": "dimension", "$value": "15rem", "$description": "Large empty-state height." }
+		},
+		"routeHeader": {
+			"sm": {
+				"$type": "dimension",
+				"$value": "2.8125rem",
+				"$description": "Small route header height."
+			}
+		},
+		"button": {
+			"minSave": {
+				"$type": "dimension",
+				"$value": "5.75rem",
+				"$description": "Minimum save button width."
+			}
+		},
+		"controlWidth": {
+			"sm": {
+				"$type": "dimension",
+				"$value": "4.75rem",
+				"$description": "Small numeric control width."
+			}
+		}
+	},
+	"duration": {
+		"fast": { "$type": "duration", "$value": "140ms", "$description": "Fast transition duration." },
+		"standard": {
+			"$type": "duration",
+			"$value": "200ms",
+			"$description": "Standard transition duration."
+		},
+		"productive": {
+			"$type": "duration",
+			"$value": "280ms",
+			"$description": "Slow/complex transition duration."
+		}
+	},
+	"easing": {
+		"standard": {
+			"$type": "cubicBezier",
+			"$value": "cubic-bezier(0.2, 0, 0, 1)",
+			"$description": "Default desktop easing."
+		},
+		"emphasized": {
+			"$type": "cubicBezier",
+			"$value": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+			"$description": "Emphasized motion easing."
+		}
+	}
+}

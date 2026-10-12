@@ -1,0 +1,44 @@
+{
+	"scope": "All five installed compiler files differing from tagged preferred source are explained by the untouched public compiler bundle or the SDK installer release-version rewrite. No local source edits. The initial whole-tree equality assertion failed and is not treated as an exact source-equivalence pass.",
+	"commonFilesCompared": 6762,
+	"exactFiles": 6757,
+	"files": {
+		"package-lock.json": {
+			"bundlePath": "install/emscripten/package-lock.json",
+			"bundleSha256": "bafc6deb16224575a9dadb16f832993c04264c7361f853b125401c321356d39e",
+			"installedSha256": "bafc6deb16224575a9dadb16f832993c04264c7361f853b125401c321356d39e",
+			"matchesInstalled": true,
+			"origin": "Byte-identical to untouched public compiler bundle."
+		},
+		"package.json": {
+			"bundlePath": "install/emscripten/package.json",
+			"bundleSha256": "b0f6b771563b371e6523a87e8bd79260156efdcf9f3a67bf1e06f9be83c9af94",
+			"installedSha256": "b0f6b771563b371e6523a87e8bd79260156efdcf9f3a67bf1e06f9be83c9af94",
+			"matchesInstalled": true,
+			"origin": "Byte-identical to untouched public compiler bundle."
+		},
+		"emscripten-version.txt": {
+			"bundlePath": "install/emscripten/emscripten-version.txt",
+			"bundleSha256": "18603adf9237bf31e3e5ebedae609b921187fc9786c644fe2054e566fa7e9120",
+			"installedSha256": "7ac8a5439d0546b292c575ce48b1db87b56b8fc1fcf182401b32a287d6163e53",
+			"matchesInstalled": false,
+			"origin": "SDK installer emsdk.py:1950-1958 rewrites release version metadata from the selected release hash."
+		},
+		"test/other/codesize/test_codesize_minimal_pthreads.gzsize": {
+			"bundlePath": "install/emscripten/test/other/codesize/test_codesize_minimal_pthreads.gzsize",
+			"bundleSha256": "c0664591caa590c4e43264f8006037baf8ec6a69ebe097e2d9c54dfe61c19b45",
+			"installedSha256": "c0664591caa590c4e43264f8006037baf8ec6a69ebe097e2d9c54dfe61c19b45",
+			"matchesInstalled": true,
+			"origin": "Byte-identical to untouched public compiler bundle."
+		},
+		"test/other/codesize/test_codesize_minimal_pthreads.jssize": {
+			"bundlePath": "install/emscripten/test/other/codesize/test_codesize_minimal_pthreads.jssize",
+			"bundleSha256": "6610f61ba4820d7b60c2b16af0795dc7a172b9316153b1874a0b85bf3c53e0c5",
+			"installedSha256": "6610f61ba4820d7b60c2b16af0795dc7a172b9316153b1874a0b85bf3c53e0c5",
+			"matchesInstalled": true,
+			"origin": "Byte-identical to untouched public compiler bundle."
+		}
+	},
+	"closureDefault": false,
+	"closureDefaultEvidence": "preferred tagged src/settings.js:283; upstream link command has no --closure option"
+}

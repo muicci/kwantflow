@@ -1,0 +1,134 @@
+[
+	{
+		"component": "@mlightcad/mtext-parser@1.5.0",
+		"declaredLicense": "MIT",
+		"declaration": {
+			"path": "third-party/licenses/declared/@mlightcad+mtext-parser@1.5.0/package.json",
+			"sha256": "8fbaf2a72cd0156ada2b728259f9f33efa1c885af569f1833a4cf914ca809357"
+		},
+		"standardTerms": "third-party/licenses/standard/MIT.txt",
+		"status": "Upstream package declares MIT but supplies no standalone full license/copyright text. Canonical SPDX terms are included separately; original source and its notices must remain in the source distribution. No copyright holder has been invented.",
+		"selectedLicense": "MIT",
+		"standardTermsSha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+		"standardTermsSource": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/MIT.txt"
+	},
+	{
+		"component": "dingbat-to-unicode@1.0.1",
+		"declaredLicense": "BSD-2-Clause",
+		"declaration": {
+			"path": "third-party/licenses/declared/dingbat-to-unicode@1.0.1/package.json",
+			"sha256": "e34a07af5c8074ec60fdc1f9db775d117d2b2f985d88175c455c9fc37f898d59"
+		},
+		"standardTerms": "third-party/licenses/standard/BSD-2-Clause.txt",
+		"status": "Upstream package declares BSD-2-Clause but supplies no standalone full license/copyright text. Canonical SPDX terms are included separately; original source and its notices must remain in the source distribution. No copyright holder has been invented.",
+		"selectedLicense": "BSD-2-Clause",
+		"standardTermsSha256": "f32fb3b417a194167cfad068223fc975ba96c5960513a10f66a3c28720aec1df",
+		"standardTermsSource": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/BSD-2-Clause.txt"
+	},
+	{
+		"component": "vecks@3.9.2",
+		"declaredLicense": "MIT",
+		"declaration": {
+			"path": "third-party/licenses/declared/vecks@3.9.2/package.json",
+			"sha256": "c7f522b73b84cf5d79ae96a827fde75f429d6da57e230d3f40d83d174fa52bcd"
+		},
+		"standardTerms": "third-party/licenses/standard/MIT.txt",
+		"status": "Upstream package declares MIT but supplies no standalone full license/copyright text. Canonical SPDX terms are included separately; original source and its notices must remain in the source distribution. No copyright holder has been invented.",
+		"selectedLicense": "MIT",
+		"standardTermsSha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+		"standardTermsSource": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/MIT.txt"
+	},
+	{
+		"component": "Cargo:selectors@0.36.1",
+		"declaredLicense": "MPL-2.0",
+		"declaration": {
+			"path": "third-party/licenses/declared/Cargo+selectors@0.36.1/Cargo.toml",
+			"sha256": "c4d292da59a7b7787100f0839b7c18d9a2fa661ab7906d1617137469e1aca2da"
+		},
+		"standardTerms": "third-party/licenses/standard/MPL-2.0.txt",
+		"status": "Published crate has a license declaration but no standalone full text. Canonical SPDX license terms are included separately, alongside exact original metadata and source. Existing source copyright notices remain applicable.",
+		"selectedLicense": "MPL-2.0",
+		"standardTermsSha256": "66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172",
+		"standardTermsSource": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/MPL-2.0.txt"
+	},
+	{
+		"component": "Cargo:sigchld@0.2.4",
+		"declaredLicense": "MIT",
+		"declaration": {
+			"path": "third-party/licenses/declared/Cargo+sigchld@0.2.4/Cargo.toml",
+			"sha256": "6ec0702d10e2161d7028d0d2c0853d954de6778691dbbccea17152f7b69bced8"
+		},
+		"standardTerms": "third-party/licenses/standard/MIT.txt",
+		"status": "Published crate has a license declaration but no standalone full text. Canonical SPDX license terms are included separately, alongside exact original metadata and source. Existing source copyright notices remain applicable.",
+		"selectedLicense": "MIT",
+		"standardTermsSha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+		"standardTermsSource": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/MIT.txt"
+	},
+	{
+		"component": "Cargo:tauri-plugin-webdriver-automation@0.1.3",
+		"declaredLicense": "MIT OR Apache-2.0",
+		"declaration": {
+			"path": "third-party/licenses/declared/Cargo+tauri-plugin-webdriver-automation@0.1.3/Cargo.toml",
+			"sha256": "b4a6f34f0e524982f31d22de86f6690393887d0bc94957090956340d4c4b2e4c"
+		},
+		"standardTerms": "third-party/licenses/standard/MIT.txt",
+		"status": "Published crate has a license declaration but no standalone full text. Canonical SPDX license terms are included separately, alongside exact original metadata and source. Existing source copyright notices remain applicable.",
+		"selectedLicense": "MIT",
+		"standardTermsSha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+		"standardTermsSource": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/MIT.txt"
+	},
+	{
+		"component": "Cargo:winapi-i686-pc-windows-gnu@0.4.0",
+		"declaredLicense": "MIT/Apache-2.0",
+		"declaration": {
+			"path": "third-party/licenses/declared/Cargo+winapi-i686-pc-windows-gnu@0.4.0/Cargo.toml",
+			"sha256": "9652222664ffc7e2a26fdcdebdce0917a455b39d8fbcbf451bf0b011a3067bf7"
+		},
+		"standardTerms": "third-party/licenses/standard/MIT.txt",
+		"status": "Published crate has a license declaration but no standalone full text. Canonical SPDX license terms are included separately, alongside exact original metadata and source. Existing source copyright notices remain applicable.",
+		"selectedLicense": "MIT",
+		"standardTermsSha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+		"standardTermsSource": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/MIT.txt"
+	},
+	{
+		"component": "Cargo:winapi-x86_64-pc-windows-gnu@0.4.0",
+		"declaredLicense": "MIT/Apache-2.0",
+		"declaration": {
+			"path": "third-party/licenses/declared/Cargo+winapi-x86_64-pc-windows-gnu@0.4.0/Cargo.toml",
+			"sha256": "a88605a11db5def9b6cf73398e83b3edb72228cb43ea935729fac5cd33cec22c"
+		},
+		"standardTerms": "third-party/licenses/standard/MIT.txt",
+		"status": "Published crate has a license declaration but no standalone full text. Canonical SPDX license terms are included separately, alongside exact original metadata and source. Existing source copyright notices remain applicable.",
+		"selectedLicense": "MIT",
+		"standardTermsSha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+		"standardTermsSource": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/MIT.txt"
+	},
+	{
+		"component": "is-reference@3.0.3",
+		"declaredLicense": "MIT",
+		"selectedLicense": "MIT",
+		"declaration": {
+			"path": "third-party/licenses/declared/is-reference@3.0.3/package.json",
+			"sha256": "5ab4c14eb3e5726b0704c624ee6649e8026dc8a14471e7cdc4c7d55699162ec7"
+		},
+		"standardTerms": "third-party/licenses/standard/MIT.txt",
+		"standardTermsSha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+		"standardTermsSource": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/MIT.txt",
+		"preferredSourceRevision": "8bb053129bfabe2f6a7d7ed050159d67ebe82829",
+		"status": "Exact published package and matching upstream source declare MIT but supply no standalone full license/copyright text. Canonical SPDX terms are included separately; the original published src/index.js and notices remain in the source distribution. No copyright holder has been invented."
+	},
+	{
+		"component": "locate-character@3.0.0",
+		"declaredLicense": "MIT",
+		"selectedLicense": "MIT",
+		"declaration": {
+			"path": "third-party/licenses/declared/locate-character@3.0.0/package.json",
+			"sha256": "b6a378f56e34ba7323a3c7a9e7e265acb49dbd616b1219477ca90fc0fc21b16d"
+		},
+		"standardTerms": "third-party/licenses/standard/MIT.txt",
+		"standardTermsSha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+		"standardTermsSource": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/MIT.txt",
+		"preferredSourceRevision": "4f08a59ec248121f7002abd02ee7b94e8eda06bc",
+		"status": "Exact published package and matching upstream source declare MIT but supply no standalone full license/copyright text. Canonical SPDX terms are included separately; the original published src/index.js and notices remain in the source distribution. No copyright holder has been invented."
+	}
+]

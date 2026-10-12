@@ -1,0 +1,20 @@
+{
+  "scope": "Exact source archive transform receipt, not binary provenance or an offline build proof.",
+  "upstreamSha256": "f19f3527217ab14bcbb2cc080e335b3c9fb7a4f4338010170799a22541c4356d",
+  "outputPath": "third-party/sources/native/LiteRT-LM-924e79c91542761242244e4f1651851f822e4cbb-source-only.tar.gz",
+  "outputSha256": "c53f07830fe8acfc3f1b8512847ccc6d616bb30c189a5bccc89e8f39a0e96d5b",
+  "outputBytes": 563687951,
+  "omittedMemberCount": 45,
+  "retainedMemberCount": 1317,
+  "retainedRegularFileCount": 1172,
+  "retainedMemberIdentity": "All retained member contents, type, mode, uid, gid, mtime, size and linkname match upstream.",
+  "retainedInventorySha256": "d075bd96df7c6c492064d6cbb12b4e5a695209b7b3f034207b0e903afcadb755",
+  "deterministicRepeatSha256": "c53f07830fe8acfc3f1b8512847ccc6d616bb30c189a5bccc89e8f39a0e96d5b",
+  "configuredCpuRebuildAfterOmissions": {
+    "exitCode": 0,
+    "buildElapsedSeconds": 639.284,
+    "buildActions": 3218,
+    "artifactSha256": "cccf1b182e7a42742fb56e2836a9f17d45b33ccf491a52c24968c9d52ced05f9",
+    "artifactIdentity": "Matches the source-built artifact that passed GREEDY type3 constrained text/tool/vision smoke."
+  }
+}

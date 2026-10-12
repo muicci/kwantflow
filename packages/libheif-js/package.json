@@ -1,0 +1,14 @@
+{
+	"name": "libheif-js",
+	"version": "1.23.6-kwantflow.1",
+	"description": "Local source-built libheif 1.23.6 and libde265 1.1.3 browser decoder",
+	"type": "module",
+	"license": "LGPL-3.0-only",
+	"exports": {
+		"./libheif-wasm/libheif-bundle.mjs": "./libheif-wasm/libheif-bundle.mjs"
+	},
+	"files": [
+		"LICENSE",
+		"libheif-wasm/libheif-bundle.mjs"
+	]
+}

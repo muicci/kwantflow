@@ -1,0 +1,16 @@
+{
+	"version": 1,
+	"snapshots": [
+		{
+			"id": "previous-public-release",
+			"description": "Synthetic clean HEAD schema v1 SQL from desktop 0.12.2, with tests seeding local/linked/expired/incomplete profiles and business records. No user data.",
+			"status": "ready",
+			"schemaVersion": 1,
+			"appVersion": "0.12.2",
+			"files": {
+				"v1/001_control.sql": "5acd55ef3c103cc52806cebfc32ca4f1dfe38a0d5914b5068de05afbd3d1ab65",
+				"v1/001_workspace.sql": "916ac13dfd8901849ec0574027c0eceb1b895d594789a02ec9f3f59137c414f6"
+			}
+		}
+	]
+}

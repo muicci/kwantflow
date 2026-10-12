@@ -1,0 +1,46 @@
+{
+	"version": 3,
+	"description": "Schema v2 fresh local baselines and explicit, recovery-backed v1-to-v2 upgrades. Rust DatabaseRuntime owns startup migration and connections.",
+	"layers": {
+		"control": {
+			"database": "kwantflow-control.db",
+			"runner": "DatabaseRuntime",
+			"contract": "src/lib/types/db.ts",
+			"migrations": [
+				{
+					"version": 1,
+					"file": "src-tauri/migrations-control/001_control.sql",
+					"description": "fresh schema v2 control baseline",
+					"status": "active"
+				},
+				{
+					"version": 2,
+					"file": "src-tauri/migrations-control/002_local_open_source.sql",
+					"description": "schema v1-to-v2 local open source control conversion",
+					"status": "upgrade-only",
+					"reason": "Only the dedicated startup migration connection applies this to an existing v1 database; never run after the fresh v2 baseline."
+				}
+			]
+		},
+		"workspace": {
+			"database": "workspaces/{workspaceId}/workspace.db",
+			"runner": "DatabaseRuntime",
+			"contract": "src/lib/types/db.ts",
+			"migrations": [
+				{
+					"version": 1,
+					"file": "src-tauri/migrations-workspace/001_workspace.sql",
+					"description": "fresh schema v2 workspace baseline",
+					"status": "active"
+				},
+				{
+					"version": 2,
+					"file": "src-tauri/migrations-workspace/002_local_open_source.sql",
+					"description": "schema v1-to-v2 local open source workspace conversion",
+					"status": "upgrade-only",
+					"reason": "Only the dedicated startup migration connection applies this to an existing v1 database; never run after the fresh v2 baseline."
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,1094 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -12,7 +12,7 @@
+ [dependencies]
+ antlr4rust = "0.5"
+ chrono = "0.4"
+-cxx = "=1.0.149"
++cxx = "=1.0.195"
+ googletest = "0.14"
+ indexmap = "2.12"
+ llguidance = { version = "=1.3.0", default-features = false, features = ["lark", "rayon", "ahash"] }
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -72,9 +72,9 @@
+ 
+ [[package]]
+ name = "anyhow"
+-version = "1.0.101"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "5f0e0fee31ef5ed1ba1316088939cea399010ed7731dba877ed44aeb407a75ea"
++version = "1.0.103"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "2a4385e2e34eb35d6b3efe798b9eb88096925d87726c0798709bf56d9ed84af3"
+ 
+ [[package]]
+ name = "autocfg"
+@@ -201,10 +201,11 @@
+ 
+ [[package]]
+ name = "codespan-reporting"
+-version = "0.11.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "3538270d33cc669650c4b093848450d380def10c331d38c768e34cac80576e6e"
+-dependencies = [
++version = "0.13.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "af491d569909a7e4dee0ad7db7f5341fef5c614d5b8ec8cf765732aba3cff681"
++dependencies = [
++ "serde",
+  "termcolor",
+  "unicode-width",
+ ]
+@@ -227,9 +228,9 @@
+ 
+ [[package]]
+ name = "crossbeam-epoch"
+-version = "0.9.18"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "5b82ac4a3c2ca9c3460964f020e1402edd5753411d7737aa39c3714ad1b5420e"
++version = "0.9.20"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "2d6914041f254d6e9176c01941b21115dcfb7089e55135a35411081bd106ef3f"
+ dependencies = [
+  "crossbeam-utils",
+ ]
+@@ -242,11 +243,12 @@
+ 
+ [[package]]
+ name = "cxx"
+-version = "1.0.149"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "478c837c611bc2a9fdeec08f85a5b198bb4e0bbdb3069f02443d2291383a7b42"
++version = "1.0.195"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "201f2332bd98022973bbf50c87f2d2f8151200f43e640da370901b20f1bea9d3"
+ dependencies = [
+  "cc",
++ "cxx-build",
+  "cxxbridge-cmd",
+  "cxxbridge-flags",
+  "cxxbridge-macro",
+@@ -255,13 +257,29 @@
+ ]
+ 
+ [[package]]
++name = "cxx-build"
++version = "1.0.195"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "02da7762e3807681f61c4561f34e1ff791417334294b225dbe22236459c9deef"
++dependencies = [
++ "cc",
++ "codespan-reporting",
++ "indexmap",
++ "proc-macro2",
++ "quote",
++ "scratch",
++ "syn",
++]
++
++[[package]]
+ name = "cxxbridge-cmd"
+-version = "1.0.149"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a5fff7916bbde05c2db99469f09dcfaf203bf25b096ccbf4e761a04792412e10"
++version = "1.0.195"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "21c216b8cd7c26c2798bbecdb13de2f8dc65239b9ed892756deacff10fc0fa64"
+ dependencies = [
+  "clap",
+  "codespan-reporting",
++ "indexmap",
+  "proc-macro2",
+  "quote",
+  "syn",
+@@ -269,19 +287,19 @@
+ 
+ [[package]]
+ name = "cxxbridge-flags"
+-version = "1.0.149"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "4336c994ee47479f439b61a9723ed894ab4551d91e0f217c1e84515d57ea3d4f"
++version = "1.0.195"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "61c618f09812e388d1d065fd43fdc4340fade506ab2e0903397bf238650fce45"
+ 
+ [[package]]
+ name = "cxxbridge-macro"
+-version = "1.0.149"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "4212f144792e9bc9d6891e369f87cc3adb7387a552993df8767d352482b3f88a"
+-dependencies = [
+- "proc-macro2",
+- "quote",
+- "rustversion",
++version = "1.0.195"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "415b113deba00cc605302b9b0b4974ab3d57c41135d81737cd47b89dbaa17c38"
++dependencies = [
++ "indexmap",
++ "proc-macro2",
++ "quote",
+  "syn",
+ ]
+ 
+@@ -408,9 +426,9 @@
+ 
+ [[package]]
+ name = "foldhash"
+-version = "0.1.5"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d9c4f5dac5e15c24eb999c26181a6ca40b39fe946cbe4c263c7209467bc83af2"
++version = "0.2.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "77ce24cb58228fbb8aa041425bb1050850ac19177686ea6e0f41a70416f56fdb"
+ 
+ [[package]]
+ name = "getrandom"
+@@ -831,9 +849,9 @@
+ 
+ [[package]]
+ name = "rand"
+-version = "0.8.5"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "34af8d1a0e25924bc5b7c43c079c942339d8f0a8b57c39049bef581b46327404"
++version = "0.8.6"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "5ca0ecfa931c29007047d1bc58e623ab12e5590e8c7cc53200d5202b69266d8a"
+ dependencies = [
+  "libc",
+  "rand_chacha",
+@@ -939,6 +957,12 @@
+ version = "1.2.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
++
++[[package]]
++name = "scratch"
++version = "1.0.9"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "d68f2ec51b097e4c1a75b681a8bec621909b5e91f15bb7b840c4f2f7b01148b2"
+ 
+ [[package]]
+ name = "serde"
+--- a/cargo-bazel-lock.json
++++ b/cargo-bazel-lock.json
+@@ -1,5 +1,5 @@
+ {
+-  "checksum": "20049f10a79f00181a9539fea0856272132a35998d3a9b121911c98310f8fe8a",
++  "checksum": "b7275cf437ed76f2555fabe1cdeae2ee76c8451a8f909330e4247baba1acdff3",
+   "crates": {
+     "ahash 0.8.12": {
+       "name": "ahash",
+@@ -372,14 +372,14 @@
+       "license_ids": [],
+       "license_file": null
+     },
+-    "anyhow 1.0.101": {
++    "anyhow 1.0.103": {
+       "name": "anyhow",
+-      "version": "1.0.101",
++      "version": "1.0.103",
+       "package_url": "https://github.com/dtolnay/anyhow",
+       "repository": {
+         "Http": {
+-          "url": "https://static.crates.io/crates/anyhow/1.0.101/download",
+-          "sha256": "5f0e0fee31ef5ed1ba1316088939cea399010ed7731dba877ed44aeb407a75ea"
++          "url": "https://static.crates.io/crates/anyhow/1.0.103/download",
++          "sha256": "2a4385e2e34eb35d6b3efe798b9eb88096925d87726c0798709bf56d9ed84af3"
+         }
+       },
+       "targets": [
+@@ -423,14 +423,14 @@
+         "deps": {
+           "common": [
+             {
+-              "id": "anyhow 1.0.101",
++              "id": "anyhow 1.0.103",
+               "target": "build_script_build"
+             }
+           ],
+           "selects": {}
+         },
+         "edition": "2021",
+-        "version": "1.0.101"
++        "version": "1.0.103"
+       },
+       "build_script_attrs": {
+         "compile_data_glob": [
+@@ -1237,6 +1237,53 @@
+       ],
+       "license_file": "LICENSE.txt"
+     },
++    "codespan-reporting 0.13.1": {
++      "name": "codespan-reporting",
++      "version": "0.13.1",
++      "package_url": "https://github.com/brendanzab/codespan",
++      "repository": {
++        "Http": {
++          "url": "https://static.crates.io/crates/codespan-reporting/0.13.1/download",
++          "sha256": "af491d569909a7e4dee0ad7db7f5341fef5c614d5b8ec8cf765732aba3cff681"
++        }
++      },
++      "targets": [
++        {
++          "Library": {
++            "crate_name": "codespan_reporting",
++            "crate_root": "src/lib.rs",
++            "srcs": {
++              "allow_empty": true,
++              "include": [
++                "**/*.rs"
++              ]
++            }
++          }
++        }
++      ],
++      "library_target_name": "codespan_reporting",
++      "common_attrs": {
++        "compile_data_glob": [
++          "**"
++        ],
++        "deps": {
++          "common": [
++            {
++              "id": "unicode-width 0.1.14",
++              "target": "unicode_width"
++            }
++          ],
++          "selects": {}
++        },
++        "edition": "2021",
++        "version": "0.13.1"
++      },
++      "license": "Apache-2.0",
++      "license_ids": [
++        "Apache-2.0"
++      ],
++      "license_file": "LICENSE"
++    },
+     "core-foundation-sys 0.8.7": {
+       "name": "core-foundation-sys",
+       "version": "0.8.7",
+@@ -1322,7 +1369,7 @@
+         "deps": {
+           "common": [
+             {
+-              "id": "crossbeam-epoch 0.9.18",
++              "id": "crossbeam-epoch 0.9.20",
+               "target": "crossbeam_epoch"
+             },
+             {
+@@ -1342,14 +1389,14 @@
+       ],
+       "license_file": "LICENSE-APACHE"
+     },
+-    "crossbeam-epoch 0.9.18": {
++    "crossbeam-epoch 0.9.20": {
+       "name": "crossbeam-epoch",
+-      "version": "0.9.18",
++      "version": "0.9.20",
+       "package_url": "https://github.com/crossbeam-rs/crossbeam",
+       "repository": {
+         "Http": {
+-          "url": "https://static.crates.io/crates/crossbeam-epoch/0.9.18/download",
+-          "sha256": "5b82ac4a3c2ca9c3460964f020e1402edd5753411d7737aa39c3714ad1b5420e"
++          "url": "https://static.crates.io/crates/crossbeam-epoch/0.9.20/download",
++          "sha256": "2d6914041f254d6e9176c01941b21115dcfb7089e55135a35411081bd106ef3f"
+         }
+       },
+       "targets": [
+@@ -1357,6 +1404,18 @@
+           "Library": {
+             "crate_name": "crossbeam_epoch",
+             "crate_root": "src/lib.rs",
++            "srcs": {
++              "allow_empty": true,
++              "include": [
++                "**/*.rs"
++              ]
++            }
++          }
++        },
++        {
++          "BuildScript": {
++            "crate_name": "build_script_build",
++            "crate_root": "build.rs",
+             "srcs": {
+               "allow_empty": true,
+               "include": [
+@@ -1381,6 +1440,10 @@
+         "deps": {
+           "common": [
+             {
++              "id": "crossbeam-epoch 0.9.20",
++              "target": "build_script_build"
++            },
++            {
+               "id": "crossbeam-utils 0.8.21",
+               "target": "crossbeam_utils"
+             }
+@@ -1388,7 +1451,18 @@
+           "selects": {}
+         },
+         "edition": "2021",
+-        "version": "0.9.18"
++        "version": "0.9.20"
++      },
++      "build_script_attrs": {
++        "compile_data_glob": [
++          "**"
++        ],
++        "compile_data_glob_excludes": [
++          "**/*.rs"
++        ],
++        "data_glob": [
++          "**"
++        ]
+       },
+       "license": "MIT OR Apache-2.0",
+       "license_ids": [
+@@ -1475,14 +1549,14 @@
+       ],
+       "license_file": "LICENSE-APACHE"
+     },
+-    "cxx 1.0.149": {
++    "cxx 1.0.195": {
+       "name": "cxx",
+-      "version": "1.0.149",
++      "version": "1.0.195",
+       "package_url": "https://github.com/dtolnay/cxx",
+       "repository": {
+         "Http": {
+-          "url": "https://static.crates.io/crates/cxx/1.0.149/download",
+-          "sha256": "478c837c611bc2a9fdeec08f85a5b198bb4e0bbdb3069f02443d2291383a7b42"
++          "url": "https://static.crates.io/crates/cxx/1.0.195/download",
++          "sha256": "201f2332bd98022973bbf50c87f2d2f8151200f43e640da370901b20f1bea9d3"
+         }
+       },
+       "targets": [
+@@ -1515,7 +1589,7 @@
+         "deps": {
+           "common": [
+             {
+-              "id": "foldhash 0.1.5",
++              "id": "foldhash 0.2.0",
+               "target": "foldhash"
+             },
+             {
+@@ -1535,13 +1609,13 @@
+         "proc_macro_deps": {
+           "common": [
+             {
+-              "id": "cxxbridge-macro 1.0.149",
++              "id": "cxxbridge-macro 1.0.195",
+               "target": "cxxbridge_macro"
+             }
+           ],
+           "selects": {}
+         },
+-        "version": "1.0.149"
++        "version": "1.0.195"
+       },
+       "license": "MIT OR Apache-2.0",
+       "license_ids": [
+@@ -1549,19 +1623,91 @@
+         "MIT"
+       ],
+       "license_file": "LICENSE-APACHE",
+-      "additive_build_file_content": "cc_library(\n    name = \"cxx_cc\",\n    srcs = [\"src/cxx.cc\"],\n    hdrs = [\"include/cxx.h\"],\n    include_prefix = \"rust\",\n    includes = [\"include\"],\n    linkstatic = True,\n    strip_include_prefix = \"include\",\n    visibility = [\"//visibility:public\"],\n)\n",
++      "additive_build_file_content": "load(\"@rules_cc//cc:defs.bzl\", \"cc_library\")\ncc_library(\n    name = \"cxx_cc\",\n    srcs = [\"src/cxx.cc\"],\n    hdrs = [\"include/cxx.h\"],\n    include_prefix = \"rust\",\n    includes = [\"include\"],\n    linkstatic = True,\n    strip_include_prefix = \"include\",\n    visibility = [\"//visibility:public\"],\n)\n",
+       "extra_aliased_targets": {
+         "cxx_cc": "cxx_cc"
+       }
+     },
+-    "cxxbridge-flags 1.0.149": {
++    "cxx-build 1.0.195": {
++      "name": "cxx-build",
++      "version": "1.0.195",
++      "package_url": "https://github.com/dtolnay/cxx",
++      "repository": {
++        "Http": {
++          "url": "https://static.crates.io/crates/cxx-build/1.0.195/download",
++          "sha256": "02da7762e3807681f61c4561f34e1ff791417334294b225dbe22236459c9deef"
++        }
++      },
++      "targets": [
++        {
++          "Library": {
++            "crate_name": "cxx_build",
++            "crate_root": "src/lib.rs",
++            "srcs": {
++              "allow_empty": true,
++              "include": [
++                "**/*.rs"
++              ]
++            }
++          }
++        }
++      ],
++      "library_target_name": "cxx_build",
++      "common_attrs": {
++        "compile_data_glob": [
++          "**"
++        ],
++        "deps": {
++          "common": [
++            {
++              "id": "cc 1.2.55",
++              "target": "cc"
++            },
++            {
++              "id": "codespan-reporting 0.13.1",
++              "target": "codespan_reporting"
++            },
++            {
++              "id": "indexmap 2.13.0",
++              "target": "indexmap"
++            },
++            {
++              "id": "proc-macro2 1.0.106",
++              "target": "proc_macro2"
++            },
++            {
++              "id": "quote 1.0.44",
++              "target": "quote"
++            },
++            {
++              "id": "scratch 1.0.9",
++              "target": "scratch"
++            },
++            {
++              "id": "syn 2.0.114",
++              "target": "syn"
++            }
++          ],
++          "selects": {}
++        },
++        "edition": "2021",
++        "version": "1.0.195"
++      },
++      "license": "MIT OR Apache-2.0",
++      "license_ids": [
++        "Apache-2.0",
++        "MIT"
++      ],
++      "license_file": "LICENSE-APACHE"
++    },
++    "cxxbridge-flags 1.0.195": {
+       "name": "cxxbridge-flags",
+-      "version": "1.0.149",
++      "version": "1.0.195",
+       "package_url": "https://github.com/dtolnay/cxx",
+       "repository": {
+         "Http": {
+-          "url": "https://static.crates.io/crates/cxxbridge-flags/1.0.149/download",
+-          "sha256": "4336c994ee47479f439b61a9723ed894ab4551d91e0f217c1e84515d57ea3d4f"
++          "url": "https://static.crates.io/crates/cxxbridge-flags/1.0.195/download",
++          "sha256": "61c618f09812e388d1d065fd43fdc4340fade506ab2e0903397bf238650fce45"
+         }
+       },
+       "targets": [
+@@ -1590,7 +1736,7 @@
+           "selects": {}
+         },
+         "edition": "2021",
+-        "version": "1.0.149"
++        "version": "1.0.195"
+       },
+       "license": "MIT OR Apache-2.0",
+       "license_ids": [
+@@ -1599,14 +1745,14 @@
+       ],
+       "license_file": "LICENSE-APACHE"
+     },
+-    "cxxbridge-macro 1.0.149": {
++    "cxxbridge-macro 1.0.195": {
+       "name": "cxxbridge-macro",
+-      "version": "1.0.149",
++      "version": "1.0.195",
+       "package_url": "https://github.com/dtolnay/cxx",
+       "repository": {
+         "Http": {
+-          "url": "https://static.crates.io/crates/cxxbridge-macro/1.0.149/download",
+-          "sha256": "4212f144792e9bc9d6891e369f87cc3adb7387a552993df8767d352482b3f88a"
++          "url": "https://static.crates.io/crates/cxxbridge-macro/1.0.195/download",
++          "sha256": "415b113deba00cc605302b9b0b4974ab3d57c41135d81737cd47b89dbaa17c38"
+         }
+       },
+       "targets": [
+@@ -1631,6 +1777,10 @@
+         "deps": {
+           "common": [
+             {
++              "id": "indexmap 2.13.0",
++              "target": "indexmap"
++            },
++            {
+               "id": "proc-macro2 1.0.106",
+               "target": "proc_macro2"
+             },
+@@ -1646,16 +1796,7 @@
+           "selects": {}
+         },
+         "edition": "2021",
+-        "proc_macro_deps": {
+-          "common": [
+-            {
+-              "id": "rustversion 1.0.22",
+-              "target": "rustversion"
+-            }
+-          ],
+-          "selects": {}
+-        },
+-        "version": "1.0.149"
++        "version": "1.0.195"
+       },
+       "license": "MIT OR Apache-2.0",
+       "license_ids": [
+@@ -2078,7 +2219,7 @@
+               "target": "ahash"
+             },
+             {
+-              "id": "anyhow 1.0.101",
++              "id": "anyhow 1.0.103",
+               "target": "anyhow"
+             },
+             {
+@@ -2407,14 +2548,14 @@
+       ],
+       "license_file": "LICENSE-APACHE"
+     },
+-    "foldhash 0.1.5": {
++    "foldhash 0.2.0": {
+       "name": "foldhash",
+-      "version": "0.1.5",
++      "version": "0.2.0",
+       "package_url": "https://github.com/orlp/foldhash",
+       "repository": {
+         "Http": {
+-          "url": "https://static.crates.io/crates/foldhash/0.1.5/download",
+-          "sha256": "d9c4f5dac5e15c24eb999c26181a6ca40b39fe946cbe4c263c7209467bc83af2"
++          "url": "https://static.crates.io/crates/foldhash/0.2.0/download",
++          "sha256": "77ce24cb58228fbb8aa041425bb1050850ac19177686ea6e0f41a70416f56fdb"
+         }
+       },
+       "targets": [
+@@ -2443,7 +2584,7 @@
+           "selects": {}
+         },
+         "edition": "2021",
+-        "version": "0.1.5"
++        "version": "0.2.0"
+       },
+       "license": "Zlib",
+       "license_ids": [
+@@ -3636,7 +3777,7 @@
+               "target": "chrono"
+             },
+             {
+-              "id": "cxx 1.0.149",
++              "id": "cxx 1.0.195",
+               "target": "cxx"
+             },
+             {
+@@ -3692,7 +3833,7 @@
+       },
+       "license": null,
+       "license_ids": [],
+-      "license_file": null
++      "license_file": "LICENSE"
+     },
+     "llguidance 1.3.0": {
+       "name": "llguidance",
+@@ -3741,7 +3882,7 @@
+         "deps": {
+           "common": [
+             {
+-              "id": "anyhow 1.0.101",
++              "id": "anyhow 1.0.103",
+               "target": "anyhow"
+             },
+             {
+@@ -5265,14 +5406,14 @@
+       ],
+       "license_file": null
+     },
+-    "rand 0.8.5": {
++    "rand 0.8.6": {
+       "name": "rand",
+-      "version": "0.8.5",
++      "version": "0.8.6",
+       "package_url": "https://github.com/rust-random/rand",
+       "repository": {
+         "Http": {
+-          "url": "https://static.crates.io/crates/rand/0.8.5/download",
+-          "sha256": "34af8d1a0e25924bc5b7c43c079c942339d8f0a8b57c39049bef581b46327404"
++          "url": "https://static.crates.io/crates/rand/0.8.6/download",
++          "sha256": "5ca0ecfa931c29007047d1bc58e623ab12e5590e8c7cc53200d5202b69266d8a"
+         }
+       },
+       "targets": [
+@@ -5465,7 +5606,7 @@
+           }
+         },
+         "edition": "2018",
+-        "version": "0.8.5"
++        "version": "0.8.6"
+       },
+       "license": "MIT OR Apache-2.0",
+       "license_ids": [
+@@ -6144,6 +6285,77 @@
+         ],
+         "edition": "2015",
+         "version": "1.2.0"
++      },
++      "license": "MIT OR Apache-2.0",
++      "license_ids": [
++        "Apache-2.0",
++        "MIT"
++      ],
++      "license_file": "LICENSE-APACHE"
++    },
++    "scratch 1.0.9": {
++      "name": "scratch",
++      "version": "1.0.9",
++      "package_url": "https://github.com/dtolnay/scratch",
++      "repository": {
++        "Http": {
++          "url": "https://static.crates.io/crates/scratch/1.0.9/download",
++          "sha256": "d68f2ec51b097e4c1a75b681a8bec621909b5e91f15bb7b840c4f2f7b01148b2"
++        }
++      },
++      "targets": [
++        {
++          "Library": {
++            "crate_name": "scratch",
++            "crate_root": "src/lib.rs",
++            "srcs": {
++              "allow_empty": true,
++              "include": [
++                "**/*.rs"
++              ]
++            }
++          }
++        },
++        {
++          "BuildScript": {
++            "crate_name": "build_script_build",
++            "crate_root": "build.rs",
++            "srcs": {
++              "allow_empty": true,
++              "include": [
++                "**/*.rs"
++              ]
++            }
++          }
++        }
++      ],
++      "library_target_name": "scratch",
++      "common_attrs": {
++        "compile_data_glob": [
++          "**"
++        ],
++        "deps": {
++          "common": [
++            {
++              "id": "scratch 1.0.9",
++              "target": "build_script_build"
++            }
++          ],
++          "selects": {}
++        },
++        "edition": "2015",
++        "version": "1.0.9"
++      },
++      "build_script_attrs": {
++        "compile_data_glob": [
++          "**"
++        ],
++        "compile_data_glob_excludes": [
++          "**/*.rs"
++        ],
++        "data_glob": [
++          "**"
++        ]
+       },
+       "license": "MIT OR Apache-2.0",
+       "license_ids": [
+@@ -6952,6 +7164,56 @@
+       ],
+       "license_file": "LICENSE-APACHE"
+     },
++    "termcolor 1.4.1": {
++      "name": "termcolor",
++      "version": "1.4.1",
++      "package_url": "https://github.com/BurntSushi/termcolor",
++      "repository": {
++        "Http": {
++          "url": "https://static.crates.io/crates/termcolor/1.4.1/download",
++          "sha256": "06794f8f6c5c898b3275aebefa6b8a1cb24cd2c6c79397ab15774837a0bc5755"
++        }
++      },
++      "targets": [
++        {
++          "Library": {
++            "crate_name": "termcolor",
++            "crate_root": "src/lib.rs",
++            "srcs": {
++              "allow_empty": true,
++              "include": [
++                "**/*.rs"
++              ]
++            }
++          }
++        }
++      ],
++      "library_target_name": "termcolor",
++      "common_attrs": {
++        "compile_data_glob": [
++          "**"
++        ],
++        "deps": {
++          "common": [],
++          "selects": {
++            "cfg(windows)": [
++              {
++                "id": "winapi-util 0.1.11",
++                "target": "winapi_util"
++              }
++            ]
++          }
++        },
++        "edition": "2018",
++        "version": "1.4.1"
++      },
++      "license": "Unlicense OR MIT",
++      "license_ids": [
++        "MIT",
++        "Unlicense"
++      ],
++      "license_file": "LICENSE-MIT"
++    },
+     "thiserror 1.0.69": {
+       "name": "thiserror",
+       "version": "1.0.69",
+@@ -7166,7 +7428,7 @@
+               "target": "onig"
+             },
+             {
+-              "id": "rand 0.8.5",
++              "id": "rand 0.8.6",
+               "target": "rand"
+             },
+             {
+@@ -7269,7 +7531,7 @@
+         "deps": {
+           "common": [
+             {
+-              "id": "anyhow 1.0.101",
++              "id": "anyhow 1.0.103",
+               "target": "anyhow"
+             },
+             {
+@@ -7477,6 +7739,45 @@
+       ],
+       "license_file": "LICENSE-APACHE"
+     },
++    "unicode-width 0.1.14": {
++      "name": "unicode-width",
++      "version": "0.1.14",
++      "package_url": "https://github.com/unicode-rs/unicode-width",
++      "repository": {
++        "Http": {
++          "url": "https://static.crates.io/crates/unicode-width/0.1.14/download",
++          "sha256": "7dd6e30e90baa6f72411720665d41d89b9a3d039dc45b8faea1ddd07f617f6af"
++        }
++      },
++      "targets": [
++        {
++          "Library": {
++            "crate_name": "unicode_width",
++            "crate_root": "src/lib.rs",
++            "srcs": {
++              "allow_empty": true,
++              "include": [
++                "**/*.rs"
++              ]
++            }
++          }
++        }
++      ],
++      "library_target_name": "unicode_width",
++      "common_attrs": {
++        "compile_data_glob": [
++          "**"
++        ],
++        "edition": "2021",
++        "version": "0.1.14"
++      },
++      "license": "MIT OR Apache-2.0",
++      "license_ids": [
++        "Apache-2.0",
++        "MIT"
++      ],
++      "license_file": "LICENSE-APACHE"
++    },
+     "unicode_categories 0.1.1": {
+       "name": "unicode_categories",
+       "version": "0.1.1",
+@@ -7998,6 +8299,56 @@
+       ],
+       "license_file": "LICENSE-APACHE"
+     },
++    "winapi-util 0.1.11": {
++      "name": "winapi-util",
++      "version": "0.1.11",
++      "package_url": "https://github.com/BurntSushi/winapi-util",
++      "repository": {
++        "Http": {
++          "url": "https://static.crates.io/crates/winapi-util/0.1.11/download",
++          "sha256": "c2a7b1c03c876122aa43f3020e6c3c3ee5c05081c9a00739faf7503aeba10d22"
++        }
++      },
++      "targets": [
++        {
++          "Library": {
++            "crate_name": "winapi_util",
++            "crate_root": "src/lib.rs",
++            "srcs": {
++              "allow_empty": true,
++              "include": [
++                "**/*.rs"
++              ]
++            }
++          }
++        }
++      ],
++      "library_target_name": "winapi_util",
++      "common_attrs": {
++        "compile_data_glob": [
++          "**"
++        ],
++        "deps": {
++          "common": [],
++          "selects": {
++            "cfg(windows)": [
++              {
++                "id": "windows-sys 0.61.2",
++                "target": "windows_sys"
++              }
++            ]
++          }
++        },
++        "edition": "2021",
++        "version": "0.1.11"
++      },
++      "license": "Unlicense OR MIT",
++      "license_ids": [
++        "MIT",
++        "Unlicense"
++      ],
++      "license_file": "LICENSE-MIT"
++    },
+     "windows-core 0.62.2": {
+       "name": "windows-core",
+       "version": "0.62.2",
+@@ -8306,6 +8657,54 @@
+         },
+         "edition": "2021",
+         "version": "0.5.1"
++      },
++      "license": "MIT OR Apache-2.0",
++      "license_ids": [
++        "Apache-2.0",
++        "MIT"
++      ],
++      "license_file": "license-apache-2.0"
++    },
++    "windows-sys 0.61.2": {
++      "name": "windows-sys",
++      "version": "0.61.2",
++      "package_url": "https://github.com/microsoft/windows-rs",
++      "repository": {
++        "Http": {
++          "url": "https://static.crates.io/crates/windows-sys/0.61.2/download",
++          "sha256": "ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc"
++        }
++      },
++      "targets": [
++        {
++          "Library": {
++            "crate_name": "windows_sys",
++            "crate_root": "src/lib.rs",
++            "srcs": {
++              "allow_empty": true,
++              "include": [
++                "**/*.rs"
++              ]
++            }
++          }
++        }
++      ],
++      "library_target_name": "windows_sys",
++      "common_attrs": {
++        "compile_data_glob": [
++          "**"
++        ],
++        "deps": {
++          "common": [
++            {
++              "id": "windows-link 0.2.1",
++              "target": "windows_link"
++            }
++          ],
++          "selects": {}
++        },
++        "edition": "2021",
++        "version": "0.61.2"
+       },
+       "license": "MIT OR Apache-2.0",
+       "license_ids": [
+@@ -8858,7 +9257,7 @@
+   "direct_deps": [
+     "antlr4rust 0.5.2",
+     "chrono 0.4.43",
+-    "cxx 1.0.149",
++    "cxx 1.0.195",
+     "googletest 0.14.2",
+     "indexmap 2.13.0",
+     "llguidance 1.3.0",
+--- a/WORKSPACE
++++ b/WORKSPACE
+@@ -343,10 +343,10 @@
+ http_archive(
+     name = "cxxbridge_cmd",
+     build_file = "//cxxbridge_cmd:BUILD.cxxbridge_cmd.bazel",
+-    integrity = "sha256-pf/3kWu94FwtuZRp8J3PryA78lsJbMv052GgR5JBLhA=",
+-    strip_prefix = "cxxbridge-cmd-1.0.149",
++    integrity = "sha256-IcIWuM18JsJ5i77NsT3i+NxlI5ue2JJ1berP8Q/A+mQ=",
++    strip_prefix = "cxxbridge-cmd-1.0.195",
+     type = "tar.gz",
+-    url = "https://static.crates.io/crates/cxxbridge-cmd/cxxbridge-cmd-1.0.149.crate",
++    url = "https://static.crates.io/crates/cxxbridge-cmd/cxxbridge-cmd-1.0.195.crate",
+ )
+ 
+ crates_repository(
+--- a/cxxbridge_cmd/Cargo.lock
++++ b/cxxbridge_cmd/Cargo.lock
+@@ -1,6 +1,6 @@
+ # This file is automatically @generated by Cargo.
+ # It is not intended for manual editing.
+-version = 3
++version = 4
+ 
+ [[package]]
+ name = "anstyle"
+@@ -36,26 +36,50 @@
+ 
+ [[package]]
+ name = "codespan-reporting"
+-version = "0.11.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "3538270d33cc669650c4b093848450d380def10c331d38c768e34cac80576e6e"
+-dependencies = [
++version = "0.13.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "af491d569909a7e4dee0ad7db7f5341fef5c614d5b8ec8cf765732aba3cff681"
++dependencies = [
++ "serde",
+  "termcolor",
+  "unicode-width",
+ ]
+ 
+ [[package]]
+ name = "cxxbridge-cmd"
+-version = "1.0.149"
++version = "1.0.195"
+ dependencies = [
+  "clap",
+  "codespan-reporting",
++ "indexmap",
+  "proc-macro2",
+  "quote",
+  "syn",
+ ]
+ 
+ [[package]]
++name = "equivalent"
++version = "1.0.2"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
++
++[[package]]
++name = "hashbrown"
++version = "0.16.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "841d1cc9bed7f9236f321df977030373f4a4163ae1a7dbfe1a51a2c1a51d9100"
++
++[[package]]
++name = "indexmap"
++version = "2.13.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "7714e70437a7dc3ac8eb7e6f8df75fd8eb422675fc7678aff7364301092b1017"
++dependencies = [
++ "equivalent",
++ "hashbrown",
++]
++
++[[package]]
+ name = "proc-macro2"
+ version = "1.0.94"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+@@ -71,6 +95,36 @@
+ checksum = "1885c039570dc00dcb4ff087a89e185fd56bae234ddc7f056a945bf36467248d"
+ dependencies = [
+  "proc-macro2",
++]
++
++[[package]]
++name = "serde"
++version = "1.0.228"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "9a8e94ea7f378bd32cbbd37198a4a91436180c5bb472411e48b5ec2e2124ae9e"
++dependencies = [
++ "serde_core",
++ "serde_derive",
++]
++
++[[package]]
++name = "serde_core"
++version = "1.0.228"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "41d385c7d4ca58e59fc732af25c3983b67ac852c1a25000afe1175de458b67ad"
++dependencies = [
++ "serde_derive",
++]
++
++[[package]]
++name = "serde_derive"
++version = "1.0.228"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "d540f220d3187173da220f885ab66608367b6574e925011a9353e4badda91d79"
++dependencies = [
++ "proc-macro2",
++ "quote",
++ "syn",
+ ]
+ 
+ [[package]]
+--- a/cxxbridge_cmd/BUILD.cxxbridge_cmd.bazel
++++ b/cxxbridge_cmd/BUILD.cxxbridge_cmd.bazel
+@@ -3,10 +3,12 @@
+ rust_binary(
+     name = "cxxbridge_cmd",
+     srcs = glob(["src/**/*.rs"]),
++    version = "1.0.195",
+     visibility = ["//visibility:public"],
+     deps = [
+         "@cxxbridge_cmd_deps//:clap",
+         "@cxxbridge_cmd_deps//:codespan-reporting",
++        "@cxxbridge_cmd_deps//:indexmap",
+         "@cxxbridge_cmd_deps//:proc-macro2",
+         "@cxxbridge_cmd_deps//:quote",
+         "@cxxbridge_cmd_deps//:syn",

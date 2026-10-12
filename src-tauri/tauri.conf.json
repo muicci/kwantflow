@@ -1,0 +1,115 @@
+{
+	"$schema": "https://schema.tauri.app/config/2",
+	"productName": "Kwantflow",
+	"version": "0.13.0",
+	"identifier": "com.kwantflow.desktop",
+	"build": {
+		"beforeDevCommand": "corepack pnpm dev:tauri",
+		"devUrl": "http://localhost:1420",
+		"beforeBuildCommand": "corepack pnpm build",
+		"frontendDist": "../build"
+	},
+	"app": {
+		"macOSPrivateApi": true,
+		"withGlobalTauri": true,
+		"windows": [
+			{
+				"label": "main",
+				"title": "Kwantflow",
+				"width": 800,
+				"height": 600,
+				"visible": false,
+				"maximized": true,
+				"resizable": true,
+				"decorations": true,
+				"titleBarStyle": "Overlay",
+				"hiddenTitle": true,
+				"acceptFirstMouse": true,
+				"transparent": true,
+				"trafficLightPosition": {
+					"x": 16,
+					"y": 22
+				}
+			}
+		],
+		"security": {
+			"csp": {
+				"default-src": "'self'",
+				"connect-src": ["'self'", "ipc:", "http://ipc.localhost"],
+				"font-src": ["'self'", "data:"],
+				"img-src": [
+					"'self'",
+					"kwant-asset:",
+					"http://asset.localhost",
+					"http://*.localhost",
+					"blob:",
+					"data:"
+				],
+				"style-src": ["'self'", "'unsafe-inline'"],
+				"object-src": "'none'",
+				"frame-src": "'none'"
+			},
+			"devCsp": {
+				"default-src": "'self'",
+				"connect-src": ["'self'", "ipc:", "http://ipc.localhost", "ws://localhost:1420"],
+				"font-src": ["'self'", "data:"],
+				"img-src": [
+					"'self'",
+					"kwant-asset:",
+					"http://asset.localhost",
+					"http://*.localhost",
+					"blob:",
+					"data:"
+				],
+				"style-src": ["'self'", "'unsafe-inline'"],
+				"object-src": "'none'",
+				"frame-src": "'none'"
+			},
+			"capabilities": ["default", "asset-preview", "workspace"]
+		}
+	},
+	"bundle": {
+		"active": true,
+		"resources": {
+			"../static/wasm/": "_up_/static/wasm/",
+			"native-runtime/": "local-ai/native/",
+			"../LICENSE": "LICENSE",
+			"../THIRD_PARTY_NOTICES.md": "THIRD_PARTY_NOTICES.md",
+			"../README.md": "README.md",
+			"../docs/user/": "docs/user/",
+			"../third-party/licenses/": "third-party/licenses/",
+			"../third-party/manifest.json": "third-party/manifest.json",
+			"../third-party/dependency-inventory.json": "third-party/dependency-inventory.json",
+			"../third-party/declared-license-evidence.json": "third-party/declared-license-evidence.json",
+			"../third-party/upstream-license-inputs.json": "third-party/upstream-license-inputs.json",
+			"../third-party/native-source-manifest.json": "third-party/native-source-manifest.json",
+			"../third-party/SOURCE_BUILD.md": "third-party/SOURCE_BUILD.md"
+		},
+		"targets": ["app", "dmg"],
+		"category": "Business",
+		"publisher": "Kwantflow",
+		"shortDescription": "Free, local, open-source estimating software for fabricators, machine shops and contractors.",
+		"longDescription": "Kwantflow is a local-first desktop platform for RFQ management, file review, estimating, and quote preparation on macOS and Windows.",
+		"copyright": "Copyright \u00a9 2026 Mikhail Eremeev and Kwantflow contributors",
+		"license": "GPL-3.0-only",
+		"macOS": {
+			"minimumSystemVersion": "12.0",
+			"entitlements": "./Entitlements.plist",
+			"files": {
+				"Resources/Assets.car": "./gen/apple/Assets.car"
+			}
+		},
+		"windows": {
+			"nsis": {
+				"installMode": "currentUser"
+			}
+		},
+		"icon": [
+			"icons/32x32.png",
+			"icons/128x128.png",
+			"icons/128x128@2x.png",
+			"icons/icon.icns",
+			"icons/icon.ico"
+		]
+	}
+}

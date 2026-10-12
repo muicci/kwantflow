@@ -1,0 +1,70 @@
+[package]
+name = "kwantflow-app"
+version = "0.13.0"
+description = "Local-first desktop platform for RFQ management, file review, estimating, and quote preparation."
+authors = ["Mikhail Eremeev and Kwantflow contributors"]
+license = "GPL-3.0-only"
+edition = "2021"
+rust-version = "1.94"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "kwantflow_app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+cc = "1"
+sha2 = "0.10"
+
+[dependencies]
+tauri = { version = "2.11", features = ["tray-icon", "macos-private-api"] }
+window-vibrancy = "0.6"
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sqlx = { version = "0.9", default-features = false, features = ["sqlite", "runtime-tokio", "json"] }
+tokio = { version = "1", features = ["sync", "fs", "io-util", "time"] }
+tauri-plugin-fs = "2"
+tauri-plugin-store = "2"
+tauri-plugin-log = "2"
+tauri-plugin-dialog = "2.7"
+tauri-plugin-process = "2"
+percent-encoding = "2"
+log = "0.4"
+tempfile = "3"
+uuid = { version = "1.0", features = ["v4", "serde"] }
+zip = { version = "2", default-features = false, features = ["deflate"] }
+pdfium-render = "0.9"
+image = { version = "0.25", default-features = false, features = ["jpeg", "png"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "stream"] }
+futures-util = "0.3"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+rusqlite = { version = "0.39", features = ["backup"] }
+base64 = "0.22"
+sha2 = "0.10"
+fs2 = "0.4.3"
+libc = "0.2"
+
+[dev-dependencies]
+tauri = { version = "2.11", features = ["test"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+security-framework = "3.7.0"
+
+[profile.release]
+# Optimise for binary size and runtime speed.
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"  # No unwinding in release — smaller binary, faster crash
+
+
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.61", features = ["Win32_Foundation", "Win32_Security_Cryptography", "Win32_Storage_FileSystem", "Win32_System_SystemInformation"] }

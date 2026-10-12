@@ -1,0 +1,543 @@
+{
+	"$description": "Semantic light/dark theme mappings consumed by the desktop design layer.",
+	"light": {
+		"background": {
+			"$type": "color",
+			"$value": "#ffffff",
+			"$description": "Application background."
+		},
+		"foreground": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Primary application text."
+		},
+		"card": { "$type": "color", "$value": "#ffffff", "$description": "Default card surface." },
+		"cardForeground": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Card text."
+		},
+		"popover": { "$type": "color", "$value": "#ffffff", "$description": "Popover surface." },
+		"popoverForeground": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Popover text."
+		},
+		"primary": {
+			"$type": "color",
+			"$value": "{color.neutral.700}",
+			"$description": "Primary action colour."
+		},
+		"primaryForeground": {
+			"$type": "color",
+			"$value": "#ffffff",
+			"$description": "Primary action text."
+		},
+		"secondary": {
+			"$type": "color",
+			"$value": "#f7f7f7",
+			"$description": "Secondary surface tone."
+		},
+		"secondaryForeground": {
+			"$type": "color",
+			"$value": "{color.neutral.800}",
+			"$description": "Secondary surface text."
+		},
+		"muted": { "$type": "color", "$value": "#f5f5f5", "$description": "Muted surface tone." },
+		"mutedForeground": {
+			"$type": "color",
+			"$value": "{color.neutral.600}",
+			"$description": "Muted text."
+		},
+		"accent": {
+			"$type": "color",
+			"$value": "#efefef",
+			"$description": "Neutral hover/selected tone."
+		},
+		"accentForeground": {
+			"$type": "color",
+			"$value": "{color.neutral.800}",
+			"$description": "Accent text."
+		},
+		"destructive": {
+			"$type": "color",
+			"$value": "{color.error.500}",
+			"$description": "Destructive action colour."
+		},
+		"destructiveForeground": {
+			"$type": "color",
+			"$value": "{color.error.50}",
+			"$description": "Destructive action text."
+		},
+		"success": {
+			"$type": "color",
+			"$value": "{color.success.500}",
+			"$description": "Success accent."
+		},
+		"warning": {
+			"$type": "color",
+			"$value": "{color.warning.500}",
+			"$description": "Warning accent."
+		},
+		"border": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.neutral.900} 12%, transparent)",
+			"$description": "Default border."
+		},
+		"input": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.neutral.900} 14%, transparent)",
+			"$description": "Input border."
+		},
+		"ring": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.neutral.400} 50%, transparent)",
+			"$description": "Focus ring colour."
+		},
+		"surfaceBase": { "$type": "color", "$value": "#ffffff", "$description": "Base panel surface." },
+		"surfaceSubtle": {
+			"$type": "color",
+			"$value": "#fafafa",
+			"$description": "Subtle panel surface."
+		},
+		"surfaceStrong": {
+			"$type": "color",
+			"$value": "#f3f3f3",
+			"$description": "Strong panel surface."
+		},
+		"surfaceBrand": {
+			"$type": "color",
+			"$value": "#f5f5f5",
+			"$description": "Neutral highlighted surface."
+		},
+		"surfaceBrandHover": {
+			"$type": "color",
+			"$value": "#efefef",
+			"$description": "Neutral highlighted hover surface."
+		},
+		"fieldSurface": { "$type": "color", "$value": "#ffffff", "$description": "Field background." },
+		"shellSurface": { "$type": "color", "$value": "#ffffff", "$description": "Shell surface." },
+		"focusOutline": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.neutral.900} 14%, transparent)",
+			"$description": "Soft focus halo."
+		},
+		"elevationFlat": {
+			"$type": "shadow",
+			"$value": "0 0 0 1px color-mix(in srgb, {color.neutral.900} 6%, transparent)",
+			"$description": "Flat elevation inset."
+		},
+		"elevationOverlay": {
+			"$type": "shadow",
+			"$value": "0 18px 40px color-mix(in srgb, #000000 10%, transparent)",
+			"$description": "Overlay elevation shadow."
+		},
+		"sidebar": {
+			"$type": "color",
+			"$value": "{color.neutral.50}",
+			"$description": "Sidebar background."
+		},
+		"sidebarForeground": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Sidebar text."
+		},
+		"sidebarPrimary": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Sidebar primary accent."
+		},
+		"sidebarPrimaryForeground": {
+			"$type": "color",
+			"$value": "{color.neutral.100}",
+			"$description": "Sidebar primary text."
+		},
+		"sidebarAccent": {
+			"$type": "color",
+			"$value": "#e8e8e8",
+			"$description": "Sidebar active surface."
+		},
+		"sidebarHover": {
+			"$type": "color",
+			"$value": "#efefef",
+			"$description": "Sidebar hover surface."
+		},
+		"sidebarAccentForeground": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Sidebar accent text."
+		},
+		"sidebarBorder": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.neutral.900} 8%, transparent)",
+			"$description": "Sidebar border."
+		},
+		"sidebarRing": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.neutral.900} 18%, transparent)",
+			"$description": "Sidebar focus ring."
+		},
+		"overlay": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #000000 28%, transparent)",
+			"$description": "Modal/dialog overlay."
+		},
+		"documentPageBackground": {
+			"$type": "color",
+			"$value": "#ffffff",
+			"$description": "Document page background."
+		},
+		"documentPageForeground": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Document text."
+		},
+		"documentPageMuted": {
+			"$type": "color",
+			"$value": "{color.neutral.600}",
+			"$description": "Document secondary text."
+		},
+		"documentPageSoft": {
+			"$type": "color",
+			"$value": "{color.neutral.100}",
+			"$description": "Document soft fill."
+		},
+		"documentPageBorder": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.neutral.900} 12%, transparent)",
+			"$description": "Document border."
+		},
+		"documentPageStrong": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Document strong rule/text."
+		},
+		"documentPageInverse": {
+			"$type": "color",
+			"$value": "#ffffff",
+			"$description": "Document inverse text."
+		},
+		"documentPageHeader": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Document header background."
+		},
+		"documentPageShadow": {
+			"$type": "shadow",
+			"$value": "0 8px 30px color-mix(in srgb, #000000 8%, transparent)",
+			"$description": "Document page shadow."
+		},
+		"surfaceSuccess": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.success.500} 8%, transparent)",
+			"$description": "Success surface tint."
+		},
+		"surfaceSuccessBorder": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.success.500} 26%, transparent)",
+			"$description": "Success border tint."
+		},
+		"surfaceWarning": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.warning.500} 8%, transparent)",
+			"$description": "Warning surface tint."
+		},
+		"surfaceWarningBorder": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.warning.500} 26%, transparent)",
+			"$description": "Warning border tint."
+		},
+		"surfaceDestructive": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.error.500} 8%, transparent)",
+			"$description": "Destructive surface tint."
+		},
+		"surfaceDestructiveBorder": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.error.500} 26%, transparent)",
+			"$description": "Destructive border tint."
+		}
+	},
+	"dark": {
+		"background": {
+			"$type": "color",
+			"$value": "{color.darkSurface.background}",
+			"$description": "Application background in dark mode."
+		},
+		"foreground": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #ffffff 92%, {color.neutral.100})",
+			"$description": "Primary text in dark mode."
+		},
+		"card": {
+			"$type": "color",
+			"$value": "{color.darkSurface.strong}",
+			"$description": "Card surface in dark mode."
+		},
+		"cardForeground": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #ffffff 92%, {color.neutral.100})",
+			"$description": "Card text in dark mode."
+		},
+		"popover": {
+			"$type": "color",
+			"$value": "{color.darkSurface.strong}",
+			"$description": "Popover surface in dark mode."
+		},
+		"popoverForeground": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #ffffff 90%, {color.neutral.100})",
+			"$description": "Popover text in dark mode."
+		},
+		"primary": {
+			"$type": "color",
+			"$value": "{color.neutral.100}",
+			"$description": "Primary accent in dark mode."
+		},
+		"primaryForeground": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Primary text in dark mode."
+		},
+		"secondary": {
+			"$type": "color",
+			"$value": "{color.darkSurface.secondary}",
+			"$description": "Secondary surface in dark mode."
+		},
+		"secondaryForeground": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #ffffff 90%, {color.neutral.100})",
+			"$description": "Secondary text in dark mode."
+		},
+		"muted": {
+			"$type": "color",
+			"$value": "{color.darkSurface.muted}",
+			"$description": "Muted surface in dark mode."
+		},
+		"mutedForeground": {
+			"$type": "color",
+			"$value": "{color.darkText.muted}",
+			"$description": "Muted text in dark mode."
+		},
+		"accent": {
+			"$type": "color",
+			"$value": "{color.darkSurface.selected}",
+			"$description": "Accent surface in dark mode."
+		},
+		"accentForeground": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #ffffff 90%, {color.neutral.100})",
+			"$description": "Accent text in dark mode."
+		},
+		"destructive": {
+			"$type": "color",
+			"$value": "{color.error.400}",
+			"$description": "Destructive colour in dark mode."
+		},
+		"destructiveForeground": {
+			"$type": "color",
+			"$value": "{color.error.50}",
+			"$description": "Destructive text in dark mode."
+		},
+		"success": {
+			"$type": "color",
+			"$value": "{color.success.400}",
+			"$description": "Success colour in dark mode."
+		},
+		"warning": {
+			"$type": "color",
+			"$value": "{color.warning.400}",
+			"$description": "Warning colour in dark mode."
+		},
+		"border": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #ffffff 10%, transparent)",
+			"$description": "Default border in dark mode."
+		},
+		"input": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #ffffff 12%, transparent)",
+			"$description": "Input border in dark mode."
+		},
+		"ring": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.neutral.500} 45%, transparent)",
+			"$description": "Focus ring in dark mode."
+		},
+		"surfaceBase": {
+			"$type": "color",
+			"$value": "{color.darkSurface.strong}",
+			"$description": "Base panel surface in dark mode."
+		},
+		"surfaceSubtle": {
+			"$type": "color",
+			"$value": "{color.darkSurface.secondary}",
+			"$description": "Subtle panel surface in dark mode."
+		},
+		"surfaceStrong": {
+			"$type": "color",
+			"$value": "{color.darkSurface.strong}",
+			"$description": "Strong panel surface in dark mode."
+		},
+		"surfaceBrand": {
+			"$type": "color",
+			"$value": "{color.darkSurface.selected}",
+			"$description": "Neutral highlighted surface in dark mode."
+		},
+		"surfaceBrandHover": {
+			"$type": "color",
+			"$value": "{color.darkSurface.hover}",
+			"$description": "Neutral highlighted hover surface in dark mode."
+		},
+		"fieldSurface": {
+			"$type": "color",
+			"$value": "{color.darkSurface.panel}",
+			"$description": "Field background in dark mode."
+		},
+		"shellSurface": {
+			"$type": "color",
+			"$value": "{color.darkSurface.shell}",
+			"$description": "Shell surface in dark mode."
+		},
+		"focusOutline": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.neutral.100} 22%, transparent)",
+			"$description": "Soft focus halo in dark mode."
+		},
+		"elevationFlat": {
+			"$type": "shadow",
+			"$value": "0 0 0 1px color-mix(in srgb, #ffffff 5%, transparent)",
+			"$description": "Flat elevation in dark mode."
+		},
+		"elevationOverlay": {
+			"$type": "shadow",
+			"$value": "0 18px 40px color-mix(in srgb, #000000 32%, transparent)",
+			"$description": "Overlay shadow in dark mode."
+		},
+		"sidebar": {
+			"$type": "color",
+			"$value": "{color.darkSurface.background}",
+			"$description": "Sidebar background in dark mode."
+		},
+		"sidebarForeground": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #ffffff 90%, {color.neutral.100})",
+			"$description": "Sidebar text in dark mode."
+		},
+		"sidebarPrimary": {
+			"$type": "color",
+			"$value": "{color.neutral.100}",
+			"$description": "Sidebar primary accent in dark mode."
+		},
+		"sidebarPrimaryForeground": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Sidebar primary text in dark mode."
+		},
+		"sidebarAccent": {
+			"$type": "color",
+			"$value": "{color.darkSurface.selected}",
+			"$description": "Sidebar active surface in dark mode."
+		},
+		"sidebarHover": {
+			"$type": "color",
+			"$value": "{color.darkSurface.hover}",
+			"$description": "Sidebar hover surface in dark mode."
+		},
+		"sidebarAccentForeground": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #ffffff 90%, {color.neutral.100})",
+			"$description": "Sidebar accent text in dark mode."
+		},
+		"sidebarBorder": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #ffffff 6%, transparent)",
+			"$description": "Sidebar border in dark mode."
+		},
+		"sidebarRing": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.neutral.100} 22%, transparent)",
+			"$description": "Sidebar focus ring in dark mode."
+		},
+		"overlay": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #000000 45%, transparent)",
+			"$description": "Modal/dialog overlay in dark mode."
+		},
+		"documentPageBackground": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Document page background in dark mode."
+		},
+		"documentPageForeground": {
+			"$type": "color",
+			"$value": "{color.neutral.100}",
+			"$description": "Document text in dark mode."
+		},
+		"documentPageMuted": {
+			"$type": "color",
+			"$value": "{color.neutral.500}",
+			"$description": "Document secondary text in dark mode."
+		},
+		"documentPageSoft": {
+			"$type": "color",
+			"$value": "{color.neutral.800}",
+			"$description": "Document soft fill in dark mode."
+		},
+		"documentPageBorder": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, #ffffff 10%, transparent)",
+			"$description": "Document border in dark mode."
+		},
+		"documentPageStrong": {
+			"$type": "color",
+			"$value": "{color.neutral.100}",
+			"$description": "Document strong rule/text in dark mode."
+		},
+		"documentPageInverse": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Document inverse text in dark mode."
+		},
+		"documentPageHeader": {
+			"$type": "color",
+			"$value": "{color.neutral.900}",
+			"$description": "Document header background in dark mode."
+		},
+		"documentPageShadow": {
+			"$type": "shadow",
+			"$value": "0 8px 30px color-mix(in srgb, #000000 40%, transparent)",
+			"$description": "Document page shadow in dark mode."
+		},
+		"surfaceSuccess": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.success.400} 8%, transparent)",
+			"$description": "Success surface tint in dark mode."
+		},
+		"surfaceSuccessBorder": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.success.400} 26%, transparent)",
+			"$description": "Success border tint in dark mode."
+		},
+		"surfaceWarning": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.warning.400} 8%, transparent)",
+			"$description": "Warning surface tint in dark mode."
+		},
+		"surfaceWarningBorder": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.warning.400} 26%, transparent)",
+			"$description": "Warning border tint in dark mode."
+		},
+		"surfaceDestructive": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.error.400} 8%, transparent)",
+			"$description": "Destructive surface tint in dark mode."
+		},
+		"surfaceDestructiveBorder": {
+			"$type": "color",
+			"$value": "color-mix(in srgb, {color.error.400} 26%, transparent)",
+			"$description": "Destructive border tint in dark mode."
+		}
+	}
+}

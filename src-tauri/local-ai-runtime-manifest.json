@@ -1,0 +1,25 @@
+{
+	"version": 2,
+	"clientRuntimeId": "kwantflow-ai.litertlm",
+	"litertLm": {
+		"runtimeVersion": "litert-lm-v0.16.0",
+		"modelRepoId": "litert-community/gemma-4-E4B-it-litert-lm",
+		"modelRevision": "f7ad3343bd6ebc9607f4dc3bc4f2398bd5749bc5",
+		"modelArtifactId": "kwantflow-ai.litertlm",
+		"modelFileName": "gemma-4-e4b/model.litertlm",
+		"remoteArtifactFilename": "gemma-4-E4B-it.litertlm",
+		"remoteMmprojFilename": null,
+		"modelExpectedSizeBytes": 3659530240,
+		"modelSha256": "0b2a8980ce155fd97673d8e820b4d29d9c7d99b8fa6806f425d969b145bd52e0",
+		"archivedMirror": null,
+		"capabilities": {
+			"supportsConstrainedToolCalls": true,
+			"supportsNativeToolCalls": true,
+			"supportsReasoningSeparation": true,
+			"supportsVisionInputs": true,
+			"supportsPersistentConversation": true,
+			"supportsPersistentConversationWithVision": false
+		}
+	},
+	"contextSizeTokens": 32003
+}

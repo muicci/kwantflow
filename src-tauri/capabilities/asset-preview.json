@@ -1,0 +1,58 @@
+{
+	"$schema": "../gen/schemas/desktop-schema.json",
+	"identifier": "asset-preview",
+	"description": "Least-privilege capability for the detached asset preview window",
+	"windows": ["asset-preview"],
+	"permissions": [
+		"core:default",
+		"core:window:allow-close",
+		"core:window:allow-destroy",
+		"core:window:allow-is-fullscreen",
+		"core:window:allow-set-fullscreen",
+		"core:window:allow-set-title",
+		{
+			"identifier": "opener:allow-open-url",
+			"allow": [
+				{
+					"url": "mailto:*"
+				},
+				{
+					"url": "tel:*"
+				},
+				{
+					"url": "http://*"
+				},
+				{
+					"url": "https://*"
+				}
+			]
+		},
+		"opener:deny-open-path",
+		"opener:deny-reveal-item-in-dir",
+		"allow-query-workspace-database",
+		"allow-rasterize-pdf-pages",
+		"fs:default",
+		{
+			"identifier": "fs:allow-document-read-recursive",
+			"scope": {
+				"allow": [
+					{
+						"path": "$DOCUMENT/Kwantflow"
+					}
+				]
+			}
+		},
+		"log:default",
+		"fs:allow-appcache-meta-recursive",
+		"fs:allow-appcache-read-recursive",
+		"fs:allow-appcache-write-recursive",
+		"fs:allow-applocaldata-write-recursive",
+		"allow-get-ai-evidence-cache-budget",
+		"allow-read-ai-evidence-cache-text",
+		"allow-read-ai-evidence-cache-bytes",
+		"allow-write-ai-evidence-cache-text",
+		"allow-write-ai-evidence-cache-bytes",
+		"allow-set-ai-evidence-cache-pin",
+		"allow-remove-ai-evidence-cache-prefix"
+	]
+}

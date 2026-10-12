@@ -1,0 +1,446 @@
+{
+	"version": 2,
+	"description": "Tracks documentation coverage for the user-facing help corpus. Each topic tracks when it was last reviewed and which source files it covers, so Handbook can detect staleness from git changes.",
+	"sections": {
+		"workflows": {
+			"label": "How-to guides",
+			"path": "content/local-assistant/workflows/"
+		},
+		"screens": {
+			"label": "Screen walkthroughs",
+			"path": "content/local-assistant/screens/"
+		},
+		"reference": {
+			"label": "Feature and button reference",
+			"path": "content/local-assistant/reference/"
+		}
+	},
+	"topics": [
+		{
+			"id": "help-rfqs",
+			"section": "workflows",
+			"title": "Working with RFQs",
+			"status": "done",
+			"lastReviewed": "2026-05-28",
+			"sourceFiles": [
+				"src/routes/+page.svelte",
+				"src/lib/state/projects.svelte.ts",
+				"src/lib/components/rfqs/data-table.svelte",
+				"src/lib/components/project-actions-menu.svelte"
+			]
+		},
+		{
+			"id": "help-onboarding",
+			"section": "workflows",
+			"title": "Onboarding and first run",
+			"status": "done",
+			"lastReviewed": "2026-05-28",
+			"sourceFiles": [
+				"src/lib/state/onboarding.svelte.ts",
+				"src/lib/components/onboarding/onboarding-workspace.svelte",
+				"src/lib/components/local-ai-setup-card.svelte",
+				"src/lib/components/user/setup-import-dialog.svelte"
+			]
+		},
+		{
+			"id": "help-navigation",
+			"section": "workflows",
+			"title": "Getting around Kwantflow",
+			"status": "done",
+			"lastReviewed": "2026-06-03",
+			"sourceFiles": ["src/lib/components/app-sidebar.svelte", "src/lib/state/app-tabs.svelte.ts"]
+		},
+		{
+			"id": "help-files-and-review",
+			"section": "workflows",
+			"title": "Files and review",
+			"status": "done",
+			"lastReviewed": "2026-05-31",
+			"sourceFiles": ["src/routes/project/[id]/+page.svelte"]
+		},
+		{
+			"id": "help-assets-and-estimates",
+			"section": "workflows",
+			"title": "Assets and estimates",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["src/routes/project/[id]/asset/[assetId]/+page.svelte"]
+		},
+		{
+			"id": "help-ai-drafting",
+			"section": "workflows",
+			"title": "AI-assisted draft estimating",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["src/lib/state/ai.svelte.ts", "src/lib/services/ai-drafting.ts"]
+		},
+		{
+			"id": "help-companies",
+			"section": "workflows",
+			"title": "Companies and contacts",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["src/lib/state/contacts.svelte.ts", "src/routes/companies/+page.svelte"]
+		},
+		{
+			"id": "help-classifications",
+			"section": "workflows",
+			"title": "Classification systems",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["src/lib/state/classification-systems.svelte.ts"]
+		},
+		{
+			"id": "help-classifications-in-estimates",
+			"section": "workflows",
+			"title": "Using classifications in estimates",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": []
+		},
+		{
+			"id": "help-cost-presets",
+			"section": "workflows",
+			"title": "Cost presets",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["src/lib/state/cost-component-presets.svelte.ts"]
+		},
+		{
+			"id": "help-estimate-templates",
+			"section": "workflows",
+			"title": "Estimate templates",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["src/lib/state/estimate-templates.svelte.ts"]
+		},
+		{
+			"id": "help-project-structure",
+			"section": "workflows",
+			"title": "Project structure (WBS)",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["src/lib/state/wbs.svelte.ts"]
+		},
+		{
+			"id": "help-project-structure-templates",
+			"section": "workflows",
+			"title": "Project structure templates",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["src/lib/state/project-structure-templates.svelte.ts"]
+		},
+		{
+			"id": "help-quote-revisions",
+			"section": "workflows",
+			"title": "Quote revisions and history",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["src/lib/state/project-revision-history.svelte.ts"]
+		},
+		{
+			"id": "help-quote-rollup",
+			"section": "workflows",
+			"title": "Quote rollup and options",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["src/routes/project/[id]/quote/+page.svelte", "src/lib/state/quote.svelte.ts"]
+		},
+		{
+			"id": "help-setup-import",
+			"section": "workflows",
+			"title": "Importing from spreadsheets",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["src/lib/state/setup-import.svelte.ts"]
+		},
+		{
+			"id": "help-updates",
+			"section": "workflows",
+			"title": "App updates",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["docs/user/README.md"]
+		},
+		{
+			"id": "help-file-support-and-ai",
+			"section": "workflows",
+			"title": "File types and AI support",
+			"status": "done",
+			"lastReviewed": "2026-05-01",
+			"sourceFiles": ["src/lib/constants/file-support.ts"]
+		},
+		{
+			"id": "screen-dashboard",
+			"section": "screens",
+			"title": "Dashboard and home screen",
+			"status": "done",
+			"lastReviewed": "2026-05-29",
+			"sourceFiles": ["src/routes/+page.svelte", "src/lib/state/app.svelte.ts"]
+		},
+		{
+			"id": "screen-project-detail",
+			"section": "screens",
+			"title": "Project detail screen",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/routes/project/[id]/+page.svelte"]
+		},
+		{
+			"id": "screen-asset-viewer",
+			"section": "screens",
+			"title": "Asset viewer and file review",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/routes/project/[id]/asset/[assetId]/+page.svelte"]
+		},
+		{
+			"id": "screen-quote-editor",
+			"section": "screens",
+			"title": "Quote editor",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/routes/project/[id]/quote/+page.svelte"]
+		},
+		{
+			"id": "screen-quote-pdf",
+			"section": "screens",
+			"title": "Quote PDF preview",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/routes/project/[id]/quote/pdf/+page.svelte"]
+		},
+		{
+			"id": "screen-materials",
+			"section": "screens",
+			"title": "Material catalogue",
+			"status": "done",
+			"lastReviewed": "2026-06-01",
+			"sourceFiles": ["src/routes/materials/+page.svelte", "src/lib/state/materials.svelte.ts"]
+		},
+		{
+			"id": "screen-labour-rates",
+			"section": "screens",
+			"title": "Labour rates",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": [
+				"src/routes/labour-rates/+page.svelte",
+				"src/lib/state/labour-rates.svelte.ts"
+			]
+		},
+		{
+			"id": "screen-equipment-rates",
+			"section": "screens",
+			"title": "Equipment rates",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": [
+				"src/routes/equipment-rates/+page.svelte",
+				"src/lib/state/equipment-rates.svelte.ts"
+			]
+		},
+		{
+			"id": "screen-subcontract-rates",
+			"section": "screens",
+			"title": "Subcontract rates",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": [
+				"src/routes/subcontract-rates/+page.svelte",
+				"src/lib/state/subcontract-rates.svelte.ts"
+			]
+		},
+		{
+			"id": "screen-cost-presets",
+			"section": "screens",
+			"title": "Cost presets page",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/routes/cost-presets/+page.svelte"]
+		},
+		{
+			"id": "screen-estimate-templates",
+			"section": "screens",
+			"title": "Estimate templates page",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/routes/estimate-templates/+page.svelte"]
+		},
+		{
+			"id": "screen-classification-systems",
+			"section": "screens",
+			"title": "Classification systems page",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/routes/classification-systems/+page.svelte"]
+		},
+		{
+			"id": "screen-companies",
+			"section": "screens",
+			"title": "Companies and contacts page",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/routes/companies/+page.svelte"]
+		},
+		{
+			"id": "screen-wbs",
+			"section": "screens",
+			"title": "Work breakdown structure page",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/routes/project/[id]/wbs/+page.svelte"]
+		},
+		{
+			"id": "screen-settings",
+			"section": "screens",
+			"title": "Settings dialog",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/components/user/settings-dialog.svelte"]
+		},
+		{
+			"id": "ref-what-is-an-asset",
+			"section": "reference",
+			"title": "What is an Asset?",
+			"status": "done",
+			"lastReviewed": "2026-06-02",
+			"sourceFiles": [
+				"src/lib/types/index.ts",
+				"src/lib/state/projects.svelte.ts",
+				"src/routes/project/[id]/+page.svelte"
+			]
+		},
+		{
+			"id": "ref-what-is-a-takeoff-item",
+			"section": "reference",
+			"title": "What is a Takeoff Item?",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/types/index.ts"]
+		},
+		{
+			"id": "ref-what-is-a-cost-component",
+			"section": "reference",
+			"title": "What is a Cost Component?",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/types/index.ts"]
+		},
+		{
+			"id": "ref-what-is-a-wbs-node",
+			"section": "reference",
+			"title": "What is a WBS Node?",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/types/index.ts"]
+		},
+		{
+			"id": "ref-what-is-a-classification-system",
+			"section": "reference",
+			"title": "What is a Classification System?",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/state/classification-systems.svelte.ts"]
+		},
+		{
+			"id": "ref-what-is-a-cost-code",
+			"section": "reference",
+			"title": "What is a Cost Code?",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/types/index.ts"]
+		},
+		{
+			"id": "ref-what-is-a-source-row",
+			"section": "reference",
+			"title": "What is a Source Row?",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/types/index.ts"]
+		},
+		{
+			"id": "ref-what-is-a-quote-option",
+			"section": "reference",
+			"title": "What is a Quote Option?",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/state/quote.svelte.ts"]
+		},
+		{
+			"id": "ref-what-is-a-work-breakdown-structure",
+			"section": "reference",
+			"title": "What is a Work Breakdown Structure?",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/state/wbs.svelte.ts"]
+		},
+		{
+			"id": "ref-ai-draft",
+			"section": "reference",
+			"title": "What does Generate AI Draft do?",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/state/ai.svelte.ts"]
+		},
+		{
+			"id": "ref-group-into-asset",
+			"section": "reference",
+			"title": "What does Group into Asset do?",
+			"status": "done",
+			"lastReviewed": "2026-06-05",
+			"sourceFiles": [
+				"src/routes/project/[id]/+page.svelte",
+				"src/lib/components/assets/group-assets-dialog.svelte"
+			]
+		},
+		{
+			"id": "ref-setting-up-local-ai",
+			"section": "reference",
+			"title": "Setting up local AI",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/components/user/ai-settings-panel.svelte"]
+		},
+		{
+			"id": "ref-file-types-supported",
+			"section": "reference",
+			"title": "Which file types does Kwantflow support?",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/constants/file-support.ts"]
+		},
+		{
+			"id": "ref-dark-mode",
+			"section": "reference",
+			"title": "Dark mode and appearance",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": []
+		},
+		{
+			"id": "ref-backup-and-restore",
+			"section": "reference",
+			"title": "Backup and restore",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": ["src/lib/state/backup.svelte.ts"]
+		},
+		{
+			"id": "ref-keyboard-shortcuts",
+			"section": "reference",
+			"title": "Keyboard shortcuts",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": []
+		},
+		{
+			"id": "faq-common",
+			"section": "reference",
+			"title": "Frequently asked questions",
+			"status": "pending",
+			"lastReviewed": null,
+			"sourceFiles": []
+		}
+	]
+}

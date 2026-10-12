@@ -1,0 +1,31 @@
+allowBuilds:
+  better-sqlite3: true
+  esbuild: true
+  vue-demi: true
+
+minimumReleaseAge: 0
+
+patchedDependencies:
+  '@kenjiuno/msgreader@1.28.0': third-party/recipes/email-parsers/msgreader-1.28.0.patch
+  eml-parse-js@1.2.0-beta.1: third-party/recipes/email-parsers/eml-parse-js-1.2.0-beta.1.patch
+
+overrides:
+  brace-expansion: 5.0.12
+  cookie: 0.7.2
+  # MlightCAD 1.5.11 declares 4.17.21 exactly; 4.18.1 is the security-patched
+  # upstream release and is API-compatible with the viewer's lodash imports.
+  lodash-es: 4.18.1
+  nanoid: 3.3.18
+  postcss: 8.5.26
+  undici: 7.30.0
+  # Compatible security fixes for the existing desktop dependency graph.
+  '@xmldom/xmldom': 0.8.15
+  devalue: 5.9.4
+  'knip>smol-toml': 1.9.1
+  source-map-js: 1.2.2
+  'svelte-eslint-parser>postcss-selector-parser': 7.1.6
+
+onlyBuiltDependencies:
+  - better-sqlite3
+  - esbuild
+  - vue-demi

@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "node": "v24.18.0",
+  "platform": "darwin",
+  "arch": "arm64",
+  "cases": [
+    {
+      "name": "lowercase top-level headers",
+      "inputSha256": "6fa1c2766b142831e9372aaf46c73551a5c839ba3c0cb796141592fa7c0fe7c1"
+    },
+    {
+      "name": "lowercase raw headers and body",
+      "inputSha256": "0603256ef5e6f8329177ce2f95c2f745ffa9f3f78a22e5425d0adac104fe7689"
+    },
+    {
+      "name": "lowercase nested MIME",
+      "inputSha256": "d003afaae494d12ccea62f629f886c7a175b9b6e3b3fdb606eb30a7c19c631c2"
+    },
+    {
+      "name": "mixed top-level headers",
+      "inputSha256": "c5b20ba6d38535462dd731b8cd32a3b0b91bba82f3d4a86a8c93726a172a2e32"
+    },
+    {
+      "name": "mixed raw headers and body",
+      "inputSha256": "9015454f021d06ccc6fea7137ca735f4bcf723920cc7242ab61fa7aa507f9dfe"
+    },
+    {
+      "name": "mixed nested MIME",
+      "inputSha256": "fc8812d6e6ed8a2db176f3b7b9418958d81d5a1587df4d12db68d4b5b679f576"
+    },
+    {
+      "name": "missing type",
+      "inputSha256": "53d602e09066d09a0710223bcb4dc3bff77806b03c0753fdddc789ff6f82fa5d"
+    },
+    {
+      "name": "missing part type",
+      "inputSha256": "4aa7ab5ff0bf94d40ef7e724ee7472758ba5be33627e94506160ae2d18d577aa"
+    },
+    {
+      "name": "unknown duplicate headers",
+      "inputSha256": "54a13890dded0876f870d80b305ae10e3ec6ecd0c70bf8f91bb7841ae5306cb8"
+    },
+    {
+      "name": "header-looking body",
+      "inputSha256": "ef772f3ab2966cc3943d152e2d0ff77c20b02f2cca1b1157195ab78a4c310240"
+    },
+    {
+      "name": "attachment filename=\"part%1.step\"",
+      "inputSha256": "edfbbc4a5547270e440c0d3b680419f675d9549e26ca0116095167d8c2d0bfbb"
+    },
+    {
+      "name": "attachment filename=\"part%20one.step\"",
+      "inputSha256": "1454613a738044ac41c80b65b06d1c3e2520f5281af5cc5f85631c49d05a78d3"
+    },
+    {
+      "name": "attachment filename=\"part one; final.step\"",
+      "inputSha256": "f9af939e09972fbbf1a2057afdc2be8d484a7ac7273a6da357b82e327a9d325d"
+    },
+    {
+      "name": "attachment filename=\"utf-8 drawing.step\"",
+      "inputSha256": "edfe9e060fe57ff1fad5844df64db0e82351d6129174d009f98ef71508dfcdff"
+    },
+    {
+      "name": "attachment filename=\"../../drawing.step\"",
+      "inputSha256": "24b73599ae580ce8a503c1084949bbe2ea48aa3ff3086a0870a247862f6d76f8"
+    },
+    {
+      "name": "attachment filename*=UTF-8''part%20one.step",
+      "inputSha256": "2e44783b4b23f1efbc0266cd2a7fa47532ff8f3e65504619aaf1fd18cfed418e"
+    },
+    {
+      "name": "attachment filename*=UTF-8''%E6%9D%90%E6%96%99.step",
+      "inputSha256": "14a81ce698a1a5d5076709fbf658f9ee4ec0723037bcb42585365d22014dd7b6"
+    },
+    {
+      "name": "attachment filename*=UTF-8''part%1.step",
+      "inputSha256": "6e15c8f6d43379ba089375eae076cb76bbfa105a54271219fa95d0e0c0346503"
+    },
+    {
+      "name": "attachment filename*0=\"quote100%\"; filename*1=\".pdf\"",
+      "inputSha256": "d56572c7e692a6257de34f3fb7b281668e7eafbea0b37935907ee18a4cfda271"
+    },
+    {
+      "name": "attachment filename*0=\"part%20\"; filename*1=\"one.step\"",
+      "inputSha256": "e4d5cf43e418001fc192946509821bb2b82d0ffcd3a7a4cb43bf992e19811f28"
+    },
+    {
+      "name": "attachment filename*0*=UTF-8''quote%20; filename*1=\"100%.pdf\"",
+      "inputSha256": "1a036bec1eaf71ed2b68147bdf5589377e33b9cf836351a4cf92d6baf17f0b9f"
+    },
+    {
+      "name": "attachment filename*0=\"quote'final'%\"; filename*1*=%20.pdf",
+      "inputSha256": "f8764efbb193a095d970dd79f74ed64764cd71a44b3ca20ce817c43488a4eeb9"
+    },
+    {
+      "name": "attachment filename*0*=UTF-8''%E6%9D; filename*1*=%90%E6%96%99.step",
+      "inputSha256": "31c6f7aeadb8fd1b793fd6ce22887cb1338c95677eef3801ea4aab35570c8e6e"
+    },
+    {
+      "name": "plain base64 us-ascii",
+      "inputSha256": "e03b4f99455f83e8dd3d5929aea12424f0707d20e5f4ee5cf7f358acf5faff89"
+    },
+    {
+      "name": "html base64 us-ascii",
+      "inputSha256": "4a4ca489d9f1833f0b684b990dc7197c127408b6182ca43215d7e45e94784f64"
+    },
+    {
+      "name": "plain base64 utf-8",
+      "inputSha256": "a67f222ea3667b4f6941459c99c55c03a5c837a52a32ecdcf05fe023da97545b"
+    },
+    {
+      "name": "html base64 utf-8",
+      "inputSha256": "3ba697711ad7b1fd6759c32f5d6f86b7858497bbef4dc110545ededbf7887bd4"
+    },
+    {
+      "name": "plain base64 iso-8859-1",
+      "inputSha256": "d8bb79d1c8d3b271c71bce7e5d39b0d1752c2c710078f3e8c1db7dfc07693ca4"
+    },
+    {
+      "name": "html base64 iso-8859-1",
+      "inputSha256": "770d2b3355a9e3187e44e2de1c1f52dac2048b4a4eb53e839be071b127cfd865"
+    },
+    {
+      "name": "plain base64 gbk",
+      "inputSha256": "adbbc4ec6e94b20cceed05214a46147a4fb9190fca279eef9cd14aa947760031"
+    },
+    {
+      "name": "html base64 gbk",
+      "inputSha256": "122e3a0c467530481964c65b457712f9b594822b610f730043ca03de4e1fbe24"
+    },
+    {
+      "name": "encoded subject and body",
+      "inputSha256": "937a16d3dc2810fc2e9cb30301577f0c58186d279f7fb33aef26af728020cf10"
+    },
+    {
+      "name": "valid date plain",
+      "inputSha256": "034104b85e9d44614efe6fd0d4943e964db2d1d08f86fb74e0f10d56ac4a9cdb"
+    }
+  ],
+  "formats": [
+    {
+      "format": "cjs",
+      "exported": [
+        "Base64",
+        "GBKUTF8",
+        "buildEml",
+        "completeBoundary",
+        "convert",
+        "createBoundary",
+        "decode",
+        "encode",
+        "getBoundary",
+        "getCharset",
+        "getEmailAddress",
+        "mimeDecode",
+        "parseEml",
+        "readEml",
+        "toEmailAddress",
+        "unquotePrintable",
+        "unquoteString"
+      ],
+      "cases": 33,
+      "fullOutputParity": true,
+      "helperParity": true,
+      "installedSha256": "d438657162d57df3a85ec97758739178f3d1afa6d2288fe166ec57010f3da333",
+      "generatedSha256": "edbe0ebeac9ed31e9d83cc3d51c97598c2307415994242dad34b9f523d08c335"
+    },
+    {
+      "format": "es",
+      "exported": [
+        "Base64",
+        "GBKUTF8",
+        "buildEml",
+        "completeBoundary",
+        "convert",
+        "createBoundary",
+        "decode",
+        "encode",
+        "getBoundary",
+        "getCharset",
+        "getEmailAddress",
+        "mimeDecode",
+        "parseEml",
+        "readEml",
+        "toEmailAddress",
+        "unquotePrintable",
+        "unquoteString"
+      ],
+      "cases": 33,
+      "fullOutputParity": true,
+      "helperParity": true,
+      "installedSha256": "3e8fc7c7ea117a72a9d5398272a562f5f6d1092e113c097b6141b5613a0d5f48",
+      "generatedSha256": "085e329101ac815f7750bfcde190cd21f9ecb0f4e12c2f72af9aa6f5ea9ebe67"
+    },
+    {
+      "format": "iife",
+      "exported": [
+        "Base64",
+        "GBKUTF8",
+        "buildEml",
+        "completeBoundary",
+        "convert",
+        "createBoundary",
+        "decode",
+        "encode",
+        "getBoundary",
+        "getCharset",
+        "getEmailAddress",
+        "mimeDecode",
+        "parseEml",
+        "readEml",
+        "toEmailAddress",
+        "unquotePrintable",
+        "unquoteString"
+      ],
+      "cases": 33,
+      "fullOutputParity": true,
+      "helperParity": true,
+      "installedSha256": "a7f38d68e25c2d2fe0a97dd25d8ec9cc69ca86713f940a6aa397e6634c2d9e3e",
+      "generatedSha256": "81ab868f0023ee850b27dd5f15f31bd9d8d945719e3e3fe86ce3275249ed8953"
+    },
+    {
+      "format": "umd",
+      "exported": [
+        "Base64",
+        "GBKUTF8",
+        "buildEml",
+        "completeBoundary",
+        "convert",
+        "createBoundary",
+        "decode",
+        "encode",
+        "getBoundary",
+        "getCharset",
+        "getEmailAddress",
+        "mimeDecode",
+        "parseEml",
+        "readEml",
+        "toEmailAddress",
+        "unquotePrintable",
+        "unquoteString"
+      ],
+      "cases": 33,
+      "fullOutputParity": true,
+      "helperParity": true,
+      "installedSha256": "5d33fe5aa22cb06307dbc8a8c30f1b397fb812842a86fd2ac18c0e14f55acff9",
+      "generatedSha256": "1b9cd91157746c12fd34384103987eb670f130f67549f787a8e2d1bec09b39a4"
+    }
+  ],
+  "totalFormatCases": 132,
+  "packageContractKeys": [
+    "name",
+    "version",
+    "main",
+    "module",
+    "browser",
+    "typings",
+    "types",
+    "exports",
+    "dependencies",
+    "license"
+  ],
+  "declarations": [
+    "addressparser.d.ts",
+    "charset.d.ts",
+    "index.d.ts",
+    "interface.d.ts",
+    "utils.d.ts"
+  ],
+  "declarationsByteParity": true,
+  "externalBase64": {
+    "installed": "3.7.8",
+    "generated": "3.7.7"
+  },
+  "protectedInputs": {
+    "package.json": "01c208cb50512fb91f0b0bb83f44e2a4f76d39beb96ebfdb6c015aa98301c577",
+    "pnpm-lock.yaml": "217c34db3d4d5332cd0d8ea3e07968e4d88f5bbf8ce95039c620636793b19bb6",
+    "pnpm-workspace.yaml": "ec054919ccffd8972e39f56c239aa7400ff8840edfe933ed5491449a53332a9c",
+    "third-party/recipes/email-parsers/eml-parse-js-1.2.0-beta.1.patch": "eacdde4e58b99feaa40a4d7176cc812f87d674f4670e1b4f68ddcf8e9fa784ab",
+    "third-party/recipes/email-parsers/eml-parse-js-1.2.0-beta.1-source.patch": "b066f3496e814caff230bdcba184d8576719ecfb96126ccec18f39b702050e74"
+  },
+  "protectedUnchanged": true,
+  "harnessSha256": "82c4652af3cc6c0d5ae66bf46f45cb533a40e5a35a111a6184e3e44279983d96",
+  "scope": "Bounded full-readEml-output and explicit expected-value comparisons on public synthetic cases, native Node CJS/ES and VM IIFE/UMD with string code generation disabled. This does not prove arbitrary-input equivalence or installed Windows/Intel behavior."
+}

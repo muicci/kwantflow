@@ -1,0 +1,14 @@
+{
+	"entries": [
+		{
+			"version": 1,
+			"file": "src-tauri/migrations-workspace/001_workspace.sql",
+			"sha256": "d6af1202e1da575393281350a76a9596e51e8e6feee55504b2319b642eafabc3"
+		},
+		{
+			"version": 2,
+			"file": "src-tauri/migrations-workspace/002_local_open_source.sql",
+			"sha256": "2eb66206780f7e2eaa12a11c21f8f4e1735aecdc8aa49135179008814b406bb7"
+		}
+	]
+}

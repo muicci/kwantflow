@@ -1,0 +1,247 @@
+diff --git a/lib/Reader.js b/lib/Reader.js
+--- a/lib/Reader.js
++++ b/lib/Reader.js
+@@ -52,12 +52,16 @@ var TypeEnum;
+ var Reader = /** @class */ (function () {
+     function Reader(arrayBuffer) {
+         this.ds = new DataStream_1.default(arrayBuffer, 0, DataStream_1.default.LITTLE_ENDIAN);
++        this.ds.dynamicSize = false;
+     }
+     Reader.prototype.isMSGFile = function () {
+         this.ds.seek(0);
+         return (0, utils_1.arraysEqual)(const_1.default.FILE_HEADER, this.ds.readInt8Array(const_1.default.FILE_HEADER.length));
+     };
+     Reader.prototype.headerData = function () {
++        var sectorShift = this.ds.readShort(30);
++        if (sectorShift !== 9 && sectorShift !== 12)
++            throw new Error('Invalid MSG sector size.');
+         this.bigBlockSize = this.ds.readByte(30) == const_1.default.MSG.L_BIG_BLOCK_MARK ? const_1.default.MSG.L_BIG_BLOCK_SIZE : const_1.default.MSG.S_BIG_BLOCK_SIZE;
+         this.bigBlockLength = this.bigBlockSize / 4;
+         // system data
+@@ -69,9 +73,15 @@ var Reader = /** @class */ (function () {
+         this.sbatCount = this.ds.readInt(const_1.default.MSG.HEADER.SBAT_COUNT_OFFSET);
+         this.xbatStart = this.ds.readInt(const_1.default.MSG.HEADER.XBAT_START_OFFSET);
+         this.xbatCount = this.ds.readInt(const_1.default.MSG.HEADER.XBAT_COUNT_OFFSET);
++        var sectors = Math.floor(this.ds.byteLength / this.bigBlockSize) - 1;
++        if ([this.batCount, this.sbatCount, this.xbatCount].some(function (count) { return count < 0 || count > sectors; })) {
++            throw new Error('Invalid MSG allocation table count.');
++        }
+     };
+     Reader.prototype.convertName = function (offset) {
+         var nameLength = this.ds.readShort(offset + const_1.default.MSG.PROP.NAME_SIZE_OFFSET);
++        if (nameLength < 0 || nameLength > 64 || nameLength % 2 !== 0)
++            throw new Error('Invalid MSG directory name size.');
+         if (nameLength < 1) {
+             return '';
+         }
+@@ -122,7 +132,8 @@ var Reader = /** @class */ (function () {
+             propertyOffset += const_1.default.MSG.PROP.PROPERTY_SIZE;
+         }
+     };
+-    Reader.prototype.createPropertyHierarchy = function (props, nodeProperty) {
++    Reader.prototype.createPropertyHierarchy = function (props, nodeProperty, visited) {
++        if (visited === void 0) { visited = new Set([0]); }
+         if (!nodeProperty || nodeProperty.childProperty == const_1.default.MSG.PROP.NO_INDEX) {
+             return;
+         }
+@@ -135,8 +146,11 @@ var Reader = /** @class */ (function () {
+                 nodeProperty.children.push(currentIndex);
+             }
+             else {
++                if (!current || visited.has(currentIndex))
++                    throw new Error('Invalid or cyclic MSG directory hierarchy.');
++                visited.add(currentIndex);
+                 if (current.type == const_1.default.MSG.PROP.TYPE_ENUM.DIRECTORY) {
+-                    this.createPropertyHierarchy(props, current);
++                    this.createPropertyHierarchy(props, current, visited);
+                 }
+                 if (current.nextProperty != const_1.default.MSG.PROP.NO_INDEX) {
+                     children.push({ currentMode: "walk", currentIndex: current.nextProperty, });
+@@ -151,7 +165,11 @@ var Reader = /** @class */ (function () {
+     Reader.prototype.propertyDataReader = function (propertyStart) {
+         var props = [];
+         var currentOffset = propertyStart;
++        var visited = new Set();
+         while (currentOffset != const_1.default.MSG.END_OF_CHAIN) {
++            if (visited.has(currentOffset))
++                throw new Error('Cyclic MSG directory sector chain.');
++            visited.add(currentOffset);
+             this.convertBlockToProperties(currentOffset, props);
+             currentOffset = this.getNextBlock(currentOffset);
+         }
+@@ -184,6 +202,9 @@ var Reader = /** @class */ (function () {
+         return result;
+     };
+     Reader.prototype.getBlockOffsetAt = function (offset) {
++        if (!Number.isInteger(offset) || offset < 0 || (offset + 2) * this.bigBlockSize > this.ds.byteLength) {
++            throw new Error('Invalid MSG sector reference.');
++        }
+         return (offset + 1) * this.bigBlockSize;
+     };
+     Reader.prototype.getBlockAt = function (offset) {
+@@ -197,11 +218,13 @@ var Reader = /** @class */ (function () {
+         return this.ds.readInt32();
+     };
+     Reader.prototype.getNextBlockInner = function (offset, blockOffsetData) {
++        if (!Number.isInteger(offset) || offset < 0)
++            throw new Error('Invalid MSG allocation table reference.');
+         var currentBlock = Math.floor(offset / this.bigBlockLength);
+         var currentBlockIndex = offset % this.bigBlockLength;
+         var startBlockOffset = blockOffsetData[currentBlock];
+         if (typeof startBlockOffset === "undefined") {
+-            return const_1.default.MSG.END_OF_CHAIN;
++            throw new Error('Missing MSG allocation table sector.');
+         }
+         return this.getBlockValueAt(startBlockOffset, currentBlockIndex);
+     };
+@@ -211,10 +234,17 @@ var Reader = /** @class */ (function () {
+     Reader.prototype.sbatDataReader = function () {
+         var result = [];
+         var startIndex = this.sbatStart;
+-        for (var i = 0; i < this.sbatCount && startIndex && startIndex != const_1.default.MSG.END_OF_CHAIN; i++) {
++        var visited = new Set();
++        for (var i = 0; i < this.sbatCount && startIndex != const_1.default.MSG.END_OF_CHAIN; i++) {
++            if (visited.has(startIndex))
++                throw new Error('Cyclic MSG mini-FAT sector chain.');
++            visited.add(startIndex);
++            this.getBlockOffsetAt(startIndex);
+             result.push(startIndex);
+             startIndex = this.getNextBlock(startIndex);
+         }
++        if (visited.has(startIndex))
++            throw new Error('Cyclic MSG mini-FAT sector chain.');
+         return result;
+     };
+     Reader.prototype.xbatDataReader = function () {
+@@ -222,7 +252,11 @@ var Reader = /** @class */ (function () {
+         var batCountTotal = this.batCount;
+         var remainingBlocks = batCountTotal - batCount;
+         var nextBlockAt = this.xbatStart;
++        var visited = new Set();
+         for (var i = 0; i < this.xbatCount; i++) {
++            if (visited.has(nextBlockAt))
++                throw new Error('Cyclic MSG DIFAT sector chain.');
++            visited.add(nextBlockAt);
+             var xBatBlock = this.getBlockAt(nextBlockAt);
+             var blocksToProcess = Math.min(remainingBlocks, this.xBlockLength);
+             for (var j = 0; j < blocksToProcess; j++) {
+@@ -238,6 +272,8 @@ var Reader = /** @class */ (function () {
+                 break;
+             }
+         }
++        if (visited.has(nextBlockAt))
++            throw new Error('Cyclic MSG DIFAT sector chain.');
+     };
+     Reader.prototype.getNextBlockSmall = function (offset) {
+         return this.getNextBlockInner(offset, this.sbatData);
+@@ -245,7 +281,15 @@ var Reader = /** @class */ (function () {
+     Reader.prototype.getChainByBlockSmall = function (fieldProperty) {
+         var blockChain = [];
+         var nextBlockSmall = fieldProperty.startBlock;
++        var visited = new Set();
++        var miniStreamSize = this.propertyData[0].sizeBlock;
+         while (nextBlockSmall != const_1.default.MSG.END_OF_CHAIN) {
++            if (!Number.isInteger(nextBlockSmall) || nextBlockSmall < 0 || nextBlockSmall * const_1.default.MSG.SMALL_BLOCK_SIZE >= miniStreamSize) {
++                throw new Error('Invalid MSG mini stream reference.');
++            }
++            if (visited.has(nextBlockSmall))
++                throw new Error('Cyclic MSG mini stream chain.');
++            visited.add(nextBlockSmall);
+             blockChain.push(nextBlockSmall);
+             nextBlockSmall = this.getNextBlockSmall(nextBlockSmall);
+         }
+@@ -253,9 +297,17 @@ var Reader = /** @class */ (function () {
+     };
+     Reader.prototype.readBigBlockTable = function () {
+         var rootProp = this.propertyData[0];
++        if (!rootProp || rootProp.type !== const_1.default.MSG.PROP.TYPE_ENUM.ROOT || rootProp.sizeBlock < 0 || rootProp.sizeBlock > this.ds.byteLength - this.bigBlockSize) {
++            throw new Error('Invalid MSG root mini stream size.');
++        }
+         var table = [];
+         var nextBlock = rootProp.startBlock;
++        var visited = new Set();
+         for (var i = 0; nextBlock != const_1.default.MSG.END_OF_CHAIN; i++) {
++            if (visited.has(nextBlock))
++                throw new Error('Cyclic MSG root mini stream sector chain.');
++            visited.add(nextBlock);
++            this.getBlockOffsetAt(nextBlock);
+             table.push(nextBlock);
+             nextBlock = this.getNextBlock(nextBlock);
+         }
+@@ -271,6 +323,8 @@ var Reader = /** @class */ (function () {
+         return this.ds.readToUint8Array(blockSize, arr, dstOffset);
+     };
+     Reader.prototype.readChainDataByBlockSmall = function (fieldProperty, chain) {
++        if (chain.length * const_1.default.MSG.SMALL_BLOCK_SIZE < fieldProperty.sizeBlock)
++            throw new Error('Truncated MSG mini stream.');
+         var resultData = new Uint8Array(fieldProperty.sizeBlock);
+         for (var i = 0, idx = 0; i < chain.length; i++) {
+             var readLen = (resultData.length < idx + const_1.default.MSG.SMALL_BLOCK_SIZE)
+@@ -282,11 +336,16 @@ var Reader = /** @class */ (function () {
+         return resultData;
+     };
+     Reader.prototype.readProperty = function (fieldProperty) {
++        if (!Number.isInteger(fieldProperty.sizeBlock) || fieldProperty.sizeBlock < 0 || fieldProperty.sizeBlock > this.ds.byteLength - this.bigBlockSize) {
++            throw new Error('Invalid MSG stream size.');
++        }
+         if (!fieldProperty.sizeBlock) {
+             return new Uint8Array(0);
+         }
+         else if (fieldProperty.sizeBlock < const_1.default.MSG.BIG_BLOCK_MIN_DOC_SIZE) {
+             var chain = this.getChainByBlockSmall(fieldProperty);
++            if (chain.length * const_1.default.MSG.SMALL_BLOCK_SIZE < fieldProperty.sizeBlock)
++                throw new Error('Truncated MSG mini stream.');
+             if (chain.length == 1) {
+                 var resultData = new Uint8Array(fieldProperty.sizeBlock);
+                 this.readDataByBlockSmall(fieldProperty.startBlock, fieldProperty.sizeBlock, resultData, 0);
+@@ -299,10 +358,14 @@ var Reader = /** @class */ (function () {
+         }
+         else {
+             var nextBlock = fieldProperty.startBlock;
++            var visited = new Set();
+             var remaining = fieldProperty.sizeBlock;
+             var position = 0;
+             var resultData = new Uint8Array(fieldProperty.sizeBlock);
+             while (1 <= remaining) {
++                if (visited.has(nextBlock))
++                    throw new Error('Cyclic MSG stream sector chain.');
++                visited.add(nextBlock);
+                 var blockStartOffset = this.getBlockOffsetAt(nextBlock);
+                 this.ds.seek(blockStartOffset);
+                 var partSize = Math.min(remaining, this.bigBlockSize);
+diff --git a/lib/MsgReader.js b/lib/MsgReader.js
+--- a/lib/MsgReader.js
++++ b/lib/MsgReader.js
+@@ -413,11 +413,16 @@ var MsgReader = /** @class */ (function () {
+         if (guidTable !== undefined && stringTable !== undefined && entryTable !== undefined) {
+             var entries = (0, EntryStreamParser_1.parse)(entryTable);
+             var stringReader = new DataStream_1.default(stringTable, 0, DataStream_1.default.LITTLE_ENDIAN);
++            stringReader.dynamicSize = false;
+             for (var _b = 0, entries_1 = entries; _b < entries_1.length; _b++) {
+                 var entry = entries_1[_b];
+                 if (entry.isStringProperty) {
++                    if (!Number.isInteger(entry.key) || entry.key < 0 || entry.key + 4 > stringTable.length)
++                        throw new Error('Invalid MSG named property offset.');
+                     stringReader.seek(entry.key);
+                     var numTextBytes = stringReader.readUint32();
++                    if (numTextBytes % 2 !== 0 || numTextBytes > stringTable.length - entry.key - 4)
++                        throw new Error('Invalid MSG named property string size.');
+                     this.privatePidToKeyed[0x8000 | entry.propertyIndex] = {
+                         useName: true,
+                         name: stringReader.readUCS2String(numTextBytes / 2),
+diff --git a/lib/AppointmentRecurParser.js b/lib/AppointmentRecurParser.js
+--- a/lib/AppointmentRecurParser.js
++++ b/lib/AppointmentRecurParser.js
+@@ -247,8 +247,12 @@ function parseRecurrencePattern(ds) {
+     var occurrenceCount = ds.readUint32();
+     var firstDOW = ds.readUint32();
+     var deletedInstanceCount = ds.readUint32();
++    if (deletedInstanceCount > Math.floor((ds.byteLength - ds.position) / 4))
++        throw new Error('Invalid MSG recurrence date count.');
+     var deletedInstanceDates = Array.from(ds.readUint32Array(deletedInstanceCount));
+     var modifiedInstanceCount = ds.readUint32();
++    if (modifiedInstanceCount > Math.floor((ds.byteLength - ds.position) / 4))
++        throw new Error('Invalid MSG recurrence date count.');
+     var modifiedInstanceDates = Array.from(ds.readUint32Array(modifiedInstanceCount));
+     var startDate = ds.readUint32();
+     var endDate = ds.readUint32();

@@ -1,0 +1,69 @@
+{
+	"$schema": "../gen/schemas/desktop-schema.json",
+	"identifier": "default",
+	"description": "Capability for the main window",
+	"windows": ["main"],
+	"permissions": [
+		"core:default",
+		"core:webview:allow-create-webview-window",
+		"core:window:allow-close",
+		"core:window:allow-destroy",
+		"core:window:allow-set-focus",
+		"core:window:allow-show",
+		"core:window:allow-set-title",
+		"core:window:allow-start-dragging",
+		"core:window:allow-theme",
+		"core:window:allow-unminimize",
+		{
+			"identifier": "opener:allow-open-url",
+			"allow": [
+				{
+					"url": "mailto:*"
+				},
+				{
+					"url": "tel:*"
+				},
+				{
+					"url": "http://*"
+				},
+				{
+					"url": "https://*"
+				}
+			]
+		},
+		"opener:deny-open-path",
+		"opener:deny-reveal-item-in-dir",
+		"default",
+		"store:default",
+		"fs:default",
+		"log:default",
+		"dialog:default",
+		"process:allow-restart",
+		"allow-query-control-database",
+		"allow-execute-control-database",
+		"allow-query-workspace-database",
+		"allow-execute-workspace-database",
+		"allow-create-workspace-command",
+		"allow-activate-workspace-command",
+		"allow-delete-workspace-command",
+		"allow-start-local-ai-conversation",
+		"allow-send-local-ai-message",
+		"allow-end-local-ai-conversation",
+		"allow-get-local-ai-conversation-tokens",
+		"fs:allow-appcache-meta-recursive",
+		"fs:allow-appcache-read-recursive",
+		"fs:allow-appcache-write-recursive",
+		"fs:allow-applocaldata-write-recursive",
+		"allow-save-quote-xlsx",
+		"allow-rasterize-pdf-pages",
+		"allow-get-email-provider-settings",
+		"allow-set-email-provider-settings",
+		"allow-open-local-documentation",
+		"allow-cancel-pending-backup-restore",
+		"allow-export-backup-archive",
+		"allow-inspect-backup-archive",
+		"allow-stage-backup-restore-from-archive",
+		"allow-get-local-startup-failure",
+		"allow-get-local-documents-root"
+	]
+}

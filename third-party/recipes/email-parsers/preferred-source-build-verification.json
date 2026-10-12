@@ -1,0 +1,399 @@
+{
+	"schemaVersion": 1,
+	"scope": "Actual isolated preferred-source EML rebuild on macOS arm64, promotion of its four exact generated files, and bounded synthetic before/after runtime evidence. No dependency-version changes or founder environment in tool subprocesses. This does not establish arbitrary-input equivalence or installed-app acceptance on Windows/Intel.",
+	"status": "rebuilt-and-promoted",
+	"node": "v24.18.0",
+	"platform": "darwin",
+	"arch": "arm64",
+	"source": {
+		"path": "third-party/sources/eml-parse-js-1.2.0-beta.1-source.tar.gz",
+		"url": "https://codeload.github.com/MQpeng/eml-parse-js/tar.gz/6e622ae5f01d760b88aa7e84951b4b9a71764b7e",
+		"revision": "6e622ae5f01d760b88aa7e84951b4b9a71764b7e",
+		"sha256": "5a18eaee2351b11d4813503a29427ff8093473673461f4c5e2c258466291cfbb"
+	},
+	"sourcePatch": {
+		"path": "third-party/recipes/email-parsers/eml-parse-js-1.2.0-beta.1-source.patch",
+		"sha256": "b066f3496e814caff230bdcba184d8576719ecfb96126ccec18f39b702050e74"
+	},
+	"runtimePatch": {
+		"path": "third-party/recipes/email-parsers/eml-parse-js-1.2.0-beta.1.patch",
+		"sha256": "9fde3029708b6b342504aa43e539cc138f9d4a39e9ae402e69bc73fa829111b8",
+		"cleanPublishedPackageApplyCheck": true,
+		"generatedFromPreferredSourceBuild": true
+	},
+	"archivedUpstreamInputs": {
+		"packageSha256": "9bd9827af60a718bd886ff3d057ceb45cb4ef1b254917ddba9bae9420cb31712",
+		"pnpmLockSha256": "eaea7913fa66f1e77f9d904528cb2120b57604a0a1d94699a2ac5df8acc59be4",
+		"frozenLockUnchanged": true,
+		"packageUnchanged": true
+	},
+	"upstreamPackageManagerArchive": {
+		"metadataUrl": "https://registry.npmjs.org/pnpm/9.15.1",
+		"url": "https://registry.npmjs.org/pnpm/-/pnpm-9.15.1.tgz",
+		"integrity": "sha512-GstWXmGT7769p3JwKVBGkVDPErzHZCYudYfnHRncmKQj3/lTblfqRMSb33kP9pToPCe+X6oj1n4MAztYO+S/zw==",
+		"sha256": "9e534e70afef06374f6126b44bda5760947135ce16a30aef1010e965fb7e3e3e"
+	},
+	"toolchain": {
+		"pnpm": "9.15.1",
+		"vite": "6.0.3",
+		"typescript": "5.7.2",
+		"vitePluginDts": "4.3.0",
+		"sinonTextEncoding": "0.7.3",
+		"jsBase64": "3.7.7",
+		"rollup": "4.28.1",
+		"esbuild": "0.24.0",
+		"identities": {
+			"packages": [
+				{
+					"name": "vite",
+					"version": "6.0.3",
+					"packageJsonSha256": "e79299aa90d1bd34a6ea613cb5a94d0fa1d4aa71f0a4d85b52b8d675e38f4d7d"
+				},
+				{
+					"name": "typescript",
+					"version": "5.7.2",
+					"packageJsonSha256": "4aaabb8f95662bc932f765b6a00512f4f7f921b524040c501cda03dc3c011e45"
+				},
+				{
+					"name": "vite-plugin-dts",
+					"version": "4.3.0",
+					"packageJsonSha256": "5a2a8de71c4cee8e01a588f61ce807c0363fdcdc4c1c25e7284eb5d790145712"
+				},
+				{
+					"name": "@sinonjs/text-encoding",
+					"version": "0.7.3",
+					"packageJsonSha256": "9ec35633a8c4b7284b1d511b0b944af7bb3d01374cd7f925b972ada44145221e"
+				},
+				{
+					"name": "js-base64",
+					"version": "3.7.7",
+					"packageJsonSha256": "48ee6969afba4d24d341bcc444c312bf01de28c1ce436a7275fadfe2fcaa7aa2"
+				},
+				{
+					"name": "rollup",
+					"version": "4.28.1",
+					"packageJsonSha256": "496bebe866be5e123bb4202396be11a1abe4166134111360c9a9a1974778400a"
+				},
+				{
+					"name": "esbuild",
+					"version": "0.24.0",
+					"packageJsonSha256": "8c074dd8849d767e6a14ce80277797c79cec7e7264753f5d786d2ea655d34bc0"
+				}
+			],
+			"executables": [
+				{
+					"kind": "node",
+					"version": "v24.18.0",
+					"sha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a"
+				},
+				{
+					"kind": "typescriptCompiler",
+					"sha256": "9e2becd9f76b5b1048ff907b824c61cc164efcfbe1e3b34681c20b9adc912d3a"
+				},
+				{
+					"kind": "viteEntry",
+					"sha256": "3755f6089f10bb94765cf4bb98bbeee8e835064e9a4698fb36a8882fbed61938"
+				},
+				{
+					"kind": "esbuildDarwinArm64",
+					"sha256": "77dce3e5d160db73bb37a61d89b5b38c5de1f18fbf4cc1c9c284a65ae5abb526"
+				}
+			]
+		}
+	},
+	"environmentPolicy": "Exact explicit child environment only, no inherited HOME, founder credentials or npm configs. Empty user/global/project npm configs; all tool/cache/store/output directories owned under scratch.",
+	"commands": [
+		{
+			"label": "frozen-install",
+			"executable": "node",
+			"args": [
+				"/var/folders/ky/b2b2js153sqb43b05t126jy80000gp/T/kwantflow-eml-preferred-build-u3dtNs/pnpm/bin/pnpm.cjs",
+				"install",
+				"--frozen-lockfile",
+				"--ignore-scripts",
+				"--store-dir",
+				"/var/folders/ky/b2b2js153sqb43b05t126jy80000gp/T/kwantflow-eml-preferred-build-u3dtNs/store",
+				"--config.cache-dir=/var/folders/ky/b2b2js153sqb43b05t126jy80000gp/T/kwantflow-eml-preferred-build-u3dtNs/cache",
+				"--config.state-dir=/var/folders/ky/b2b2js153sqb43b05t126jy80000gp/T/kwantflow-eml-preferred-build-u3dtNs/state"
+			],
+			"exitCode": 0,
+			"seconds": 5.799775584,
+			"log": {
+				"path": "third-party/recipes/email-parsers/eml-preferred-frozen-install.log",
+				"sha256": "7a77910c8c0e068dddb5d4742c3c1ed9f775bbfc4cc273e7d9b587ff78902b1b"
+			}
+		},
+		{
+			"label": "unmodified-build",
+			"executable": "node",
+			"args": [
+				"/var/folders/ky/b2b2js153sqb43b05t126jy80000gp/T/kwantflow-eml-preferred-build-u3dtNs/source/node_modules/vite/bin/vite.js",
+				"build"
+			],
+			"exitCode": 0,
+			"seconds": 3.2807760839999993,
+			"log": {
+				"path": "third-party/recipes/email-parsers/eml-preferred-unmodified-build.log",
+				"sha256": "e71bc583cb09123b091b182dbb36177c37ce6e70e60f12c30298309e29f8103b"
+			}
+		},
+		{
+			"label": "preferred-patch",
+			"executable": "/usr/bin/git",
+			"args": [
+				"apply",
+				"--verbose",
+				"<app>/third-party/recipes/email-parsers/eml-parse-js-1.2.0-beta.1-source.patch"
+			],
+			"exitCode": 0,
+			"seconds": 0.029594208000000434,
+			"emptyOutputSha256": "b37228575d1016dc760ce1f04c3fce89b339c9c0c3fe8908e69dc79f32c23201"
+		},
+		{
+			"label": "patched-build",
+			"executable": "node",
+			"args": [
+				"/var/folders/ky/b2b2js153sqb43b05t126jy80000gp/T/kwantflow-eml-preferred-build-u3dtNs/source/node_modules/vite/bin/vite.js",
+				"build"
+			],
+			"exitCode": 0,
+			"seconds": 2.004349375,
+			"log": {
+				"path": "third-party/recipes/email-parsers/eml-preferred-patched-build.log",
+				"sha256": "f4a2cb1d48b40a394343003e27e0840f334a8ce419fbd01519fc669fb34bf548"
+			}
+		}
+	],
+	"unmodifiedPreferredBuildMatchesPublished": [
+		{
+			"format": "cjs",
+			"outputSha256": "896d05260641f77ea173ece090526fd547af14c74d4cfd4e311b9a5fc58925f2",
+			"publishedSha256": "896d05260641f77ea173ece090526fd547af14c74d4cfd4e311b9a5fc58925f2",
+			"outputBytes": 714521,
+			"publishedBytes": 714521,
+			"byteIdentical": true
+		},
+		{
+			"format": "es",
+			"outputSha256": "a7c6e1454674ba8aa45a7db39e25896d116800560dd972ec8f996e3eca5785c0",
+			"publishedSha256": "a7c6e1454674ba8aa45a7db39e25896d116800560dd972ec8f996e3eca5785c0",
+			"outputBytes": 714087,
+			"publishedBytes": 714087,
+			"byteIdentical": true
+		},
+		{
+			"format": "iife",
+			"outputSha256": "f5f7705b793bd0966071709dc40691620f5d6b57b812bae1d2d3011d664d732b",
+			"publishedSha256": "f5f7705b793bd0966071709dc40691620f5d6b57b812bae1d2d3011d664d732b",
+			"outputBytes": 720311,
+			"publishedBytes": 720311,
+			"byteIdentical": true
+		},
+		{
+			"format": "umd",
+			"outputSha256": "32eea5fb99341fde758f7812a6615c1ab1f35837f4a56a9a5625859a39b90f72",
+			"publishedSha256": "32eea5fb99341fde758f7812a6615c1ab1f35837f4a56a9a5625859a39b90f72",
+			"outputBytes": 720629,
+			"publishedBytes": 720629,
+			"byteIdentical": true
+		}
+	],
+	"generatedRuntime": [
+		{
+			"format": "cjs",
+			"sha256": "edbe0ebeac9ed31e9d83cc3d51c97598c2307415994242dad34b9f523d08c335",
+			"bytes": 715407,
+			"byteIdenticalToPreferredBuild": true
+		},
+		{
+			"format": "es",
+			"sha256": "085e329101ac815f7750bfcde190cd21f9ecb0f4e12c2f72af9aa6f5ea9ebe67",
+			"bytes": 714973,
+			"byteIdenticalToPreferredBuild": true
+		},
+		{
+			"format": "iife",
+			"sha256": "81ab868f0023ee850b27dd5f15f31bd9d8d945719e3e3fe86ce3275249ed8953",
+			"bytes": 721205,
+			"byteIdenticalToPreferredBuild": true
+		},
+		{
+			"format": "umd",
+			"sha256": "1b9cd91157746c12fd34384103987eb670f130f67549f787a8e2d1bec09b39a4",
+			"bytes": 721542,
+			"byteIdenticalToPreferredBuild": true
+		}
+	],
+	"appInstall": {
+		"packageManager": "pnpm 11.9.0",
+		"pnpmLockSha256": "03e65d890ac7576488420eb1ebb9f8ec1871b3e20f4e199c0111bddbfaa31f12",
+		"onlyLockChangeIsRuntimePatchHash": true,
+		"log": {
+			"path": "third-party/recipes/email-parsers/eml-source-built-install.log",
+			"sha256": "bd4664a9abfc915f73ddb813bedac4ea305babf08ac87ae54905649071086f9e",
+			"stage": "promoted generated runtime app install",
+			"results": {
+				"exitCode": 0
+			}
+		}
+	},
+	"historicalBeforePromotion": {
+		"runtimePatch": {
+			"path": "third-party/recipes/email-parsers/eml-runtime-before-source-build.patch",
+			"sha256": "eacdde4e58b99feaa40a4d7176cc812f87d674f4670e1b4f68ddcf8e9fa784ab"
+		},
+		"verification": {
+			"path": "third-party/recipes/email-parsers/verification-before-source-build.json",
+			"sha256": "5f82748e5d67b6683c0c3979e9a06fe26e26a3a577af8eb635457908285a8cb7"
+		},
+		"runtimeFiles": [
+			{
+				"format": "cjs",
+				"sha256": "d438657162d57df3a85ec97758739178f3d1afa6d2288fe166ec57010f3da333",
+				"bytes": 715364
+			},
+			{
+				"format": "es",
+				"sha256": "3e8fc7c7ea117a72a9d5398272a562f5f6d1092e113c097b6141b5613a0d5f48",
+				"bytes": 714930
+			},
+			{
+				"format": "iife",
+				"sha256": "a7f38d68e25c2d2fe0a97dd25d8ec9cc69ca86713f940a6aa397e6634c2d9e3e",
+				"bytes": 721092
+			},
+			{
+				"format": "umd",
+				"sha256": "5d33fe5aa22cb06307dbc8a8c30f1b397fb812842a86fd2ac18c0e14f55acff9",
+				"bytes": 721410
+			}
+		]
+	},
+	"beforePromotionSemanticComparison": {
+		"messages": 33,
+		"formatCases": 132,
+		"fullOutputParity": true,
+		"explicitExpectedValues": true,
+		"exportedNamesAndTypes": 17,
+		"declarationFilesByteIdentical": 5,
+		"packageContractKeys": [
+			"name",
+			"version",
+			"main",
+			"module",
+			"browser",
+			"typings",
+			"types",
+			"exports",
+			"dependencies",
+			"license"
+		],
+		"externalBase64": {
+			"installed": "3.7.8",
+			"generated": "3.7.7"
+		},
+		"harness": {
+			"path": "third-party/recipes/email-parsers/eml-preferred-semantic-parity-source.txt",
+			"sha256": "282cc1e8e4c9a1a812172db97f474bb2500202a076c578a464b72744db7e4ef5",
+			"stage": "verbatim executed pre-promotion harness source"
+		},
+		"report": {
+			"path": "third-party/recipes/email-parsers/eml-preferred-semantic-parity-result.txt",
+			"sha256": "a928c2a85fce2f087a5a35690120c39ceffa0db0df1031b845fe3dabeb7ab7e3",
+			"stage": "verbatim pre-promotion harness JSON result"
+		},
+		"log": {
+			"path": "third-party/recipes/email-parsers/eml-preferred-semantic-parity.log",
+			"sha256": "9ba664fb61a15aca225162cf46af9a8418cebf533d1f42c8c7039bfb8289517f",
+			"stage": "pre-promotion rebuilt versus manually patched runtime",
+			"results": {
+				"exitCode": 0,
+				"messages": 33,
+				"formatCases": 132
+			}
+		},
+		"reviewedDiffs": "Only equivalent local compiler binding renames, optional-chain downleveling, layout and wrapper binding differences. No new parser semantics."
+	},
+	"applicationParserTests": {
+		"path": "third-party/recipes/email-parsers/parser-source-built-final.log",
+		"sha256": "2cbf82e5fca820d5e4661bd1cf6bb0799639ae864b6b5222d20e128c901ca375",
+		"stage": "promoted generated runtime application parser tests",
+		"results": {
+			"files": 2,
+			"failed": 0,
+			"passed": 63
+		}
+	},
+	"evidence": [
+		{
+			"path": "third-party/recipes/email-parsers/eml-preferred-frozen-install.log",
+			"sha256": "7a77910c8c0e068dddb5d4742c3c1ed9f775bbfc4cc273e7d9b587ff78902b1b",
+			"stage": "isolated pinned upstream frozen install",
+			"results": {
+				"exitCode": 0
+			}
+		},
+		{
+			"path": "third-party/recipes/email-parsers/eml-preferred-unmodified-build.log",
+			"sha256": "e71bc583cb09123b091b182dbb36177c37ce6e70e60f12c30298309e29f8103b",
+			"stage": "unmodified preferred source Vite build",
+			"results": {
+				"exitCode": 0,
+				"byteIdenticalPublishedFormats": 4
+			}
+		},
+		{
+			"path": "third-party/recipes/email-parsers/eml-preferred-patched-build.log",
+			"sha256": "f4a2cb1d48b40a394343003e27e0840f334a8ce419fbd01519fc669fb34bf548",
+			"stage": "patched preferred source Vite build",
+			"results": {
+				"exitCode": 0,
+				"formats": 4
+			}
+		},
+		{
+			"path": "third-party/recipes/email-parsers/eml-preferred-semantic-parity.log",
+			"sha256": "9ba664fb61a15aca225162cf46af9a8418cebf533d1f42c8c7039bfb8289517f",
+			"stage": "pre-promotion rebuilt versus manually patched runtime",
+			"results": {
+				"exitCode": 0,
+				"messages": 33,
+				"formatCases": 132
+			}
+		},
+		{
+			"path": "third-party/recipes/email-parsers/eml-preferred-semantic-parity-source.txt",
+			"sha256": "282cc1e8e4c9a1a812172db97f474bb2500202a076c578a464b72744db7e4ef5",
+			"stage": "verbatim executed pre-promotion harness source"
+		},
+		{
+			"path": "third-party/recipes/email-parsers/eml-preferred-semantic-parity-result.txt",
+			"sha256": "a928c2a85fce2f087a5a35690120c39ceffa0db0df1031b845fe3dabeb7ab7e3",
+			"stage": "verbatim pre-promotion harness JSON result"
+		},
+		{
+			"path": "third-party/recipes/email-parsers/eml-source-built-install.log",
+			"sha256": "bd4664a9abfc915f73ddb813bedac4ea305babf08ac87ae54905649071086f9e",
+			"stage": "promoted generated runtime app install",
+			"results": {
+				"exitCode": 0
+			}
+		},
+		{
+			"path": "third-party/recipes/email-parsers/parser-source-built-final.log",
+			"sha256": "2cbf82e5fca820d5e4661bd1cf6bb0799639ae864b6b5222d20e128c901ca375",
+			"stage": "promoted generated runtime application parser tests",
+			"results": {
+				"files": 2,
+				"failed": 0,
+				"passed": 63
+			}
+		}
+	],
+	"notes": [
+		"The unmodified build emitted the upstream three numeric eval warnings; the patched build emitted no eval or TypeScript diagnostics.",
+		"The older pinned pnpm emitted a Node url.parse deprecation warning. Native Node loading of the unchanged upstream ES-module packaging emitted MODULE_TYPELESS_PACKAGE_JSON; no package metadata was changed to suppress it.",
+		"js-base64 remains external: archived upstream build lock pins 3.7.7; the application continues to use 3.7.8. Both sides passed all bounded comparisons.",
+		"The pre-promotion harness/report preserves the exact executed comparison and historical installed hashes. Absolute scratch paths identify that local evidence run, not a clean-source build prerequisite."
+	]
+}

@@ -1,0 +1,442 @@
+{
+	"schemaVersion": 1,
+	"scope": "Security-patched standalone macOS arm64 CPU source candidate. Separate from historical source/model receipts and the application runtime. No installer, universal/Windows, GPU, older OS or full binary SBOM acceptance.",
+	"liteRtLmRevision": "924e79c91542761242244e4f1651851f822e4cbb",
+	"liteRtRevision": "0ff28117f1cb5556d0e015bf80b773f74e2bee51",
+	"tensorflowRevision": "9e1afa4e5cfd8818518183211b77f2976c7dc450",
+	"platform": "macOS arm64",
+	"host": {
+		"macOS": "27.0.1 (26A434)",
+		"xcode": "27.0 (27A266a)",
+		"bazel": "7.6.1",
+		"memoryGiB": 16
+	},
+	"sourceArchive": {
+		"path": "third-party/sources/native/LiteRT-LM-924e79c91542761242244e4f1651851f822e4cbb-source-only.tar.gz",
+		"sha256": "c53f07830fe8acfc3f1b8512847ccc6d616bb30c189a5bccc89e8f39a0e96d5b"
+	},
+	"orderedPatches": [
+		{
+			"path": "third-party/recipes/litert-native/open-gemma-provider.patch",
+			"sha256": "a4d71f5dd4bf1ecff2e40f3a6409ccff5af9275ca8c3f0bd914ad451ff023a8b"
+		},
+		{
+			"path": "third-party/recipes/litert-native/open-cpu-c-api.patch",
+			"sha256": "08fb8efc25f5e868fdc5ff2a56b3d69b1928b58ed60c8b724bfba22911ee15e5"
+		},
+		{
+			"path": "third-party/recipes/litert-native/open-cpu-greedy.patch",
+			"sha256": "d8aae33b97f358881733ac88c1828d07ebed89781ff8936a8e92877432857504"
+		},
+		{
+			"path": "third-party/recipes/litert-native/open-rust-security.patch",
+			"sha256": "452bf477b33ec4fae24d8be6889a265680fac697d477e7688e759124a3bc4b96"
+		}
+	],
+	"patchApplication": {
+		"path": "third-party/recipes/litert-native/security-patch-application.json",
+		"sha256": "5e5328f38f3ff9ef6354201a91379e0871ee796ed917c99e0215b1260bb32005"
+	},
+	"sourceChanges": [
+		{
+			"path": "third-party/recipes/litert-native/gemma-llguidance-provider.cc",
+			"sha256": "0bfb5d2f6c3407d51ec7d3e04a0b093faa5b34af995de96092884dd6f34ffc24"
+		},
+		{
+			"path": "third-party/recipes/litert-native/gemma-llguidance-provider-test.cc",
+			"sha256": "dc3395d818d94c1aeb3e61ef25291a5ded696f0c13c11a85241c10e3a5f0e5cd"
+		},
+		{
+			"path": "third-party/recipes/litert-native/cpu-smoke.cc",
+			"sha256": "551690e866dad3e69b87ad4b01f565a9698466f98819680d1dc41091ac9ef878"
+		},
+		{
+			"path": "third-party/recipes/litert-native/red-square.png",
+			"sha256": "ca96adb50da6a5f6cbfe03c9c5eb8ad8f1a6c88f526b8a4b9d9d7d3b9ef90157"
+		}
+	],
+	"lockfiles": [
+		{
+			"path": "Cargo.lock",
+			"sha256": "c09f64cc772dbb20a0e828ea22805fc0faa9cbc762a89aaffe706941340df474"
+		},
+		{
+			"path": "cxxbridge_cmd/Cargo.lock",
+			"sha256": "753498ac4051f059f6ad38cbda239f6a3fdbc1c6818852e47c25e2faf05b83cb"
+		}
+	],
+	"rustAudits": {
+		"metadata": {
+			"path": "docs/development/audit-native-rust-security-lockfiles.json",
+			"sha256": "feba8bf0b5c9fa78e1daa1134afa898e01df93b16a5c0bd003b42eb59d34ea81"
+		},
+		"receipts": [
+			{
+				"path": "docs/development/audit-native-rust-security-main.json",
+				"sha256": "943e1ec6cf240c2414feca486a87bb3210611ff86cede97d7011331d2ee65deb"
+			},
+			{
+				"path": "docs/development/audit-native-rust-security-cxxbridge.json",
+				"sha256": "29c78f4c8cac571ba2700c53fdead1326115316042e01a2ea725641bdca8d747"
+			}
+		],
+		"mainPackages": 148,
+		"mainRegistryPackages": 142,
+		"generatorPackages": 30,
+		"generatorRegistryPackages": 29,
+		"uniqueRegistrySourcePackages": 161,
+		"vulnerabilities": 0,
+		"soundnessWarnings": 0,
+		"maintenanceWarnings": ["paste 1.0.15 (RUSTSEC-2024-0436) in the main lock only"],
+		"advisoryDatabase": {
+			"advisory-count": 1296,
+			"last-commit": "7eebec69c352c7191b1f13eb95dd510eeca5d1de",
+			"last-updated": "2026-10-09T10:12:02+02:00"
+		}
+	},
+	"nativeTests": {
+		"exitCode": 0,
+		"targetsPassed": 3,
+		"testsPassed": 16,
+		"buildElapsedSeconds": 320.582,
+		"buildActions": 2975,
+		"command": "bazelisk test --config=macos_arm64 --deleted_packages=swift --@litert//litert/build_common:build_include=cpu_only --jobs=4 --local_resources=memory=6144 //runtime/components:prompt_template_test //runtime/components/logits_processor/constrained_decoding:gemma_llguidance_provider_test //runtime/components:sampler_factory_test",
+		"targets": [
+			{
+				"target": "//runtime/components:prompt_template_test",
+				"testsPassed": 7,
+				"failures": 0,
+				"errors": 0,
+				"testRunSeconds": 0.4,
+				"cases": [
+					"PromptTemplateCustomTest.StripReplacementTest",
+					"PromptTemplateCustomTest.Qwen3MultiTurnTemplateRenderingTest",
+					"PromptTemplateTest/PromptTemplateTest.CreateTest/google_gemma_3n_e2b_it",
+					"PromptTemplateTest/PromptTemplateTest.CreateTest/Qwen_Qwen3_0_6B",
+					"PromptTemplateTest/PromptTemplateTest.CreateTest/HuggingFaceTB_SmolLM3_3B",
+					"PromptTemplateTest/PromptTemplateTest.CreateTest/microsoft_Phi_4_mini_instruct",
+					"PromptTemplateTest/PromptTemplateTest.CreateTest/bos_token_test"
+				],
+				"log": {
+					"path": "third-party/recipes/litert-native/security-prompt-template-test.log",
+					"sha256": "432dc3dce33100c1a1b3ed734a042f59f1b80fad01a8e93c94ac2474fc103661"
+				}
+			},
+			{
+				"target": "//runtime/components/logits_processor/constrained_decoding:gemma_llguidance_provider_test",
+				"testsPassed": 5,
+				"failures": 0,
+				"errors": 0,
+				"testRunSeconds": 6.2,
+				"cases": [
+					"OpenGemmaProviderTest.FcUsesActualSentencePieceBytesAndToolSchema",
+					"OpenGemmaProviderTest.FcUsesReservedSpecialTokenIds",
+					"OpenGemmaProviderTest.PythonAcceptsGemma3NullUnusedOptions",
+					"OpenGemmaProviderTest.EmptyToolsAllowTextButExcludeCallFence",
+					"OpenGemmaProviderTest.BadInputsFailWithoutCreatingAConstraint"
+				],
+				"log": {
+					"path": "third-party/recipes/litert-native/security-gemma-provider-test.log",
+					"sha256": "0e287418c6b41b737ca5d2a144352b2031ced5cfc6ad65e1c8415eb72747cebb"
+				}
+			},
+			{
+				"target": "//runtime/components:sampler_factory_test",
+				"testsPassed": 4,
+				"failures": 0,
+				"errors": 0,
+				"testRunSeconds": 0.4,
+				"cases": [
+					"SamplerFactoryTest.CreateSamplerForCpuWorksCorrectly",
+					"SamplerFactoryTest.GreedyUsesArgmaxBeforeAndAfterConfigUpdate",
+					"SamplerFactoryTest.CreateSamplerForCpuWithUnsupportedSamplerTypeFails",
+					"SamplerFactoryTest.CreateSamplerForCpuWithUnspecifiedSamplerTypeReturnsNullptr"
+				],
+				"log": {
+					"path": "third-party/recipes/litert-native/security-sampler-factory-test.log",
+					"sha256": "0ede631ef1670dcc281173511e598e33a60cdcc4249b869f1ee94570b8b30dfe"
+				}
+			}
+		],
+		"buildLog": {
+			"path": "third-party/recipes/litert-native/security-native-tests-build.log",
+			"sha256": "fb6ac4271714ec194600326f950299b4f50a18702643e1fb436dd3cd297d6397"
+		}
+	},
+	"cpuCapi": {
+		"state": "built",
+		"exitCode": 0,
+		"command": "bazelisk build --config=macos_arm64 --deleted_packages=swift --@litert//litert/build_common:build_include=cpu_only --jobs=4 --local_resources=memory=6144 //c:litert_lm_c_open_cpu",
+		"buildElapsedSeconds": 376.13,
+		"buildActions": 3219,
+		"artifact": {
+			"name": "liblitert_lm_c_open_cpu.dylib",
+			"bytes": 30521792,
+			"sha256": "475a6da9df93be472c2c2a1a8802b49441a4738923ee4ef900e6c04f9beb8b6e",
+			"architecture": "arm64",
+			"installName": "bazel-out/darwin_arm64-opt/bin/c/liblitert_lm_c_open_cpu.dylib",
+			"dynamicDependencies": [
+				"/usr/lib/libc++.1.dylib",
+				"/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+				"/System/Library/Frameworks/AVFoundation.framework/Versions/A/AVFoundation",
+				"/usr/lib/libSystem.B.dylib",
+				"/usr/lib/libresolv.9.dylib",
+				"/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+				"/System/Library/Frameworks/Metal.framework/Versions/A/Metal",
+				"/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",
+				"/usr/lib/libobjc.A.dylib"
+			],
+			"exportCount": 144,
+			"exportsVerified": [
+				"litert_lm_benchmark_info_delete",
+				"litert_lm_benchmark_info_get_decode_token_count_at",
+				"litert_lm_benchmark_info_get_decode_tokens_per_sec_at",
+				"litert_lm_benchmark_info_get_num_decode_turns",
+				"litert_lm_benchmark_info_get_num_prefill_turns",
+				"litert_lm_benchmark_info_get_prefill_token_count_at",
+				"litert_lm_benchmark_info_get_prefill_tokens_per_sec_at",
+				"litert_lm_benchmark_info_get_time_to_first_token",
+				"litert_lm_conversation_cancel_process",
+				"litert_lm_conversation_clone",
+				"litert_lm_conversation_config_create",
+				"litert_lm_conversation_config_delete",
+				"litert_lm_conversation_config_set_enable_constrained_decoding",
+				"litert_lm_conversation_config_set_extra_context",
+				"litert_lm_conversation_config_set_filter_channel_content_from_kv_cache",
+				"litert_lm_conversation_config_set_messages",
+				"litert_lm_conversation_config_set_session_config",
+				"litert_lm_conversation_config_set_system_message",
+				"litert_lm_conversation_config_set_tools",
+				"litert_lm_conversation_create",
+				"litert_lm_conversation_delete",
+				"litert_lm_conversation_get_benchmark_info",
+				"litert_lm_conversation_get_token_count",
+				"litert_lm_conversation_optional_args_create",
+				"litert_lm_conversation_optional_args_delete",
+				"litert_lm_conversation_optional_args_set_max_output_tokens",
+				"litert_lm_conversation_optional_args_set_visual_token_budget",
+				"litert_lm_conversation_send_message_stream",
+				"litert_lm_engine_create",
+				"litert_lm_engine_delete",
+				"litert_lm_engine_settings_create",
+				"litert_lm_engine_settings_delete",
+				"litert_lm_engine_settings_set_cache_dir",
+				"litert_lm_engine_settings_set_enable_speculative_decoding",
+				"litert_lm_engine_settings_set_litert_dispatch_lib_dir",
+				"litert_lm_engine_settings_set_max_num_images",
+				"litert_lm_engine_settings_set_max_num_tokens",
+				"litert_lm_engine_settings_set_num_decode_tokens",
+				"litert_lm_engine_settings_set_num_prefill_tokens",
+				"litert_lm_sampler_params_create",
+				"litert_lm_sampler_params_delete",
+				"litert_lm_sampler_params_set_seed",
+				"litert_lm_sampler_params_set_temperature",
+				"litert_lm_sampler_params_set_top_k",
+				"litert_lm_sampler_params_set_top_p",
+				"litert_lm_session_config_create",
+				"litert_lm_session_config_delete",
+				"litert_lm_session_config_set_apply_prompt_template",
+				"litert_lm_session_config_set_max_output_tokens",
+				"litert_lm_session_config_set_sampler_params",
+				"litert_lm_set_min_log_level",
+				"litert_lm_stream_chunk_get_error",
+				"litert_lm_stream_chunk_get_text",
+				"litert_lm_stream_chunk_is_final"
+			],
+			"unresolvedCxxBridgeSymbols": [],
+			"minimumMacOS": "11.0",
+			"sdk": "27.0",
+			"minimumOSScope": "Mach-O metadata only; execution verified only on the recorded host.",
+			"dynamicDependencyScope": "Apple system libraries/frameworks only; no external LiteRT/Gemma prebuilt library."
+		},
+		"appCallExportSource": {
+			"path": "src-tauri/native/litert_lm_bridge_litert.cc",
+			"sha256": "a0f206b7fb5bf54602e588b1e4ebfc3a6dcc1594276eaa3dc33f611bdb07a261"
+		},
+		"buildLog": {
+			"path": "third-party/recipes/litert-native/security-capi-build.log",
+			"sha256": "a3ddc6fdb25159641205c4b47a9a760f5cc495d657d06bedd12a02a5d18245dc"
+		}
+	},
+	"cxxGenerator": {
+		"targetVersion": "1.0.195",
+		"command": "cxxbridge_cmd --version",
+		"observedVersion": "cxxbridge 1.0.195",
+		"executableSha256": "29efda4e34a1ecc20cac2e6968587b5e217b0402f502937f2628d2b9a80bb4f0",
+		"symbolVersionsObserved": [195],
+		"unresolvedCxxBridgeSymbols": 0,
+		"fix": "Explicit rust_binary version sets CARGO_PKG_VERSION_PATCH=195. CXX runtime, macro and generator version agree."
+	},
+	"packagedSmokeLibrary": {
+		"name": "liblitert_lm_c.dylib",
+		"bytes": 30344480,
+		"sha256": "332ab8100c5df477c869a4fa60953380cc946f92336bfb63da0f790cf84c2d19",
+		"installName": "@rpath/liblitert_lm_c.dylib",
+		"signing": "ad hoc for standalone local smoke only"
+	},
+	"inference": {
+		"state": "passed-GREEDY-type3",
+		"exitCode": 0,
+		"model": {
+			"repository": "litert-community/gemma-4-E4B-it-litert-lm",
+			"revision": "f7ad3343bd6ebc9607f4dc3bc4f2398bd5749bc5",
+			"filename": "gemma-4-E4B-it.litertlm",
+			"sha256": "0b2a8980ce155fd97673d8e820b4d29d9c7d99b8fa6806f425d969b145bd52e0",
+			"bytes": 3659530240,
+			"verification": "Streaming SHA-256 calculated before inference and recomputed after final smoke."
+		},
+		"backend": "cpu",
+		"visionBackend": "cpu",
+		"threads": 4,
+		"maxTokens": 4096,
+		"maxOutputTokens": 128,
+		"cacheDirectoryExisted": true,
+		"sampler": {
+			"type": "GREEDY",
+			"cApiEnumValue": 3,
+			"k": 25,
+			"p": 0.95,
+			"temperature": 0.0,
+			"seed": 0
+		},
+		"constrainedDecoding": true,
+		"thinking": false,
+		"sourceArtifactSha256": "475a6da9df93be472c2c2a1a8802b49441a4738923ee4ef900e6c04f9beb8b6e",
+		"harnessSha256": "551690e866dad3e69b87ad4b01f565a9698466f98819680d1dc41091ac9ef878",
+		"harnessExecutableSha256": "f006e1e0a2449799b6f83b8f41fc41a4e83cf66b6ea4a7d4037bef0d4f706cc2",
+		"cases": [
+			{
+				"case": "text",
+				"result": {
+					"role": "assistant",
+					"content": [
+						{
+							"type": "text",
+							"text": "READY."
+						}
+					]
+				},
+				"seconds": 4.526
+			},
+			{
+				"case": "tool",
+				"result": {
+					"role": "assistant",
+					"tool_calls": [
+						{
+							"type": "function",
+							"function": {
+								"name": "lookup",
+								"arguments": {
+									"color": "red"
+								}
+							}
+						}
+					]
+				},
+				"seconds": 2.526
+			},
+			{
+				"case": "vision",
+				"result": {
+					"role": "assistant",
+					"content": [
+						{
+							"type": "text",
+							"text": "Red.\n"
+						}
+					]
+				},
+				"seconds": 6.286
+			}
+		],
+		"validation": "Returned C API response JSON was strictly parsed and the complete synthetic expected objects asserted after harness exit 0.",
+		"log": {
+			"path": "third-party/recipes/litert-native/security-cpu-smoke.log",
+			"sha256": "a29059c051f87ea48f70de503758dd0f5254eee2ba0e41279709fc10d167c4c8"
+		},
+		"limits": "Synthetic public C API fixtures; elapsed times are not controlled performance benchmarks. No installed-app, GPU, Windows, Intel, older OS or complete schema parity proof."
+	},
+	"failedGeneratorVersion0": {
+		"sourceArtifactSha256": "7835c17952a153354bcbbf9162fa552e27b4da760f969f0c11443658a17617f3",
+		"securityPatchSha256": "7cb867eb705a3b66dc0c52b90129e2aad78db7c0941e5b63f65239b1d4fa0898",
+		"capiExportsPassed": 54,
+		"unresolvedCxxBridgeSymbolCount": 27,
+		"unresolvedCxxBridgeSymbols": [
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$array_get (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$array_len (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$get_bool (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$get_number (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$get_string (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$is_array (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$is_bool (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$is_null (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$is_number (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$is_object (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$is_string (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$object_get (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$object_has_key (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$object_keys (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$operator$alignof (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$JsonValue$operator$sizeof (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$MinijinjaTemplate$apply (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$MinijinjaTemplate$clone_template (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$MinijinjaTemplate$get_capabilities (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$MinijinjaTemplate$get_error (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$MinijinjaTemplate$operator$alignof (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$MinijinjaTemplate$operator$sizeof (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$MinijinjaTemplate$source (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$new_minijinja_template (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$parse_fc_expression (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$parse_json_expression (dynamically looked up)",
+			"(undefined) external _litert$lm$cxxbridge1$0$parse_python_expression (dynamically looked up)"
+		],
+		"runs": [
+			{
+				"case": "missing-cache-parent",
+				"exitCode": 139,
+				"cacheDirectoryExisted": false,
+				"engineCreated": true,
+				"conversationCreated": false,
+				"inferenceStarted": false,
+				"log": {
+					"path": "third-party/recipes/litert-native/security-cpu-smoke-missing-cache.log",
+					"sha256": "b250b2de0a8d177105e97d547d62d143397e5930611313a51503f42349db5946"
+				},
+				"observation": "XNNPACK cache-open errors initially suggested a setup cause. The next run ruled out that explanation."
+			},
+			{
+				"case": "existing-writable-cache-parent",
+				"exitCode": 139,
+				"cacheDirectoryExisted": true,
+				"engineCreated": true,
+				"conversationCreated": false,
+				"inferenceStarted": false,
+				"log": {
+					"path": "third-party/recipes/litert-native/security-cpu-smoke-version0.log",
+					"sha256": "5333fc2ba7271dc62bece8f64f313786cc7a83eba35b6980e807f76ea0864fb8"
+				},
+				"observation": "Conversation creation still crashed. Crash stack entered the CXX minijinja template bridge with unresolved version-zero symbols."
+			}
+		],
+		"resolution": "Adding generator target version 1.0.195 removed every unresolved CXX bridge symbol; prompt-template tests and all three pinned-model inference fixtures then passed."
+	},
+	"configuredSourceGraph": {
+		"path": "third-party/recipes/litert-native/security-configured-source-verification.json",
+		"sha256": "8a74f8ba6cad68ef7bd36582e4a34a7f4b39a614d9f5d28191bde1e53afe1ad7"
+	},
+	"historicalReceipt": {
+		"path": "third-party/recipes/litert-native/verification.json",
+		"sha256": "c76ae3e4f9dc8fbc4f062448dccc9c830e9e6ae4cd390bee0184c1f272feaea4"
+	},
+	"unverified": [
+		"Application runtime integration and installed-app inference",
+		"Windows native build, import closure and inference",
+		"macOS x86_64 and universal build",
+		"Older macOS runtime compatibility",
+		"GPU behavior",
+		"Complete upstream JSON schema semantics",
+		"Released upstream prebuilt exact source mapping",
+		"Fully offline toolchain/cache replay"
+	]
+}

@@ -1,0 +1,5 @@
+Code,Name,Default Rate,Unit,Alt Names,Notes
+MAT-PL-010,Floor Plate,185.50,m2,plate flooring; floor plate,Primary stock
+,,,,,
+MAT-MISSING,,95,m2,,Missing name
+MAT-BOLT,Anchor Bolt,12.75,ea,fixing bolt,

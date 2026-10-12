@@ -1,0 +1,18 @@
+--- a/c/BUILD
++++ b/c/BUILD
+@@ -278,3 +278,15 @@
+         "//conditions:default": [],
+     }),
+ )
++
++# Kwantflow source-built CPU C API. No GPU accelerator or GPU sampler imports.
++cc_binary(
++    name = "litert_lm_c_open_cpu",
++    srcs = ["conversation.cc", "engine.cc"],
++    linkshared = True,
++    deps = ENGINE_COMMON_DEPS + [
++        ":conversation_headers",
++        ":engine_headers",
++        "//runtime/core:engine_advanced_impl_cpu_only",
++    ],
++)

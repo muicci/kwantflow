@@ -1,0 +1,35 @@
+/* Generated from tokens/layout.json. Do not edit by hand. */
+@theme inline {
+	--page-gutter: var(--space-4);
+	--page-stack-gap: var(--space-4);
+	--page-content-max-width: 80rem;
+	--section-stack-gap: var(--space-3);
+	--field-shell-gap: 0.375rem;
+	--field-label-row-gap: 0.375rem;
+	--dialog-frame-width-sm: 36rem;
+	--dialog-frame-width-md: 50rem;
+	--dialog-frame-width-lg: 64rem;
+	--dialog-frame-height-sm: 24rem;
+	--dialog-frame-height-md: 33rem;
+	--dialog-frame-height-lg: 42rem;
+	--dialog-frame-content-width-form: 47rem;
+	--dialog-shell-standard-height: min(500px, 74vh);
+	--dialog-shell-medium-height: min(500px, 74vh);
+	--dialog-shell-compact-height: min(460px, 70vh);
+	--dialog-shell-workflow-height: min(42rem, 84vh);
+	--dialog-shell-workbench-height: min(46rem, calc(100vh - 5rem));
+	--dialog-shell-form-height: min(640px, 82vh);
+	--dialog-shell-width-md: 43.75rem;
+	--dialog-shell-width-lg: 50rem;
+	--dialog-shell-width-workbench: min(66rem, calc(100vw - 8rem));
+	--dialog-shell-width-form: 43.75rem;
+	--dialog-shell-width-workflow: 50rem;
+	--dialog-max-sm: var(--size-dialog-xs);
+	--dialog-max-md: var(--size-dialog-md);
+	--dialog-max-xl: var(--size-dialog-4xl);
+	--dialog-sidebar-width: 15rem;
+	--dialog-body-padding-x: var(--space-4);
+	--surface-strip-row-height: 2.5rem;
+	--project-structure-sidebar-width: 12rem;
+	--onboarding-corner-mark: 3.375rem;
+}

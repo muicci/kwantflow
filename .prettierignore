@@ -1,0 +1,23 @@
+# Package Managers
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+bun.lock
+bun.lockb
+
+# Miscellaneous
+/static/
+# Long-form user manual is hand-edited Markdown; keep its wrapping as written.
+/docs/user/
+# Reproducible native output must remain byte-faithful to its source receipt.
+/packages/libheif-js/libheif-wasm/
+# Upstream license texts and verified source archives are preserved verbatim.
+/third-party/licenses/
+/third-party/sources/
+# Hashed build evidence preserves the exact bytes captured during verification.
+/third-party/rebuild-evidence.json
+/third-party/recipes/litert-native/verification.json
+/third-party/recipes/litert-native/omitted-prebuilts.json
+/third-party/recipes/litert-native/source-transform-verification.json
+/third-party/recipes/litert-native/configured-source-verification.json
+/third-party/audit/

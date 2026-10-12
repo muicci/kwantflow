@@ -1,0 +1,35 @@
+{
+	"$schema": "https://knip.dev/schema.json",
+	"entry": ["src/routes/**/+page.svelte", "src/routes/**/+layout.svelte"],
+	"project": ["src/**/*.{ts,svelte,mdx,css}"],
+	"ignore": ["src/lib/components/ReferenceShowcase.svelte"],
+	"ignoreFiles": [
+		"src/lib/components/ui/progress/index.ts",
+		"src/lib/components/ui/progress/progress.svelte",
+		"src/lib/design/generated/registry.ts",
+		"src/lib/stubs/fs-browser.ts"
+	],
+	"ignoreBinaries": ["rustup"],
+	"ignoreDependencies": ["@tauri-apps/cli", "eslint-plugin-storybook"],
+	"ignoreIssues": {
+		"src/lib/components/primitives/index.ts": ["exports", "types"],
+		"src/lib/components/ui/**/index.ts": ["exports", "types"],
+		"src/lib/design/generated/**": ["exports", "types"],
+		"src/lib/schemas/index.ts": ["exports", "types", "duplicates"],
+		"src/lib/services/**/*.ts": ["types"],
+		"src/lib/state/**/*.ts": ["types"],
+		"src/lib/types/**/*.ts": ["exports", "types"],
+		"src/lib/services/ai-drafting.ts": ["duplicates"]
+	},
+	"rules": {
+		"duplicates": "warn",
+		"exports": "off",
+		"types": "off"
+	},
+	"svelte": {
+		"entry": ["src/routes/**/+page.svelte", "src/routes/**/+layout.svelte"]
+	},
+	"vitest": {
+		"config": ["vitest.config.ts"]
+	}
+}

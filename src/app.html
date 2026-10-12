@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Kwantflow</title>
+		<script>
+			// Polyfill crypto.randomUUID for non-secure contexts (e.g. custom schemes like tauri://)
+			if (
+				typeof window !== 'undefined' &&
+				typeof window.crypto !== 'undefined' &&
+				!window.crypto.randomUUID
+			) {
+				Object.defineProperty(window.crypto, 'randomUUID', {
+					value: function () {
+						return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+							const r = (Math.random() * 16) | 0;
+							const v = c === 'x' ? r : (r & 0x3) | 0x8;
+							return v.toString(16);
+						});
+					},
+					writable: true,
+					configurable: true,
+					enumerable: true
+				});
+			}
+
+			// Forward uncaught window errors and promise rejections to console.error for Tauri logging
+			if (typeof window !== 'undefined') {
+				window.addEventListener('error', (event) => {
+					console.error(
+						'[Uncaught Window Error]:',
+						event.message,
+						'at',
+						event.filename,
+						'line',
+						event.lineno,
+						'col',
+						event.colno,
+						'error:',
+						event.error
+					);
+				});
+				window.addEventListener('unhandledrejection', (event) => {
+					console.error('[Unhandled Promise Rejection]:', event.reason);
+				});
+			}
+
+			// Self-healing observer for stuck body locks (e.g. pointer-events: none / scroll locks left by Bits UI/Radix)
+			if (typeof document !== 'undefined') {
+				let healingTimeoutId = null;
+				const observer = new MutationObserver(() => {
+					if (healingTimeoutId) {
+						clearTimeout(healingTimeoutId);
+					}
+					healingTimeoutId = setTimeout(() => {
+						healingTimeoutId = null;
+						const body = document.body;
+						if (!body) return;
+
+						// Check if body is locked
+						const isPointerLocked = body.style.pointerEvents === 'none';
+						const isScrollLocked =
+							body.hasAttribute('data-scroll-locked') || body.style.overflow === 'hidden';
+
+						if (isPointerLocked || isScrollLocked) {
+							// Check if any active modals, dropdowns, popovers, select menus, sheets, or alert dialogs are open
+							const activeOverlays = document.querySelector(
+								'[data-slot="dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="select-content"], [data-slot="dropdown-menu-content"], [data-slot="dropdown-menu-sub-content"], [data-slot="popover-content"], [role="dialog"], [role="menu"], [role="listbox"]'
+							);
+
+							// If no active overlays exist, heal the body styles
+							if (!activeOverlays) {
+								console.debug(
+									'[ScrollLockGuard] Stuck body pointer-events/scroll lock detected. Self-healing body...'
+								);
+								if (isPointerLocked) {
+									body.style.pointerEvents = '';
+								}
+								if (body.hasAttribute('data-scroll-locked')) {
+									body.removeAttribute('data-scroll-locked');
+								}
+								if (body.style.overflow === 'hidden') {
+									body.style.overflow = '';
+								}
+								body.style.paddingRight = '';
+								body.style.marginRight = '';
+
+								try {
+									window.dispatchEvent(
+										new CustomEvent('kwantflow:scroll-lock-healed', {
+											detail: { isPointerLocked, isScrollLocked }
+										})
+									);
+								} catch (e) {}
+							}
+						}
+					}, 250);
+				});
+
+				// Start observing body mutations once the DOM is loaded
+				document.addEventListener('DOMContentLoaded', () => {
+					observer.observe(document.body, {
+						attributes: true,
+						attributeFilter: ['style', 'data-scroll-locked']
+					});
+				});
+			}
+
+			// Immediate theme detection to prevent flash of wrong color
+			const isDark =
+				localStorage.getItem('theme') === 'dark' ||
+				(!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+			if (isDark) {
+				document.documentElement.classList.add('dark');
+			}
+			if (
+				typeof window !== 'undefined' &&
+				('__TAURI_INTERNALS__' in window || window.__TAURI_INTERNALS__)
+			) {
+				document.documentElement.classList.add('vibrant-window');
+			}
+			document.addEventListener('DOMContentLoaded', () => {
+				if (typeof window !== 'undefined' && window.__TAURI__) {
+					const win = window.__TAURI__.window.getCurrentWindow();
+					if (win.label === 'main') {
+						win
+							.unminimize()
+							.then(() => win.show())
+							.then(() => win.setFocus());
+					}
+				}
+			});
+		</script>
+		<style>
+			/* Prevent body pointer-events from being locked by scroll-lock libraries */
+			html body[data-scroll-locked],
+			html [data-scroll-locked] {
+				pointer-events: auto !important;
+			}
+
+			#early-boot-splash {
+				position: fixed;
+				inset: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: #ffffff;
+				z-index: 99999;
+				transition: opacity 0.25s ease-out;
+			}
+			.dark #early-boot-splash {
+				background: #161c24;
+			}
+			.vibrant-window #early-boot-splash {
+				background: transparent;
+			}
+			.early-boot-logo-container {
+				position: relative;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 64px;
+				height: 64px;
+			}
+			.early-boot-logo-shimmer {
+				width: 100%;
+				height: 100%;
+				background: linear-gradient(
+					135deg,
+					#7a8583 0%,
+					#a3afae 25%,
+					#ffffff 45%,
+					#ffffff 55%,
+					#a3afae 75%,
+					#7a8583 100%
+				);
+				background-size: 250% 100%;
+				-webkit-mask: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAyNCIgaGVpZ2h0PSIxMDI0IiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMDIsIDEwMikgc2NhbGUoMC44MDgpIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yNTQuMDQ0IDc2MS45MjlINzYxLjkyMVYyNTMuOTg0SDQwMS42NzVDMzU1LjU1IDI0OS4wMDcgMzEzLjU1OSAyMjUuMjQzIDI4NS40NDkgMTg4LjM3MUMyNjkuNjA3IDE2Ny41NTEgMjU4Ljk1MyAxNDMuNTc3IDI1My45NzYgMTE4LjQ4MVYwLjA4MkgwLjBWMjU0LjA1NEgxMDUuMjkxQzE1MS40MTYgMjU5LjAzMiAxOTMuNDA3IDI4Mi43OTUgMjIxLjUxNiAzMTkuNjY4QzIzOC41NTEgMzQyLjAzIDI0OS41NiAzNjcuODk3IDI1My45NzYgMzk1LjA5NVY3NjIuMDY5Vjc2MS44NTlMMjU0LjA0NCA3NjEuOTI5WiIgZmlsbD0iY3VycmVudENvbG9yIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMC4wODIgMTAxNS44NUgyNTQuMDU0Vjc2MS45NDdIMC4wODJWMTAxNS44NVoiIGZpbGw9ImN1cnJlbnRDb2xvciIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTc2MS45NDIgMTAxNS44NUgxMDE1Ljg0MlY3NjEuOTQ3SDc2MS45NDJWMTAxNS44NVoiIGZpbGw9ImN1cnJlbnRDb2xvciIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTc2MS45NDIgMjUzLjkwMkgxMDE1Ljg0MlYwLjBINzYxLjk0MlYyNTMuOTAyWiIgZmlsbD0iY3VycmVudENvbG9yIi8+CjwvZz4KPC9zdmc+')
+					no-repeat center / contain;
+				mask: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAyNCIgaGVpZ2h0PSIxMDI0IiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMDIsIDEwMikgc2NhbGUoMC44MDgpIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yNTQuMDQ0IDc2MS45MjlINzYxLjkyMVYyNTMuOTg0SDQwMS42NzVDMzU1LjU1IDI0OS4wMDcgMzEzLjU1OSAyMjUuMjQzIDI4NS40NDkgMTg4LjM3MUMyNjkuNjA3IDE2Ny41NTEgMjU4Ljk1MyAxNDMuNTc3IDI1My45NzYgMTE4LjQ4MVYwLjA4MkgwLjBWMjU0LjA1NEgxMDUuMjkxQzE1MS40MTYgMjU5LjAzMiAxOTMuNDA3IDI4Mi43OTUgMjIxLjUxNiAzMTkuNjY4QzIzOC41NTEgMzQyLjAzIDI0OS41NiAzNjcuODk3IDI1My45NzYgMzk1LjA5NVY3NjIuMDY5Vjc2MS44NTlMMjU0LjA0NCA3NjEuOTI5WiIgZmlsbD0iY3VycmVudENvbG9yIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMC4wODIgMTAxNS44NUgyNTQuMDU0Vjc2MS45NDdIMC4wODJWMTAxNS44NVoiIGZpbGw9ImN1cnJlbnRDb2xvciIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTc2MS45NDIgMTAxNS44NUgxMDE1Ljg0MlY3NjEuOTQ3SDc2MS45NDJWMTAxNS44NVoiIGZpbGw9ImN1cnJlbnRDb2xvciIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTc2MS45NDIgMjUzLjkwMkgxMDE1Ljg0MlYwLjBINzYxLjk0MlYyNTMuOTAyWiIgZmlsbD0iY3VycmVudENvbG9yIi8+CjwvZz4KPC9zdmc+')
+					no-repeat center / contain;
+				animation: early-silver-shimmer 3.6s infinite cubic-bezier(0.4, 0, 0.2, 1);
+			}
+			@keyframes early-silver-shimmer {
+				0% {
+					background-position: 180% 0;
+				}
+				100% {
+					background-position: -80% 0;
+				}
+			}
+		</style>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div id="early-boot-splash">
+			<div class="early-boot-logo-container">
+				<div class="early-boot-logo-shimmer"></div>
+			</div>
+		</div>
+		<div id="app-shell-root">%sveltekit.body%</div>
+	</body>
+</html>

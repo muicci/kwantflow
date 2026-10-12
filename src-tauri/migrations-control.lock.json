@@ -1,0 +1,14 @@
+{
+	"entries": [
+		{
+			"version": 1,
+			"file": "src-tauri/migrations-control/001_control.sql",
+			"sha256": "f79f273b78635a4772178347f3842b95bb7d4a232369e2d1b606e733d4530e1a"
+		},
+		{
+			"version": 2,
+			"file": "src-tauri/migrations-control/002_local_open_source.sql",
+			"sha256": "299ec6d65134aea15370151ad7f9e50fa0996d5bb339434b47af3c7f1cd0150a"
+		}
+	]
+}

@@ -1,0 +1,81 @@
+name: Build community installers
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: community-installers-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, windows-2022]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 240
+    env:
+      NODE_OPTIONS: --max-old-space-size=8192
+      KWANTFLOW_REQUIRE_LITERT_LM_NATIVE: '1'
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6
+        with:
+          version: 11.9.0
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@fa04a1451ff1842e2626ccb99004d0195b455a88
+        with:
+          toolchain: 1.94.0
+      - name: Add universal macOS targets
+        if: runner.os == 'macOS'
+        run: rustup target add aarch64-apple-darwin x86_64-apple-darwin
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        if: runner.os == 'Windows'
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-java@0f481fcb613427c0f801b606911222b5b6f3083a # v5
+        if: runner.os == 'Windows'
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+        with:
+          workspaces: src-tauri -> target
+      - run: pnpm install --frozen-lockfile
+      - name: Acquire hash-pinned upstream source inputs
+        run: pnpm third-party:sources:prepare
+      - run: pnpm verify
+      - run: pnpm third-party:verify
+      - name: Verify Windows runtime dependency graph fixtures
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: pwsh -NoProfile -File scripts/verify-windows-runtime.test.ps1
+      - run: pnpm distribution:build
+      - name: Verify exact installer and checksum artifacts
+        shell: bash
+        run: |
+          version=$(node -p "JSON.parse(require('fs').readFileSync('package.json', 'utf8')).version")
+          if [[ "$RUNNER_OS" == "macOS" ]]; then platform=darwin-universal; else platform=windows-x86_64; fi
+          pnpm distribution:verify "dist/distribution/$version/$platform"
+      - name: Verify Windows credential encryption with synthetic fixtures
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: cargo test --manifest-path src-tauri/Cargo.toml secure_store::tests --lib -- --include-ignored
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: community-build-${{ runner.os }}-${{ github.sha }}
+          path: dist/distribution/
+          if-no-files-found: error
+          retention-days: 14
+
+# Produces ad-hoc signed macOS and unsigned Windows installers with SHA-256 checksums as workflow
+# artifacts. Attach them to a GitHub Release manually.
