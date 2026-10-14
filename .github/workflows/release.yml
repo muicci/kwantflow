@@ -90,6 +90,9 @@ jobs:
         run: pnpm verify
       - name: Verify (Windows; the JS unit suite covers POSIX developer-script fixtures and runs on macOS and CI)
         if: runner.os == 'Windows'
+        env:
+          # Embeds a Common Controls 6 manifest into the library test harness (see src-tauri/build.rs).
+          KWANTFLOW_LINK_TEST_MANIFEST: '1'
         run: pnpm check && pnpm lint && pnpm migrations:verify && pnpm design:verify && pnpm tauri:check && pnpm tauri:test
       - name: Diagnose Windows test binary imports (failure only)
         if: failure() && runner.os == 'Windows'
@@ -119,6 +122,8 @@ jobs:
       - name: Verify Windows credential encryption with synthetic fixtures
         if: runner.os == 'Windows'
         shell: pwsh
+        env:
+          KWANTFLOW_LINK_TEST_MANIFEST: '1'
         run: cargo test --manifest-path src-tauri/Cargo.toml secure_store::tests --lib -- --include-ignored
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

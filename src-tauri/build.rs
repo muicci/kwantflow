@@ -268,16 +268,23 @@ fn main() {
     println!("cargo:rustc-env=KWANTFLOW_NATIVE_RUNTIME_SHA256={native_fingerprint}");
 
     // tauri-build embeds a Windows application manifest (Common Controls 6.0) into the app
-    // binary only. Cargo test binaries link the same code, including comctl32's
+    // binary only. The library's unit-test harness links the same code, including comctl32's
     // TaskDialogIndirect, which exists solely in Common Controls 6.0. Without a manifest the
-    // loader binds the version 5 comctl32.dll and the test binary dies at process start with
-    // STATUS_ENTRYPOINT_NOT_FOUND, so give test targets an equivalent manifest dependency.
-    if std::env::var("CARGO_CFG_TARGET_OS").ok().as_deref() == Some("windows")
+    // loader binds the version 5 comctl32.dll and the harness dies at process start with
+    // STATUS_ENTRYPOINT_NOT_FOUND. Cargo has no per-harness link flag for library unit tests,
+    // so `cargo test --lib` runs set KWANTFLOW_LINK_TEST_MANIFEST=1 to embed an equivalent
+    // dependency. Never set it for `tauri build`: the app binary would carry two manifests.
+    println!("cargo:rerun-if-env-changed=KWANTFLOW_LINK_TEST_MANIFEST");
+    if std::env::var("KWANTFLOW_LINK_TEST_MANIFEST")
+        .ok()
+        .as_deref()
+        == Some("1")
+        && std::env::var("CARGO_CFG_TARGET_OS").ok().as_deref() == Some("windows")
         && std::env::var("CARGO_CFG_TARGET_ENV").ok().as_deref() == Some("msvc")
     {
-        println!("cargo:rustc-link-arg-tests=/MANIFEST:EMBED");
+        println!("cargo:rustc-link-arg=/MANIFEST:EMBED");
         println!(
-            "cargo:rustc-link-arg-tests=/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'"
+            "cargo:rustc-link-arg=/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'"
         );
     }
 
