@@ -43,10 +43,6 @@ class LocalTypedRustCommandShim {
 		// Vitest mirrors typed Rust commands through the local Kysely test DB so the frontend
 		// service contract stays aligned without reopening frontend transactions in production.
 		if (!this.internal.kysely) {
-			// These commands are safe to call without Kysely (Rust-side operations or pure JS)
-			if (command === 'generate_uuid') {
-				return crypto.randomUUID() as T;
-			}
 			throw new Error(
 				`Local typed command fallback requires an initialised Kysely instance: ${command}`
 			);
@@ -162,8 +158,6 @@ class LocalTypedRustCommandShim {
 						tx,
 						input as { query: string; limit?: number }
 					)) as T;
-				case 'generate_uuid':
-					return crypto.randomUUID() as T;
 				default:
 					throw new Error(`No local typed command fallback is registered for ${command}`);
 			}

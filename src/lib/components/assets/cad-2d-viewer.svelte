@@ -531,7 +531,7 @@
 							onclick={() =>
 								startInteractiveAction(
 									cadRotate,
-									'Select entities, then pick center point and angle to rotate'
+									'Select entities, then pick centre point and angle to rotate'
 								)}
 						>
 							<RotateCwIcon class="size-3.5" />

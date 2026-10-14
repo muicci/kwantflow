@@ -1,4 +1,3 @@
-import { invoke } from '@tauri-apps/api/core';
 import { listen } from '@tauri-apps/api/event';
 import { toast } from 'svelte-sonner';
 import { SvelteMap, SvelteSet } from 'svelte/reactivity';
@@ -529,7 +528,7 @@ function classifyHydratedActiveRunRecovery(params: {
 }
 
 async function generateId(): Promise<string> {
-	return isTauri() ? invoke<string>('generate_uuid') : crypto.randomUUID();
+	return crypto.randomUUID();
 }
 
 class AiState {

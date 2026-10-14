@@ -222,7 +222,7 @@
 				}
 				await ensurePdfWorker();
 				if (disposed) return;
-				if (!pdfjs || !pdfJsWorker) throw new Error('PDF.js failed to initialize');
+				if (!pdfjs || !pdfJsWorker) throw new Error('PDF.js failed to initialise');
 				loadingTask = pdfjs.getDocument({
 					data: bytes,
 					worker: pdfJsWorker,

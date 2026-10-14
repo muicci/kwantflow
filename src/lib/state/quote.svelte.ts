@@ -1,5 +1,4 @@
 import { getContext, setContext } from 'svelte';
-import { invoke } from '@tauri-apps/api/core';
 import type {
 	Asset,
 	CostComponent,
@@ -18,7 +17,6 @@ import { createLogger } from '$lib/services/logger.js';
 import { SvelteDate, SvelteMap, SvelteSet } from 'svelte/reactivity';
 import { dec } from '$lib/utils/math.js';
 import { cloneEstimateSnapshot } from '$lib/utils/estimate-snapshot.js';
-import { isTauri } from '../utils/env.js';
 import { errorState } from './errors.svelte.js';
 import type {
 	CostComponentPresetFormValues,
@@ -47,8 +45,8 @@ function cloneEstimate(estimate: Estimate): Estimate {
 	return cloneEstimateSnapshot(estimate);
 }
 
-async function generateId(): Promise<string> {
-	return isTauri() ? invoke<string>('generate_uuid') : crypto.randomUUID();
+function generateId(): string {
+	return crypto.randomUUID();
 }
 
 function blankQuoteOption(projectId: string): QuoteOption {
@@ -489,7 +487,7 @@ export class QuoteEngineState {
 		const previousActiveQuoteOptionId = this.activeQuoteOptionId;
 		const now = nowIsoString();
 		const option: QuoteOption = {
-			id: await generateId(),
+			id: generateId(),
 			project_id: this.projectId,
 			label: seed.label?.trim() || `Option ${this.quoteOptions.length + 1}`,
 			lead_time: seed.lead_time?.trim() || this.getActiveQuoteOption().lead_time || '2 weeks',
@@ -644,7 +642,7 @@ export class QuoteEngineState {
 		const option = this.getQuoteOption(optionId);
 		if (!option) return;
 		try {
-			const presetId = await generateId();
+			const presetId = generateId();
 			await dbService.addQuoteOptionPreset(presetId, {
 				label: overrides.label?.trim() || option.label,
 				lead_time: overrides.lead_time?.trim() || option.lead_time,
@@ -1298,9 +1296,9 @@ export class QuoteEngineState {
 		this.dirtyIds.add(assetId);
 	}
 
-	async addTakeoffItem(assetId: string, name: string = 'Scope Item'): Promise<void> {
+	async addTakeoffItem(assetId: string, name: string = 'Asset'): Promise<void> {
 		const est = this.getEstimate(assetId);
-		const id = await generateId();
+		const id = generateId();
 		const item: TakeoffItem = {
 			id,
 			estimate_asset_id: assetId,
@@ -1353,7 +1351,7 @@ export class QuoteEngineState {
 		category: CostComponent['category'] = 'material'
 	): Promise<void> {
 		const est = this.getEstimate(assetId);
-		const componentId = await generateId();
+		const componentId = generateId();
 		const defaults: Record<
 			CostComponent['category'],
 			{ name: string; unit: CostComponent['unit'] }
@@ -1399,7 +1397,7 @@ export class QuoteEngineState {
 		data: CostComponentPresetFormValues,
 		components: CostComponentPreset['components']
 	): Promise<void> {
-		const id = await generateId();
+		const id = generateId();
 		await dbService.addCostComponentPreset(id, data, components);
 	}
 
@@ -1407,7 +1405,7 @@ export class QuoteEngineState {
 		data: EstimateTemplateFormValues,
 		estimate: EstimateTemplate['estimate']
 	): Promise<void> {
-		const id = await generateId();
+		const id = generateId();
 		await dbService.addEstimateTemplate(id, data, estimate);
 	}
 
@@ -1435,7 +1433,7 @@ export class QuoteEngineState {
 		componentId: string
 	): Promise<void> {
 		const est = this.getEstimate(assetId);
-		const nextId = await generateId();
+		const nextId = generateId();
 		this.estimates.set(assetId, {
 			...est,
 			takeoff_items: est.takeoff_items.map((item) => {

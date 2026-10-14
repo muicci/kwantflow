@@ -117,7 +117,6 @@ describe('ui refinement markup', () => {
 			'src/lib/components/ui/breadcrumb/breadcrumb-separator.svelte'
 		);
 		const separatorSource = readSource('src/lib/components/ui/separator/separator.svelte');
-		const skeletonSource = readSource('src/lib/components/ui/skeleton/skeleton.svelte');
 		const sonnerSource = readSource('src/lib/components/ui/sonner/sonner.svelte');
 		const resizableHandleSource = readSource(
 			'src/lib/components/ui/resizable/resizable-handle.svelte'
@@ -128,7 +127,6 @@ describe('ui refinement markup', () => {
 		expect(breadcrumbLinkSource).toContain('ui-breadcrumb-link');
 		expect(breadcrumbSeparatorSource).toContain('ui-breadcrumb-separator');
 		expect(separatorSource).toContain('ui-separator');
-		expect(skeletonSource).toContain('ui-skeleton');
 		expect(sonnerSource).toContain('ui-toaster');
 		expect(resizableHandleSource).toContain('ui-resizable-handle');
 		expect(resizableHandleSource).toContain('ui-resizable-grip');

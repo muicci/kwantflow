@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CopyIcon from '@tabler/icons-svelte/icons/copy';
+	import CopyIcon from '@lucide/svelte/icons/copy';
 	import MoreHorizontalIcon from '@lucide/svelte/icons/more-horizontal';
 	import PencilIcon from '@lucide/svelte/icons/pencil';
 	import Trash2Icon from '@lucide/svelte/icons/trash-2';

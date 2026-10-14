@@ -375,7 +375,11 @@ export class IntegrationsState {
 		}
 	}
 
-	async openEmailMessage(messageId: string): Promise<GmailDetail | null> {
+	async openEmailMessage(
+		messageId: string,
+		options: { markRead?: boolean } = {}
+	): Promise<GmailDetail | null> {
+		const markRead = options.markRead ?? true;
 		const workspaceGeneration = this.workspaceGeneration;
 		// Return cached detail if available (no reload on tab reopen)
 		const cached = this.emailDetailCache.get(messageId);
@@ -395,16 +399,18 @@ export class IntegrationsState {
 				return null;
 			// Cache for future opens
 			this.emailDetailCache.set(messageId, detail);
-			// Mark as read locally
-			this.emailCache = this.emailCache.map((m) =>
-				m.id === messageId ? { ...m, isUnread: false } : m
-			);
-			// Mark as read on server (non-blocking)
-			invoke('set_email_message_read_status', {
-				connectionId: conn.id,
-				messageId,
-				isRead: true
-			}).catch((e) => log.warn(`[mail] Mark read failed: ${e}`));
+			if (markRead) {
+				// The user opened the message: mark it read locally and on the provider (non-blocking).
+				// Automatic RFQ detection passes markRead: false and never changes mailbox state.
+				this.emailCache = this.emailCache.map((m) =>
+					m.id === messageId ? { ...m, isUnread: false } : m
+				);
+				invoke('set_email_message_read_status', {
+					connectionId: conn.id,
+					messageId,
+					isRead: true
+				}).catch((e) => log.warn(`[mail] Mark read failed: ${e}`));
+			}
 			return detail;
 		} catch (e) {
 			if (this.workspaceGeneration !== workspaceGeneration) return null;
@@ -716,7 +722,7 @@ export class IntegrationsState {
 					this.startPollingTimer();
 				}
 
-				log.info('[oauth] Connected:', result.integration.label);
+				log.info('[oauth] Connected', { integrationId: result.integration.id });
 				return;
 			} catch (error) {
 				if (
@@ -1033,6 +1039,9 @@ export class IntegrationsState {
 	}
 
 	private async classifyPendingEmailPass(): Promise<void> {
+		// RFQ detection needs the on-device model. Without it, do not fetch message bodies.
+		const { aiState } = await import('./ai.svelte');
+		if (!['installed', 'ready'].includes(aiState.localAiStatus.installState)) return;
 		const workspaceGeneration = this.workspaceGeneration;
 		const connection = this.activeEmailConnection;
 		if (!connection) return;
@@ -1079,7 +1088,7 @@ export class IntegrationsState {
 			this.rfqResults = { ...this.rfqResults };
 
 			try {
-				const detail = await this.openEmailMessage(msg.id);
+				const detail = await this.openEmailMessage(msg.id, { markRead: false });
 				if (!detail) throw new Error('Full email body could not be loaded');
 				const result = await classifyEmailRfq(detail);
 				if (this.workspaceGeneration !== workspaceGeneration) break;

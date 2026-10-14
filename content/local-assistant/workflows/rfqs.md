@@ -36,6 +36,6 @@ Click the **...** button at the end of any row to open the actions menu:
 You can switch between **Active**, **Archived**, and **All** RFQs using the selector at the top of the list.
 
 - **Reordering**: Click and drag the handle at the left of any row to manually reorder your active RFQs. Note that manual reordering is disabled if you have clicked a column header to sort the list.
-- **Bulk Actions**: Select multiple RFQs using the checkboxes on the left to archive, restore, or delete them all at once.
+- **Multi-select**: Use the checkboxes on the left to select several RFQs, then use the actions that appear to archive, restore or delete them together.
 
 **See also:** [Files and review](workflows/files-and-review.md), [Assets and estimates](workflows/assets-and-estimates.md)

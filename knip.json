@@ -2,13 +2,7 @@
 	"$schema": "https://knip.dev/schema.json",
 	"entry": ["src/routes/**/+page.svelte", "src/routes/**/+layout.svelte"],
 	"project": ["src/**/*.{ts,svelte,mdx,css}"],
-	"ignore": ["src/lib/components/ReferenceShowcase.svelte"],
-	"ignoreFiles": [
-		"src/lib/components/ui/progress/index.ts",
-		"src/lib/components/ui/progress/progress.svelte",
-		"src/lib/design/generated/registry.ts",
-		"src/lib/stubs/fs-browser.ts"
-	],
+	"ignoreFiles": ["src/lib/design/generated/registry.ts"],
 	"ignoreBinaries": ["rustup"],
 	"ignoreDependencies": ["@tauri-apps/cli", "eslint-plugin-storybook"],
 	"ignoreIssues": {

@@ -61,11 +61,6 @@ const workspaceStateMock = {
 	reset: vi.fn()
 };
 
-const customerStateMock = {
-	hydrate: vi.fn(),
-	refresh: vi.fn()
-};
-
 const projectsStateMock = {
 	hydrate: vi.fn(),
 	list: [] as unknown[],
@@ -142,10 +137,6 @@ vi.mock('./account.svelte', () => ({
 
 vi.mock('./workspace.svelte', () => ({
 	workspaceState: workspaceStateMock
-}));
-
-vi.mock('./customer.svelte', () => ({
-	customerState: customerStateMock
 }));
 
 vi.mock('./projects.svelte', () => ({
@@ -276,8 +267,6 @@ describe('appState boot', () => {
 		workspaceStateMock.hydrate.mockResolvedValue(undefined);
 		workspaceStateMock.refresh.mockResolvedValue(undefined);
 		workspaceStateMock.reset.mockReturnValue(undefined);
-		customerStateMock.hydrate.mockResolvedValue(undefined);
-		customerStateMock.refresh.mockResolvedValue(undefined);
 		projectsStateMock.hydrate.mockResolvedValue(undefined);
 		projectsStateMock.reset.mockReturnValue(undefined);
 		contactsStateMock.hydrate.mockResolvedValue(undefined);
@@ -370,7 +359,8 @@ describe('appState boot', () => {
 		const { appState } = await import('./app.svelte');
 		await appState.openLocalDocumentation('email_setup');
 		expect(invokeMock).toHaveBeenCalledExactlyOnceWith('open_local_documentation', {
-			kind: 'email_setup'
+			kind: 'email_setup',
+			page: null
 		});
 		expect(appState.localDocumentationTitle).toBe('Connect email');
 		expect(appState.localDocumentationText).toBe('Synthetic offline email setup instructions');
@@ -379,8 +369,9 @@ describe('appState boot', () => {
 
 	it('keeps the latest documentation selection when reads finish out of order', async () => {
 		let resolveHelp: (text: string) => void = () => {};
-		invokeMock.mockImplementation(async (_command: string, args: { kind: string }) => {
-			if (args.kind === 'help')
+		invokeMock.mockImplementation(async (command: string, args?: { kind?: string }) => {
+			if (command === 'list_local_documentation_pages') return [];
+			if (args?.kind === 'help')
 				return new Promise<string>((resolve) => {
 					resolveHelp = resolve;
 				});
@@ -391,7 +382,7 @@ describe('appState boot', () => {
 		await appState.openLocalDocumentation('license');
 		resolveHelp('Older help response');
 		await first;
-		expect(appState.localDocumentationTitle).toBe('License');
+		expect(appState.localDocumentationTitle).toBe('Licence');
 		expect(appState.localDocumentationText).toBe('License text');
 		expect(appState.isLocalDocumentationOpen).toBe(true);
 	});
@@ -403,7 +394,6 @@ describe('appState boot', () => {
 		await vi.runAllTimersAsync();
 		await bootPromise;
 
-		expect(customerStateMock.hydrate).toHaveBeenCalledTimes(1);
 		expect(workspaceStateMock.hydrate).toHaveBeenCalledTimes(1);
 	});
 
@@ -419,7 +409,6 @@ describe('appState boot', () => {
 		expect(appState.isBooting).toBe(false);
 		expect(appState.bootFailureMessage).toContain('Update required');
 		expect(accountStateMock.hydrate).not.toHaveBeenCalled();
-		expect(customerStateMock.hydrate).not.toHaveBeenCalled();
 		expect(workspaceStateMock.hydrate).not.toHaveBeenCalled();
 		expect(projectsStateMock.hydrate).not.toHaveBeenCalled();
 		expect(contactsStateMock.hydrate).not.toHaveBeenCalled();
@@ -612,7 +601,6 @@ describe('appState boot', () => {
 		await bootPromise;
 
 		expect(accountStateMock.hydrate).not.toHaveBeenCalledWith({ includeWorkspaceMember: true });
-		expect(customerStateMock.hydrate).not.toHaveBeenCalledWith({ includeWorkspace: true });
 		expect(workspaceStateMock.hydrate).not.toHaveBeenCalled();
 		expect(aiStateMock.hydrate).not.toHaveBeenCalledWith({
 			includeAccessStatus: false,
@@ -660,7 +648,6 @@ describe('appState boot', () => {
 		expect(contactsStateMock.refresh).not.toHaveBeenCalled();
 		expect(workspaceStateMock.hydrate).not.toHaveBeenCalled();
 		expect(accountStateMock.hydrate).toHaveBeenCalledWith({ includeWorkspaceMember: false });
-		expect(customerStateMock.hydrate).toHaveBeenCalledWith({ includeWorkspace: false });
 	});
 
 	it('refreshes optional setup page counts and unhides pages that already contain records', async () => {

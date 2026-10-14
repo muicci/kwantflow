@@ -16,7 +16,6 @@ export default defineConfig(
 		ignores: [
 			'src/lib/components/ui/button/button.svelte',
 			// Pre-existing lint debt from before the whole tree was linted. Fix and remove entries.
-			'src/lib/components/ReferenceShowcase.svelte',
 			'src/lib/components/app-sidebar-mail-panel.svelte',
 			'src/lib/components/app-sidebar-panel-rail.svelte',
 			'src/lib/components/ask-kwantflow-page-reference.svelte',

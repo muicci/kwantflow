@@ -1,7 +1,7 @@
 {
 	"$schema": "../gen/schemas/desktop-schema.json",
 	"identifier": "asset-preview",
-	"description": "Least-privilege capability for the detached asset preview window",
+	"description": "Least-privilege capability for the detached asset preview window: read-only vault access and a derived-preview cache under the app cache directory.",
 	"windows": ["asset-preview"],
 	"permissions": [
 		"core:default",
@@ -31,22 +31,63 @@
 		"opener:deny-reveal-item-in-dir",
 		"allow-query-workspace-database",
 		"allow-rasterize-pdf-pages",
-		"fs:default",
-		{
-			"identifier": "fs:allow-document-read-recursive",
-			"scope": {
-				"allow": [
-					{
-						"path": "$DOCUMENT/Kwantflow"
-					}
-				]
-			}
-		},
 		"log:default",
-		"fs:allow-appcache-meta-recursive",
-		"fs:allow-appcache-read-recursive",
-		"fs:allow-appcache-write-recursive",
-		"fs:allow-applocaldata-write-recursive",
+		"fs:deny-default",
+		{
+			"identifier": "fs:allow-read-file",
+			"allow": [
+				{ "path": "$DOCUMENT/Kwantflow/**" },
+				{ "path": "$APPLOCALDATA/qa-documents/Kwantflow/**" },
+				{ "path": "$APPCACHE/generated-previews/**" },
+				{ "path": "$APPCACHE/ai-evidence/**" }
+			]
+		},
+		{
+			"identifier": "fs:allow-read-text-file",
+			"allow": [
+				{ "path": "$APPCACHE/generated-previews/**" },
+				{ "path": "$APPCACHE/ai-evidence/**" }
+			]
+		},
+		{
+			"identifier": "fs:allow-exists",
+			"allow": [
+				{ "path": "$APPCACHE/generated-previews" },
+				{ "path": "$APPCACHE/generated-previews/**" },
+				{ "path": "$APPCACHE/ai-evidence" },
+				{ "path": "$APPCACHE/ai-evidence/**" }
+			]
+		},
+		{
+			"identifier": "fs:allow-stat",
+			"allow": [
+				{ "path": "$APPCACHE/generated-previews/**" },
+				{ "path": "$APPCACHE/ai-evidence/**" }
+			]
+		},
+		{
+			"identifier": "fs:allow-read-dir",
+			"allow": [{ "path": "$APPCACHE/generated-previews" }, { "path": "$APPCACHE/ai-evidence" }]
+		},
+		{
+			"identifier": "fs:allow-mkdir",
+			"allow": [{ "path": "$APPCACHE/generated-previews" }, { "path": "$APPCACHE/ai-evidence" }]
+		},
+		{
+			"identifier": "fs:allow-write-file",
+			"allow": [{ "path": "$APPCACHE/generated-previews/**" }]
+		},
+		{
+			"identifier": "fs:allow-write-text-file",
+			"allow": [{ "path": "$APPCACHE/generated-previews/**" }]
+		},
+		{
+			"identifier": "fs:allow-remove",
+			"allow": [
+				{ "path": "$APPCACHE/generated-previews/**" },
+				{ "path": "$APPCACHE/ai-evidence/**" }
+			]
+		},
 		"allow-get-ai-evidence-cache-budget",
 		"allow-read-ai-evidence-cache-text",
 		"allow-read-ai-evidence-cache-bytes",

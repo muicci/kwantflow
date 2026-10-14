@@ -8,7 +8,6 @@ import {
 } from '$lib/services/db.js';
 import { profileState } from './profile.svelte';
 import { accountState } from './account.svelte';
-import { customerState } from './customer.svelte';
 import { workspaceState } from './workspace.svelte';
 import { projectsState } from './projects.svelte';
 import { contactsState } from './contacts.svelte';
@@ -361,11 +360,9 @@ class AppState {
 					try {
 						if (activeWorkspaceEntry) {
 							await accountState.hydrate({ includeWorkspaceMember: true });
-							await customerState.hydrate({ includeWorkspace: true });
 							await workspaceState.hydrate();
 						} else {
 							await accountState.hydrate({ includeWorkspaceMember: false });
-							await customerState.hydrate({ includeWorkspace: false });
 						}
 					} catch (error) {
 						await errorState.catchError(error, 'Workspace Hydration');
@@ -771,20 +768,35 @@ class AppState {
 	isLocalDocumentationOpen = $state(false);
 	localDocumentationTitle = $state('');
 	localDocumentationText = $state('');
+	localDocumentationKind = $state<'help' | 'email_setup' | 'license' | 'notices'>('help');
+	localDocumentationPages = $state<{ file: string; title: string }[]>([]);
+	localDocumentationPage = $state('README.md');
 	private documentationRequestId = 0;
 
 	async openLocalDocumentation(
-		kind: 'help' | 'email_setup' | 'license' | 'notices'
+		kind: 'help' | 'email_setup' | 'license' | 'notices',
+		page?: string
 	): Promise<void> {
 		if (!isTauri()) return;
 		const requestId = ++this.documentationRequestId;
 		try {
-			const text = await invoke<string>('open_local_documentation', { kind });
+			if (kind === 'help' && this.localDocumentationPages.length === 0) {
+				this.localDocumentationPages = await invoke<{ file: string; title: string }[]>(
+					'list_local_documentation_pages'
+				);
+			}
+			const text = await invoke<string>('open_local_documentation', {
+				kind,
+				page: kind === 'help' ? (page ?? 'README.md') : null
+			});
 			if (requestId !== this.documentationRequestId) return;
+			const pageTitle = this.localDocumentationPages.find((entry) => entry.file === page)?.title;
+			this.localDocumentationKind = kind;
+			this.localDocumentationPage = kind === 'help' ? (page ?? 'README.md') : '';
 			this.localDocumentationTitle = {
-				help: 'Kwantflow Help',
+				help: pageTitle ?? 'Kwantflow Help',
 				email_setup: 'Connect email',
-				license: 'License',
+				license: 'Licence',
 				notices: 'Third-party notices'
 			}[kind];
 			this.localDocumentationText = text;
@@ -838,7 +850,6 @@ class AppState {
 			contactsState.reset();
 			workspaceState.reset();
 			await accountState.hydrate({ includeWorkspaceMember: false });
-			await customerState.hydrate({ includeWorkspace: false });
 			await onboardingState.hydrate();
 			this.isSettingsDialogOpen = false;
 		} catch (error) {

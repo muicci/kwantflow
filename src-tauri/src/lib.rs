@@ -62,7 +62,7 @@ use crate::integrations::{
 use crate::local_ai::{
     abort_active_local_ai_completion, cancel_local_ai_download, cancel_local_ai_runtime,
     cleanup_local_ai_runtime, download_local_ai_model, end_local_ai_conversation,
-    ensure_local_ai_ready, evaluate_estimate_expression, get_local_ai_capabilities_command,
+    ensure_local_ai_ready, get_local_ai_capabilities_command,
     get_local_ai_conversation_tokens, get_local_ai_status, probe_local_ai_native_tools,
     remove_local_ai_model, run_local_ai_completion, run_local_ai_completion_stream,
     send_local_ai_message, start_local_ai_conversation, unload_local_ai_runtime,
@@ -217,17 +217,21 @@ fn resolve_existing_file_path(path: &Path) -> Result<PathBuf, String> {
     canonicalize_existing_path(path)
 }
 
+/// App-local subdirectories that hold files the app itself staged for import
+/// (email attachment downloads and intake preprocessing output).
+const EXTERNAL_READ_APP_LOCAL_STAGING_DIRS: &[&str] = &["attachments", "intake-temp"];
+
 fn resolve_allowed_file_path(path: &Path, app: &tauri::AppHandle) -> Result<PathBuf, String> {
     // Build list of allowed root directories.
     // A file must reside within at least one of these roots to be readable.
     let mut allowed_roots: Vec<PathBuf> = Vec::new();
 
-    // 1. Always allow the user's home directory.
+    // 1. Always allow the user's home directory, except hidden entries (see below).
     let home = app
         .path()
         .home_dir()
         .map_err(|e| format!("Failed to resolve home directory: {}", e))?;
-    allowed_roots.push(home);
+    allowed_roots.push(home.clone());
 
     // 2. Always allow the system temporary directory.
     allowed_roots.push(std::env::temp_dir());
@@ -247,7 +251,88 @@ fn resolve_allowed_file_path(path: &Path, app: &tauri::AppHandle) -> Result<Path
         }
     }
 
-    resolve_file_within_roots(path, &allowed_roots)
+    // The app's own data directories hold databases, credentials and caches. They are never
+    // user-selectable, apart from the staging directories the app fills for import itself.
+    let mut denied_roots: Vec<PathBuf> = Vec::new();
+    let mut staging_roots: Vec<PathBuf> = Vec::new();
+    if let Ok(root) = app_local_data_root(app) {
+        staging_roots.extend(
+            EXTERNAL_READ_APP_LOCAL_STAGING_DIRS
+                .iter()
+                .map(|segment| root.join(segment)),
+        );
+        denied_roots.push(root);
+    }
+    for root in [
+        app.path().app_config_dir(),
+        app.path().app_data_dir(),
+        app.path().app_cache_dir(),
+        app.path().app_log_dir(),
+    ]
+    .into_iter()
+    .flatten()
+    {
+        denied_roots.push(root);
+    }
+
+    resolve_external_file_within_roots(
+        path,
+        &allowed_roots,
+        std::slice::from_ref(&home),
+        &denied_roots,
+        &staging_roots,
+    )
+}
+
+/// Resolve a user-selected external file, rejecting hidden entries under
+/// `hidden_entry_roots` (for example `~/.ssh`, `~/.aws`) and anything under
+/// `denied_roots` unless it sits inside one of the `staging_roots`.
+fn resolve_external_file_within_roots(
+    path: &Path,
+    allowed_roots: &[PathBuf],
+    hidden_entry_roots: &[PathBuf],
+    denied_roots: &[PathBuf],
+    staging_roots: &[PathBuf],
+) -> Result<PathBuf, String> {
+    let resolved = resolve_file_within_roots(path, allowed_roots)?;
+
+    let is_staged = staging_roots.iter().any(|root| {
+        canonicalize_existing_path(root)
+            .map(|canonical| resolved.starts_with(&canonical))
+            .unwrap_or(false)
+    });
+    if !is_staged {
+        for root in denied_roots {
+            if let Ok(canonical_root) = canonicalize_existing_path(root) {
+                if resolved.starts_with(&canonical_root) {
+                    return Err(
+                        "Files inside Kwantflow's own application data cannot be selected."
+                            .to_string(),
+                    );
+                }
+            }
+        }
+    }
+
+    for root in hidden_entry_roots {
+        let Ok(canonical_root) = canonicalize_existing_path(root) else {
+            continue;
+        };
+        let Ok(relative) = resolved.strip_prefix(&canonical_root) else {
+            continue;
+        };
+        let hidden = relative.components().any(|component| match component {
+            Component::Normal(segment) => segment.to_string_lossy().starts_with('.'),
+            _ => false,
+        });
+        if hidden {
+            return Err(
+                "Hidden files and folders in the home directory cannot be selected.".to_string(),
+            );
+        }
+    }
+
+    Ok(resolved)
 }
 
 fn resolve_file_within_roots(path: &Path, allowed_roots: &[PathBuf]) -> Result<PathBuf, String> {
@@ -651,21 +736,6 @@ fn copy_file_into_vault(
     Ok(relative_directory.join(filename))
 }
 
-/// Health check — confirms the Rust backend is responsive.
-#[tauri::command]
-fn health() -> serde_json::Value {
-    serde_json::json!({
-        "status": "ok",
-        "version": env!("CARGO_PKG_VERSION"),
-        "build_profile": if cfg!(debug_assertions) { "debug" } else { "release" },
-    })
-}
-
-#[tauri::command]
-fn generate_uuid() -> String {
-    uuid::Uuid::new_v4().to_string()
-}
-
 fn emit_native_menu_action(app: &AppHandle, action: &str) {
     let _ = app.emit(NATIVE_APP_MENU_ACTION_EVENT, action);
 }
@@ -807,6 +877,24 @@ fn finalize_startup_window(app: AppHandle) -> Result<(), String> {
     Ok(())
 }
 
+const DETACHED_PREVIEW_ROUTE_PREFIX: &str = "/preview/";
+
+/// Only in-app detached preview routes may be loaded into the preview window.
+fn validate_detached_preview_route(route: &str) -> Result<(), String> {
+    let valid = route.starts_with(DETACHED_PREVIEW_ROUTE_PREFIX)
+        && !route.starts_with("//")
+        && !route.contains("://")
+        && !route.contains("..")
+        && route
+            .chars()
+            .all(|character| !character.is_control() && !character.is_whitespace());
+    if valid {
+        Ok(())
+    } else {
+        Err("Detached preview routes must stay within the in-app preview pages.".to_string())
+    }
+}
+
 #[tauri::command]
 fn retarget_detached_preview_window(
     app: AppHandle,
@@ -817,6 +905,7 @@ fn retarget_detached_preview_window(
         return Ok(false);
     };
 
+    validate_detached_preview_route(&route)?;
     let route_script = serde_json::to_string(&route)
         .map_err(|error| format!("Serialize preview route: {}", error))?;
     preview
@@ -840,13 +929,57 @@ fn retarget_detached_preview_window(
 #[serde(rename_all = "snake_case")]
 enum LocalDocumentKind { Help, License, Notices, EmailSetup }
 
+#[derive(Serialize, Deserialize, Clone)]
+struct LocalDocumentationPage {
+    file: String,
+    title: String,
+}
+
+#[derive(Deserialize)]
+struct LocalDocumentationManifest {
+    pages: Vec<LocalDocumentationPage>,
+}
+
+const USER_DOCS_DIR: &str = "docs/user";
+const USER_DOCS_MANIFEST: &str = "docs/user/manifest.json";
+const USER_DOCS_EMAIL_PAGE: &str = "09-email.md";
+
+fn load_local_documentation_manifest(app: &AppHandle) -> Result<Vec<LocalDocumentationPage>, String> {
+    let path = app.path().resource_dir().map_err(|error| error.to_string())?.join(USER_DOCS_MANIFEST);
+    let text = fs::read_to_string(&path).map_err(|error| format!("Read documentation manifest: {error}"))?;
+    let manifest: LocalDocumentationManifest =
+        serde_json::from_str(&text).map_err(|error| format!("Parse documentation manifest: {error}"))?;
+    Ok(manifest.pages)
+}
+
+/// The bundled user manual pages, in reading order.
 #[tauri::command]
-fn open_local_documentation(app: AppHandle, kind: LocalDocumentKind) -> Result<String, String> {
+fn list_local_documentation_pages(app: AppHandle) -> Result<Vec<LocalDocumentationPage>, String> {
+    load_local_documentation_manifest(&app)
+}
+
+/// Read one bundled document. `page` selects a manual page and must be listed in the manifest.
+#[tauri::command]
+fn open_local_documentation(
+    app: AppHandle,
+    kind: LocalDocumentKind,
+    page: Option<String>,
+) -> Result<String, String> {
     let relative_path = match kind {
-        LocalDocumentKind::Help => "docs/user/README.md",
-        LocalDocumentKind::License => "LICENSE",
-        LocalDocumentKind::Notices => "THIRD_PARTY_NOTICES.md",
-        LocalDocumentKind::EmailSetup => "docs/user/EMAIL_SETUP.md",
+        LocalDocumentKind::Help => {
+            let requested = match page {
+                Some(page) => resolve_safe_path_segment(&page, "documentation page")?,
+                None => "README.md".to_string(),
+            };
+            let pages = load_local_documentation_manifest(&app)?;
+            if !pages.iter().any(|entry| entry.file == requested) {
+                return Err("Unknown documentation page.".to_string());
+            }
+            format!("{USER_DOCS_DIR}/{requested}")
+        }
+        LocalDocumentKind::License => "LICENSE".to_string(),
+        LocalDocumentKind::Notices => "THIRD_PARTY_NOTICES.md".to_string(),
+        LocalDocumentKind::EmailSetup => format!("{USER_DOCS_DIR}/{USER_DOCS_EMAIL_PAGE}"),
     };
     let path = app.path().resource_dir().map_err(|error| error.to_string())?.join(relative_path);
     fs::read_to_string(&path).map_err(|error| format!("Read bundled documentation: {error}"))
@@ -888,7 +1021,7 @@ fn create_support_diagnostics_bundle(
     );
     let bytes = encode_support_diagnostics_bundle(&manifest, &included)?;
     if bytes.len() > SUPPORT_DIAGNOSTICS_BUNDLE_MAX_BYTES {
-        return Err("Diagnostic logs exceeded the upload limit.".to_string());
+        return Err("Diagnostic logs exceeded the size limit.".to_string());
     }
 
     log::info!(
@@ -1164,190 +1297,6 @@ fn rasterize_pdf_pages(
     Ok(base64_pages)
 }
 
-fn parse_robust_quadrant(input: &str) -> Result<(f32, f32), String> {
-    let normalized = input.trim().to_uppercase();
-
-    let mut col_char: Option<char> = None;
-    let mut number_start_idx: Option<usize> = None;
-
-    for (i, c) in normalized.char_indices() {
-        if c >= 'A' && c <= 'J' {
-            col_char = Some(c);
-            number_start_idx = Some(i + 1);
-            break;
-        }
-    }
-
-    let col = col_char.ok_or_else(|| "Could not find grid column (A-J) in input.".to_string())?;
-    let start = number_start_idx.unwrap();
-    if start >= normalized.len() {
-        return Err("No row index found after grid column.".to_string());
-    }
-
-    let digit_chars: String = normalized[start..]
-        .chars()
-        .filter(|c| c.is_ascii_digit())
-        .collect();
-
-    if digit_chars.is_empty() {
-        return Err("Could not find grid row number (1-10) in input.".to_string());
-    }
-
-    let row_num: u32 = digit_chars
-        .parse::<u32>()
-        .map_err(|_| "Failed to parse grid row number.".to_string())?;
-
-    if row_num < 1 || row_num > 10 {
-        return Err(format!(
-            "Grid row number {} is out of bounds (1-10).",
-            row_num
-        ));
-    }
-
-    let col_idx = (col as u32 - 'A' as u32) as f32;
-    let row_idx = (row_num - 1) as f32;
-
-    Ok((col_idx, row_idx))
-}
-
-fn render_pdf_page_at_8k(
-    app: &AppHandle,
-    resolved_path: &Path,
-    page_num: u32,
-) -> Result<image::DynamicImage, String> {
-    let pdfium = init_pdfium(app)?;
-    let document = pdfium
-        .load_pdf_from_file(resolved_path, None)
-        .map_err(|error| format!("Load PDF file: {:?}", error))?;
-
-    let total_pages = document.pages().len();
-    if page_num == 0 || page_num > total_pages as u32 {
-        return Err(format!(
-            "Page number {} is out of bounds (1-{})",
-            page_num, total_pages
-        ));
-    }
-    let page_index = page_num - 1;
-    let page = document
-        .pages()
-        .get(page_index as i32)
-        .map_err(|error| format!("Get PDF page {}: {:?}", page_num, error))?;
-
-    let natural_width = page.width().value;
-    let natural_height = page.height().value;
-
-    let target_width = 8192.0_f32;
-    let scale_factor = target_width / natural_width;
-    let target_height = (natural_height * scale_factor) as u32;
-
-    let render_config = PdfRenderConfig::new()
-        .set_target_width(target_width as i32)
-        .set_maximum_height(target_height as i32);
-
-    let bitmap = page
-        .render_with_config(&render_config)
-        .map_err(|error| format!("Render PDF page: {:?}", error))?;
-
-    let dynamic_image = bitmap
-        .as_image()
-        .map_err(|error| format!("Convert bitmap to image: {:?}", error))?;
-
-    Ok(dynamic_image)
-}
-
-struct CachedPdfPage {
-    file_path: String,
-    page_num: u32,
-    image: image::DynamicImage,
-}
-
-static LAST_RENDERED_PAGE: std::sync::Mutex<Option<CachedPdfPage>> = std::sync::Mutex::new(None);
-
-#[tauri::command]
-fn crop_pdf_subquadrant(
-    app: AppHandle,
-    file_path: String,
-    page_num: u32,
-    quadrant: String,
-) -> Result<String, String> {
-    let normalized = normalize_safe_relative_path(&file_path)?;
-    let first_segment = normalized
-        .components()
-        .next()
-        .and_then(|component| match component {
-            Component::Normal(segment) => segment.to_str(),
-            _ => None,
-        })
-        .unwrap_or_default();
-    let allowed_root = if first_segment == "account" {
-        app_local_data_root(&app)?
-    } else {
-        document_root(&app)?.join(VAULT_ROOT)
-    };
-    let absolute_path = allowed_root.join(&normalized);
-    let resolved = resolve_existing_path_within_root(&absolute_path, &allowed_root)?;
-
-    // Parse the alphanumeric grid quadrant robustly
-    let (col_idx, row_idx) = parse_robust_quadrant(&quadrant)?;
-
-    let crop_xmin = col_idx / 10.0;
-    let crop_ymin = row_idx / 10.0;
-    let crop_width = 0.1;
-    let crop_height = 0.1;
-
-    // Retrieve or populate cache
-    let dynamic_image = {
-        let mut cache = LAST_RENDERED_PAGE
-            .lock()
-            .map_err(|e| format!("Lock error: {e}"))?;
-        if let Some(ref cached) = *cache {
-            if cached.file_path == file_path && cached.page_num == page_num {
-                cached.image.clone()
-            } else {
-                let img = render_pdf_page_at_8k(&app, &resolved, page_num)?;
-                *cache = Some(CachedPdfPage {
-                    file_path: file_path.clone(),
-                    page_num,
-                    image: img.clone(),
-                });
-                img
-            }
-        } else {
-            let img = render_pdf_page_at_8k(&app, &resolved, page_num)?;
-            *cache = Some(CachedPdfPage {
-                file_path: file_path.clone(),
-                page_num,
-                image: img.clone(),
-            });
-            img
-        }
-    };
-
-    let img_width = dynamic_image.width() as f32;
-    let img_height = dynamic_image.height() as f32;
-
-    let crop_x = (crop_xmin * img_width).round() as u32;
-    let crop_y = (crop_ymin * img_height).round() as u32;
-    let crop_w = (crop_width * img_width).round() as u32;
-    let crop_h = (crop_height * img_height).round() as u32;
-
-    let cropped_image = dynamic_image.crop_imm(crop_x, crop_y, crop_w, crop_h);
-    let resized_image =
-        cropped_image.resize_exact(1024, 1024, image::imageops::FilterType::Lanczos3);
-
-    let rgb_image = resized_image.into_rgb8();
-    let mut jpeg_bytes = Vec::new();
-    let mut cursor = Cursor::new(&mut jpeg_bytes);
-
-    rgb_image
-        .write_to(&mut cursor, image::ImageFormat::Jpeg)
-        .map_err(|error| format!("Encode JPEG: {:?}", error))?;
-
-    use base64::Engine;
-    let b64_string = base64::engine::general_purpose::STANDARD.encode(&jpeg_bytes);
-    Ok(b64_string)
-}
-
 fn handle_app_menu_event(app: &AppHandle, event: tauri::menu::MenuEvent) {
     match event.id().0.as_str() {
         MENU_ACTION_OPEN_SETTINGS => {
@@ -1604,10 +1553,8 @@ pub fn run() {
             inspect_backup_snapshot,
             stage_backup_restore_from_snapshot,
             ingest_file,
-            health,
             get_local_startup_failure,
             get_local_documents_root,
-            generate_uuid,
             allow_external_file_read,
             add_project_command,
             create_project_workspace_command,
@@ -1650,6 +1597,7 @@ pub fn run() {
             save_quote_xlsx,
             create_support_diagnostics_bundle,
             open_local_documentation,
+            list_local_documentation_pages,
             finalize_startup_window,
             retarget_detached_preview_window,
             extract_pdf_text,
@@ -1662,7 +1610,6 @@ pub fn run() {
 			set_ai_evidence_cache_pin,
 			remove_ai_evidence_cache_prefix,
             rasterize_pdf_pages,
-            crop_pdf_subquadrant,
             get_local_ai_capabilities_command,
             get_local_ai_status,
             download_local_ai_model,
@@ -1676,7 +1623,6 @@ pub fn run() {
             run_local_ai_completion,
             run_local_ai_completion_stream,
             abort_active_local_ai_completion,
-            evaluate_estimate_expression,
             start_local_ai_conversation,
             send_local_ai_message,
             end_local_ai_conversation,
@@ -1984,8 +1930,10 @@ mod tests {
     use super::{
         acquire_profile_runtime_lock,
         append_support_log_line, copy_file_into_vault, initialize_once,
-        normalize_safe_relative_path, resolve_existing_file_path, resolve_file_within_roots,
+        normalize_safe_relative_path, resolve_existing_file_path,
+        resolve_external_file_within_roots, resolve_file_within_roots,
         resolve_existing_path_within_root, resolve_safe_path_segment,
+        validate_detached_preview_route,
     };
     use crate::ai_evidence_cache::{
         plan_ai_evidence_cache_evictions, validate_ai_evidence_cache_relative_path,
@@ -2262,6 +2210,65 @@ mod tests {
         );
         assert!(resolve_file_within_roots(&outside, &[allowed]).is_err());
         fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn external_file_reads_reject_hidden_home_entries_and_app_data() {
+        let root = temp_path("external-read-roots");
+        let home = root.join("home");
+        let app_data = home.join("Library").join("Application Support").join("kwantflow");
+        let staging = app_data.join("intake-temp");
+        fs::create_dir_all(home.join(".ssh")).unwrap();
+        fs::create_dir_all(home.join("Documents")).unwrap();
+        fs::create_dir_all(&staging).unwrap();
+        fs::create_dir_all(app_data.join("workspaces")).unwrap();
+
+        let plain = home.join("Documents").join("drawing.step");
+        let hidden_file = home.join("Documents").join(".secret.step");
+        let hidden_dir_file = home.join(".ssh").join("id_ed25519");
+        let database = app_data.join("workspaces").join("workspace.db");
+        let staged = staging.join("converted.jpg");
+        for file in [&plain, &hidden_file, &hidden_dir_file, &database, &staged] {
+            fs::write(file, b"bytes").unwrap();
+        }
+
+        let allowed = vec![home.clone()];
+        let hidden_roots = vec![home.clone()];
+        let denied = vec![app_data.clone()];
+        let staging_roots = vec![staging.clone()];
+        let resolve = |path: &Path| {
+            resolve_external_file_within_roots(path, &allowed, &hidden_roots, &denied, &staging_roots)
+        };
+
+        assert_eq!(resolve(&plain).unwrap(), fs::canonicalize(&plain).unwrap());
+        assert_eq!(resolve(&staged).unwrap(), fs::canonicalize(&staged).unwrap());
+        let hidden_file_error = resolve(&hidden_file).unwrap_err();
+        assert!(hidden_file_error.contains("Hidden files"), "{hidden_file_error}");
+        assert!(resolve(&hidden_dir_file).is_err());
+        let database_error = resolve(&database).unwrap_err();
+        assert!(database_error.contains("application data"), "{database_error}");
+        assert!(resolve(&root.join("outside.step")).is_err());
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn detached_preview_routes_must_stay_in_app() {
+        assert!(validate_detached_preview_route("/preview/asset/project-1/asset-1").is_ok());
+        assert!(validate_detached_preview_route("/preview/file/file-1").is_ok());
+        assert!(validate_detached_preview_route("/preview/email/message-1").is_ok());
+        for route in [
+            "",
+            "/",
+            "/project/1",
+            "preview/asset/1/2",
+            "//evil.example/preview/",
+            "/preview/../project/1",
+            "https://evil.example/preview/x",
+            "/preview/file/a b",
+            "/preview/file/\n",
+        ] {
+            assert!(validate_detached_preview_route(route).is_err(), "{route}");
+        }
     }
 
     #[cfg(unix)]

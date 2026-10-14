@@ -16,14 +16,17 @@ The dashboard is the first screen you see when you open Kwantflow. It shows your
 
 The main table shows all your projects in one place. Each row is an RFQ and shows:
 
-- **Customer:** The company requesting the quote.
-- **Reference:** Their reference number or project name.
-- **Requester:** The person who asked for the quote.
+- **RFQ Number:** The RFQ's own number.
+- **Company:** The company requesting the quote.
+- **Project Name:** The project or reference name.
+- **Priority** and **Status:** Where the RFQ sits in your workflow.
+- **Files:** How many files are attached.
+- **Submission Deadline:** When the quote is due.
 - **Status:** Where the project is up to (like Draft or Sent).
 - **Due:** When the quote needs to be finished.
 - **Created:** When the RFQ was added to Kwantflow.
 
-You can click any column heading to sort the list. For example, click **Due** to see which quotes you need to finish first.
+You can click any column heading to sort the list. For example, click **Submission Deadline** to see which quotes you need to finish first.
 
 ## Reordering your RFQs
 
@@ -31,7 +34,7 @@ By default, you can set your own order for the RFQ list.
 
 Click and hold the grip icon (the six dots) on the left side of any row. Drag the row up or down to change its position in the list. This is useful for keeping your most important work at the top.
 
-If you have clicked a column heading to sort the list (like sorting by **Due** date), the manual drag and drop will be disabled. To reorder manually again, click the sorted column heading until the sort icon disappears.
+If you have clicked a column heading to sort the list (like sorting by **Submission Deadline**), the manual drag and drop will be disabled. To reorder manually again, click the sorted column heading until the sort icon disappears.
 
 ## Finding and filtering
 
@@ -47,7 +50,7 @@ Click the **Create RFQ** button in the top right to start a new project. This wi
 
 ## Managing RFQs
 
-Click the **More Options** button (the three dots) on the right side of any row to see actions for that project. From this menu, you can open the project, edit its details, or archive it.
+Click the **Open menu** button (the three dots) on the right side of any row to see actions for that project. From this menu, you can open the project, edit its details, or archive it.
 
 If you select one or more rows using the checkboxes on the left, a toolbar will appear at the bottom of the screen. From here, you can perform actions on multiple RFQs at once:
 

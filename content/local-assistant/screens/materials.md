@@ -24,7 +24,7 @@ Click the **Create Material** button to add a new item to your catalogue. This w
 
 ## Managing materials
 
-Click the **More Options** button (the three dots) on the right side of any row to see actions for that material. From this menu, you can:
+Click the **Open menu** button (the three dots) on the right side of any row to see actions for that material. From this menu, you can:
 
 - **Edit Material:** Change the details of an existing material.
 - **Duplicate Material:** Create a copy of the material. This is useful for adding similar items without typing everything again.
@@ -35,7 +35,7 @@ Click the **More Options** button (the three dots) on the right side of any row 
 You can select one or more materials using the checkboxes on the left side of the table. Once selected, a toolbar will appear at the bottom of the screen. From here, you can:
 
 - **Clear:** Deselect all chosen materials.
-- **Delete Materials:** Permanently remove all selected materials from your catalogue at once.
+- **Delete:** Permanently remove the selected materials from your catalogue.
 
 ## Empty list
 

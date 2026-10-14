@@ -34,4 +34,4 @@ The files will be returned to the **Context** area for review. **Please note:** 
 
 ## See also
 
-- [What is an Asset?](/help/ref-what-is-an-asset)
+- [What is an Asset?](ref-what-is-an-asset)

@@ -1,5 +1,4 @@
 import { SvelteMap } from 'svelte/reactivity';
-import { invoke } from '@tauri-apps/api/core';
 import { toast } from 'svelte-sonner';
 
 import { dbService } from '../services/db';
@@ -7,7 +6,6 @@ import { createLogger } from '../services/logger.js';
 import { errorState } from './errors.svelte';
 import type { Contact } from '$lib/types/index.js';
 import type { ContactFormValues } from '$lib/schemas/index.js';
-import { isTauri } from '../utils/env';
 import { buildDuplicateName } from '$lib/utils/duplicate-records.js';
 import { buildMergedManualOrderIds } from '$lib/utils/manual-order.js';
 import {
@@ -388,7 +386,7 @@ class ContactsState {
 						}
 					: payload;
 			const recordLabel = getRecordLabel(payload);
-			const id = isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID();
+			const id = crypto.randomUUID();
 			await addContactCompat(id, nextPayload);
 			const createdContact = await getContactByIdCompat(id);
 			if (createdContact) {
@@ -437,7 +435,7 @@ class ContactsState {
 			if (!current) throw new Error('Contact not found');
 			const recordLabel = getRecordLabel(current);
 
-			const nextId = isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID();
+			const nextId = crypto.randomUUID();
 			const displayName = buildDuplicateName(
 				getContactDisplayName(current),
 				this.list
@@ -758,7 +756,7 @@ class ContactsState {
 					continue;
 				}
 
-				const id = isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID();
+				const id = crypto.randomUUID();
 				await addContactCompat(id, payload);
 				const createdContact = await getContactByIdCompat(id);
 				if (createdContact) {

@@ -55,9 +55,6 @@ describe('asset estimate editor AI surface', () => {
 		const themeSource = readFileSync(join(process.cwd(), 'src/lib/design/theme.css'), 'utf8');
 
 		expect(aiRowSource).not.toContain(
-			"import { Progress } from '$lib/components/ui/progress/index.js';"
-		);
-		expect(aiRowSource).not.toContain(
 			"import { Switch } from '$lib/components/ui/switch/index.js';"
 		);
 		expect(aiRowSource).toContain(

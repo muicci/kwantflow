@@ -11,6 +11,7 @@ const paginatedTables = [
 	'src/lib/components/materials/material-table.svelte',
 	'src/lib/components/labour-rates/labour-rate-table.svelte',
 	'src/lib/components/equipment-rates/equipment-rate-table.svelte',
+	'src/lib/components/subcontract-rates/subcontract-rate-table.svelte',
 	'src/lib/components/classification-systems/classification-systems-table.svelte',
 	'src/lib/components/classification-systems/cost-codes-table.svelte',
 	'src/lib/components/cost-component-presets/cost-component-presets-table.svelte',

@@ -451,6 +451,9 @@ describe('aiState local AI', () => {
 		dbServiceMock.removeWorkspaceAiFeedbackEntry.mockResolvedValue(undefined);
 		dbServiceMock.clearWorkspaceAiFeedbackEntries.mockResolvedValue(undefined);
 		invokeMock.mockResolvedValue('generated-id');
+		vi.spyOn(crypto, 'randomUUID').mockReturnValue(
+			'generated-id' as `${string}-${string}-${string}-${string}-${string}`
+		);
 	});
 
 	it('hydrates the local AI runtime status from device state', async () => {

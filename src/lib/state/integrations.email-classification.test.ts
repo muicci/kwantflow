@@ -25,6 +25,8 @@ vi.mock('$lib/services/logger.js', () => ({
 	})
 }));
 vi.mock('svelte-sonner', () => ({ toast: { success: vi.fn() } }));
+const localAiStatus = vi.hoisted(() => ({ installState: 'ready' as string }));
+vi.mock('./ai.svelte', () => ({ aiState: { localAiStatus } }));
 
 import {
 	IntegrationsState,
@@ -581,10 +583,28 @@ describe('local mailbox configuration and consent', () => {
 		});
 		const state = stateWithMessages([summary('message-1')]);
 		const classification = state.classifyPendingEmails();
+		await vi.waitFor(() => expect(typeof finishClassifications).toBe('function'));
 		await state.resetForWorkspaceChange();
 		finishClassifications([{ providerMessageId: 'message-1', verdict: 'rfq' }]);
 		await classification;
 		expect(state.rfqResults).toEqual({});
 		expect(runStructuredUtilityTaskResultMock).not.toHaveBeenCalled();
+	});
+});
+
+describe('automatic RFQ detection and the mailbox', () => {
+	it('never marks messages read and skips entirely without an installed model', async () => {
+		const { integrationsState: state } = await import('./integrations.svelte');
+		const spy = vi.spyOn(state, 'openEmailMessage').mockResolvedValue(null);
+		localAiStatus.installState = 'not_downloaded';
+		await (
+			state as unknown as { classifyPendingEmailPass: () => Promise<void> }
+		).classifyPendingEmailPass();
+		expect(spy).not.toHaveBeenCalled();
+		localAiStatus.installState = 'ready';
+		for (const call of spy.mock.calls) {
+			expect(call[1]).toEqual({ markRead: false });
+		}
+		expect(invokeMock).not.toHaveBeenCalledWith('set_email_message_read_status', expect.anything());
 	});
 });

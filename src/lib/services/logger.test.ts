@@ -199,4 +199,14 @@ describe('logger service', () => {
 
 		expect(consoleInfoMock).toHaveBeenCalledWith('[dbService] Database initialized with Kysely.');
 	});
+
+	it('redacts tokens embedded in the message string itself', async () => {
+		const { createLogger } = await import('./logger.js');
+		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		createLogger('scope').warn('refresh failed for Bearer abc.def-123 and {"access_token":"xyz"}');
+		const output = String(warn.mock.calls.at(-1)?.[0] ?? '');
+		expect(output).not.toContain('abc.def-123');
+		expect(output).not.toContain('"xyz"');
+		warn.mockRestore();
+	});
 });

@@ -47,7 +47,6 @@ export const PUBLIC_SOURCE_ROOTS = [
 	'.storybook/preview.ts',
 	'.gitignore',
 	'.node-version',
-	'.nvmrc',
 	'.pnpmrc',
 	'.prettierignore',
 	'.prettierrc',
@@ -62,7 +61,6 @@ export const PUBLIC_SOURCE_ROOTS = [
 	'README.md',
 	'THIRD_PARTY_NOTICES.md',
 	'native-inputs.json',
-	'components.json',
 	'eslint.config.js',
 	'knip.json',
 	'package.json',
@@ -72,8 +70,7 @@ export const PUBLIC_SOURCE_ROOTS = [
 	'svelte.config.js',
 	'tsconfig.json',
 	'vite.config.js',
-	'vitest.config.ts',
-	'vitest.shims.d.ts'
+	'vitest.config.ts'
 ];
 
 export function publicSourcePaths(paths: string[]): string[] {

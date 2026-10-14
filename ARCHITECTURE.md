@@ -252,7 +252,7 @@ recovery snapshot, a transactional conversion and checks that business data was 
 
 ### Backups and restore
 
-`src-tauri/backup.rs` (manifest version 4; it also reads version 3) does the following:
+`src-tauri/src/backup.rs` (manifest version 4; local snapshots written as version 3 are still readable, portable archives must be version 4) does the following:
 
 - **Snapshots** go to `<app local data dir>/backup-store/`. They include the vault workspaces,
   the workspace databases, the control database, `store.json` and the email provider settings.
@@ -304,10 +304,15 @@ Any command or protocol that accepts a path must enforce safety in Rust (helpers
 - Symlinks are rejected for files and directories that are imported, written or deleted.
 - External files (drag-drop, setup import spreadsheets) must be authorised through
   `allow_external_file_read`. It accepts files only under the home directory, the temp
-  directory, `/Volumes` on macOS, or secondary drive letters on Windows. Never grant blanket
+  directory (excluding hidden entries such as `~/.ssh` and the app's own data directories),
+  `/Volumes` on macOS, or secondary drive letters on Windows. Never grant blanket
   file system scopes.
 - Do not expose generic "open any path" commands. Use intent-specific commands for approved
   roots.
+- The Tauri `fs` plugin is granted per operation with explicit scopes in
+  `src-tauri/capabilities/*.json` (`$DOCUMENT/Kwantflow/**`, named `$APPLOCALDATA` and `$APPCACHE`
+  subtrees). Never add the plugin's `*-recursive` permission sets, which cover whole directories.
+  `src/tests/tauri-capabilities.test.ts` enforces this.
 - The `opener:allow-open-url` scope in `src-tauri/capabilities/*.json` allows any `http`, `https`,
   `mailto` and `tel` URL, because the email viewer and quote email dialog open user-chosen links in
   the system browser or mail client. Keep `opener:allow-open-path` and `reveal-item-in-dir` denied.
@@ -335,7 +340,9 @@ Any command or protocol that accepts a path must enforce safety in Rust (helpers
   calls. Multimodal turns use a full-prefill completion path. The context allocation is capped
   at 32,003 tokens.
 - The engine loads lazily on the first user-started AI operation and stays resident. Starting
-  the app, opening the sidebar and finishing onboarding never load the model. Do not add warm-up
+  the app, opening the sidebar and finishing onboarding never load the model. Opening the Mail
+  panel runs automatic RFQ detection only when the model is already installed, and that detection
+  never changes mailbox read state. Do not add warm-up
   prompts or idle unload timers. Streams are request-scoped, and a finished or cancelled request
   must leave no active streams.
 - Reasoning output is kept on a separate channel. It is never logged, persisted or replayed as
@@ -453,7 +460,7 @@ Files: `src-tauri/src/integrations/mod.rs`, `src/lib/services/email*.ts`,
   `.apps.googleusercontent.com`) or **Microsoft application client ID** (a UUID) and tenant
   (`common`, `organizations`, `consumers` or a tenant UUID). These are saved per installation
   in `<app local data dir>/email-provider-settings.json`. See
-  [`docs/user/EMAIL_SETUP.md`](docs/user/EMAIL_SETUP.md).
+  [`docs/user/09-email.md`](docs/user/09-email.md).
 - Authorisation uses the system browser, PKCE (S256) and a temporary loopback listener with a
   session timeout and cancellation. **No client secret is required, embedded or logged.**
   Granted scopes are checked: `gmail.modify` and `userinfo.email` for Gmail; Graph `Mail.ReadWrite`,

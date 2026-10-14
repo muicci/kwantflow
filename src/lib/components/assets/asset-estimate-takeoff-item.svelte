@@ -31,7 +31,7 @@
 		WbsNode
 	} from '$lib/types/index.js';
 
-	import CopyIcon from '@tabler/icons-svelte/icons/copy';
+	import CopyIcon from '@lucide/svelte/icons/copy';
 	import CheckIcon from '@lucide/svelte/icons/check';
 	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
 	import ChevronUpIcon from '@lucide/svelte/icons/chevron-up';

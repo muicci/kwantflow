@@ -563,7 +563,7 @@ class AssistantState {
 			(item) => item.prompt === prompt && item.pathname === params.pathname
 		);
 		if (isAlreadyQueued) {
-			log.info('Deduplicating duplicate prompt enqueue request', { prompt });
+			log.info('Deduplicating duplicate prompt enqueue request', { promptLength: prompt.length });
 			return;
 		}
 

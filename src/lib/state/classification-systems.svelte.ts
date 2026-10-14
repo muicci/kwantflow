@@ -1,4 +1,3 @@
-import { invoke } from '@tauri-apps/api/core';
 import { toast } from 'svelte-sonner';
 import { dbService } from '../services/db';
 import { createLogger } from '../services/logger.js';
@@ -15,7 +14,6 @@ import type {
 	EstimateTemplate
 } from '$lib/types/index.js';
 import type { ClassificationSystemFormValues, CostCodeFormValues } from '$lib/schemas/index.js';
-import { isTauri } from '../utils/env';
 import { buildDuplicateCode, buildDuplicateName } from '$lib/utils/duplicate-records.js';
 import { SvelteMap } from 'svelte/reactivity';
 import {
@@ -279,7 +277,7 @@ class ClassificationSystemsState {
 
 	async addClassificationSystem(data: ClassificationSystemFormValues): Promise<void> {
 		try {
-			const id = isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID();
+			const id = crypto.randomUUID();
 			await dbService.addClassificationSystem(id, data);
 			const createdSystem = await dbService.getClassificationSystemById(id);
 			if (createdSystem) {
@@ -318,7 +316,7 @@ class ClassificationSystemsState {
 			const current = this.list.find((item) => item.id === id);
 			if (!current) throw new Error('Classification system not found');
 
-			const nextSystemId = isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID();
+			const nextSystemId = crypto.randomUUID();
 			const costCodes = await dbService.getCostCodes(id, true);
 			await dbService.addClassificationSystem(nextSystemId, {
 				name: buildDuplicateName(
@@ -336,10 +334,7 @@ class ClassificationSystemsState {
 
 			const costCodeIdMap = new SvelteMap<string, string>();
 			for (const code of costCodes) {
-				costCodeIdMap.set(
-					code.id,
-					isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID()
-				);
+				costCodeIdMap.set(code.id, crypto.randomUUID());
 			}
 
 			for (const code of costCodes) {
@@ -390,7 +385,7 @@ class ClassificationSystemsState {
 
 	async addCostCode(systemId: string, data: CostCodeFormValues): Promise<void> {
 		try {
-			const id = isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID();
+			const id = crypto.randomUUID();
 			await dbService.addCostCode(id, systemId, data);
 			const createdCode = await dbService.getCostCodeById(id);
 			if (createdCode && this.activeSystemId === systemId) {
@@ -473,7 +468,7 @@ class ClassificationSystemsState {
 					continue;
 				}
 
-				const id = isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID();
+				const id = crypto.randomUUID();
 				await dbService.addClassificationSystem(id, row);
 				const createdSystem = await dbService.getClassificationSystemById(id);
 				if (createdSystem) {
@@ -531,7 +526,7 @@ class ClassificationSystemsState {
 					continue;
 				}
 
-				const id = isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID();
+				const id = crypto.randomUUID();
 				await dbService.addCostCode(id, classificationSystemId, row);
 				const createdCostCode = await dbService.getCostCodeById(id);
 				if (createdCostCode) {
@@ -609,7 +604,7 @@ class ClassificationSystemsState {
 					continue;
 				}
 
-				const id = isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID();
+				const id = crypto.randomUUID();
 				await dbService.addCostCode(id, classificationSystemId, {
 					parent_id: parentId,
 					code: row.code,

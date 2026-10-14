@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
 	"scope": "Installed npm production dependency closure, Svelte/Kit client runtime and Tailwind base CSS packages with their dependencies, and all registry crates in Cargo.lock; excludes other npm development tools, native binary internals and absent platform optional npm dependencies. Actual upstream notice texts are copied. Packages omitting full texts are explicitly distinguished in declarationOnlyCases, with unchanged metadata and canonical SPDX terms, never invented copyright holders. This is not a legal compatibility decision or complete binary SBOM.",
-	"pnpmLockSha256": "0d67065c786b975592ccbf5c202b470e729bd6d3b59cdd3714473edc30e5d2b1",
-	"cargoLockSha256": "9122359a1c8aaf089deab553fbcfe8d586e6863d7f48ca3c904820253540f07c",
+	"pnpmLockSha256": "3e001e8c3a00f3838ac9f57d1f0c34d8c86f0ce6e5754195ec42d0b64260ab26",
+	"cargoLockSha256": "6beffd46066ca6a4a9aa0b1654cbd9459520199053e9f18f9f3764477b7551c7",
 	"packages": [
 		{
 			"name": "@dnd-kit-svelte/svelte",
@@ -722,36 +722,6 @@
 				{
 					"path": "third-party/licenses/npm/@swc+helpers@0.5.23/LICENSE",
 					"sha256": "d96eba1f1881334d50ffc144276dfa98e147a415e7c591ecdfcb81680361dc91"
-				}
-			]
-		},
-		{
-			"name": "@tabler/icons-svelte",
-			"version": "3.44.0",
-			"declaredLicense": "MIT",
-			"repository": "git+https://github.com/tabler/tabler-icons.git",
-			"resolution": {
-				"integrity": "sha512-ZJJMCHoqpvb9hLVn9dU+pn8LCdX/e+mJ/fC+EUaJT5nHEm0+IW4aKKYkYQI+rFMzN8ivj36MnMC5TGFi4H6zew=="
-			},
-			"licenseFiles": [
-				{
-					"path": "third-party/licenses/npm/@tabler+icons-svelte@3.44.0/LICENSE",
-					"sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db"
-				}
-			]
-		},
-		{
-			"name": "@tabler/icons",
-			"version": "3.44.0",
-			"declaredLicense": "MIT",
-			"repository": "git+https://github.com/tabler/tabler-icons.git",
-			"resolution": {
-				"integrity": "sha512-Wn0AOZG9sg0L+bjfMqq4eNhC6pQjIrk94LvvWYNYkY8KH8wC3YILRzQlrnVJc4FUeMxH/AK97QsYCX35H3LndA=="
-			},
-			"licenseFiles": [
-				{
-					"path": "third-party/licenses/npm/@tabler+icons@3.44.0/LICENSE",
-					"sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db"
 				}
 			]
 		},

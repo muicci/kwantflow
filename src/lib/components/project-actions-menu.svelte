@@ -3,7 +3,7 @@
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import IntakeDialog from './intake/intake-dialog.svelte';
 	import FolderIcon from '@lucide/svelte/icons/folder';
-	import CopyIcon from '@tabler/icons-svelte/icons/copy';
+	import CopyIcon from '@lucide/svelte/icons/copy';
 	import ArchiveIcon from '@lucide/svelte/icons/archive';
 	import RotateCcwIcon from '@lucide/svelte/icons/rotate-ccw';
 	import Trash2Icon from '@lucide/svelte/icons/trash-2';

@@ -101,7 +101,7 @@ const workerAPI = {
 	 */
 	async renderPdfThumbnail(pdfBytes: Uint8Array): Promise<Blob> {
 		await ensurePdfjs();
-		if (!pdfjs || !pdfJsWorker) throw new Error('PDF.js failed to initialize');
+		if (!pdfjs || !pdfJsWorker) throw new Error('PDF.js failed to initialise');
 		const loadingTask = pdfjs.getDocument({
 			data: pdfBytes,
 			worker: pdfJsWorker,

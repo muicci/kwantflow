@@ -8,8 +8,8 @@ describe('project asset workspace copy', () => {
 	it('keeps the asset delete confirmation explicit about whether files return to review', () => {
 		const source = readFileSync(pagePath, 'utf8');
 
-		expect(source).toContain('Delete asset and return files to review?');
+		expect(source).toContain('Ungroup asset and return files to review?');
 		expect(source).toContain('Delete file-less asset?');
-		expect(source).not.toContain('<AlertDialog.Title>Delete asset?</AlertDialog.Title>');
+		expect(source).not.toContain('<AlertDialog.Title>Ungroup asset?</AlertDialog.Title>');
 	});
 });

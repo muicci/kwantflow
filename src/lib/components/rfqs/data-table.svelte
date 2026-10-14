@@ -29,7 +29,7 @@
 	import RotateCcwIcon from '@lucide/svelte/icons/rotate-ccw';
 	import Trash2Icon from '@lucide/svelte/icons/trash-2';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
-	import GripVerticalIcon from '@tabler/icons-svelte/icons/grip-vertical';
+	import GripVerticalIcon from '@lucide/svelte/icons/grip-vertical';
 	import { DragDropProvider } from '@dnd-kit-svelte/svelte';
 	import { move } from '@dnd-kit/helpers';
 	import { useSortable } from '@dnd-kit-svelte/svelte/sortable';

@@ -59,6 +59,10 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: pwsh -NoProfile -File scripts/verify-windows-runtime.test.ps1
+      - name: Verify Windows native build script fixtures
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: pwsh -NoProfile -File scripts/native-windows.test.ps1
       - run: pnpm distribution:build
       - name: Verify exact installer and checksum artifacts
         shell: bash

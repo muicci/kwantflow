@@ -46,8 +46,8 @@ Read [ARCHITECTURE.md](ARCHITECTURE.md) first. The short version:
 - `src/` is the Svelte 5 UI. Layers: components → `$lib/state` → `$lib/services` → Tauri commands.
 - `src-tauri/` is Rust. It owns SQLite, migrations, file access, email integrations and the
   Local AI runtime.
-- `docs/user/` is the user manual bundled into the app. Update it when you change user-facing
-  behaviour.
+- `docs/user/` is the user manual bundled into the app (one Markdown page per topic, listed in
+  `docs/user/manifest.json`). Update it when you change user-facing behaviour.
 
 ## Ground rules
 

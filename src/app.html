@@ -121,17 +121,6 @@
 			) {
 				document.documentElement.classList.add('vibrant-window');
 			}
-			document.addEventListener('DOMContentLoaded', () => {
-				if (typeof window !== 'undefined' && window.__TAURI__) {
-					const win = window.__TAURI__.window.getCurrentWindow();
-					if (win.label === 'main') {
-						win
-							.unminimize()
-							.then(() => win.show())
-							.then(() => win.setFocus());
-					}
-				}
-			});
 		</script>
 		<style>
 			/* Prevent body pointer-events from being locked by scroll-lock libraries */

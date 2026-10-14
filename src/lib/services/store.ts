@@ -1,6 +1,5 @@
 import { load, type Store } from '@tauri-apps/plugin-store';
 import { isTauri } from '../utils/env';
-import { MOCK_USER } from '../mocks/user';
 import type { UserPreferences } from '$lib/types/index.js';
 import type { ThemePreference } from '$lib/constants/index.js';
 import type { SidebarPanelId } from '$lib/constants/sidebar.js';
@@ -10,6 +9,17 @@ import {
 	isOptionalSetupPageId
 } from '$lib/constants/setup-page-visibility.js';
 import { createLogger } from './logger.js';
+
+/** Neutral defaults for a fresh installation; the user fills in their own details. */
+export const DEFAULT_USER_PREFERENCES: UserPreferences = {
+	name: '',
+	email: '',
+	avatar: '',
+	currencySymbol: '$',
+	currencyCode: 'AUD',
+	measurementUnit: 'Metric',
+	dateFormat: 'en-AU'
+};
 
 const log = createLogger('storeService');
 
@@ -224,7 +234,7 @@ class StoreService {
 
 	async getUserPreferences(): Promise<UserPreferences> {
 		const prefs = await this.getUserPreferencesRaw();
-		return prefs ?? MOCK_USER;
+		return prefs ?? DEFAULT_USER_PREFERENCES;
 	}
 
 	async setUserPreferences(prefs: UserPreferences): Promise<void> {

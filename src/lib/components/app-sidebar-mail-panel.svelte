@@ -233,7 +233,7 @@
 								{msg.subject || '(no subject)'}
 							</span>
 							{#if integrationsState.getRfqStatus(msg.id) === 'processing'}
-								<span class="caption mt-0.5 animate-pulse">Analyzing…</span>
+								<span class="caption mt-0.5 animate-pulse">Analysing…</span>
 							{:else if integrationsState.getRfqStatus(msg.id) === 'yes'}
 								<div class="mt-0.5"><Badge variant="premium" class="px-1.5 py-0">RFQ</Badge></div>
 							{/if}

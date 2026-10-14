@@ -2286,7 +2286,6 @@ dependencies = [
  "fs2",
  "futures-util",
  "image",
- "libc",
  "log",
  "pdfium-render",
  "percent-encoding",

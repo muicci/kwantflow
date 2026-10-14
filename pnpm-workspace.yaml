@@ -1,7 +1,6 @@
 allowBuilds:
   better-sqlite3: true
   esbuild: true
-  vue-demi: true
 
 minimumReleaseAge: 0
 
@@ -25,7 +24,8 @@ overrides:
   source-map-js: 1.2.2
   'svelte-eslint-parser>postcss-selector-parser': 7.1.6
 
-onlyBuiltDependencies:
-  - better-sqlite3
-  - esbuild
-  - vue-demi
+auditConfig:
+  ignoreGhsas:
+    # mammoth > argparse > sprintf-js (CLI-only path). The advisory names 1.1.4 as patched but
+    # no such release exists on npm; re-check with `pnpm audit` when sprintf-js publishes 1.1.4.
+    - GHSA-hp3w-g68c-fv3c

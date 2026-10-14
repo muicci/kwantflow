@@ -1,28 +1,17 @@
 {
+	"$schema": "../gen/schemas/desktop-schema.json",
 	"identifier": "workspace",
-	"description": "Permissions for the managed workspace holding heavy CAD files",
+	"description": "Vault scope for the main window: the Kwantflow documents vault (and the app-local development vault used by non-release identities). Operations are granted in the default capability.",
 	"windows": ["main"],
 	"permissions": [
-		"fs:default",
 		{
-			"identifier": "fs:allow-document-read-recursive",
-			"scope": {
-				"allow": [
-					{
-						"path": "$DOCUMENT/Kwantflow"
-					}
-				]
-			}
-		},
-		{
-			"identifier": "fs:allow-document-write-recursive",
-			"scope": {
-				"allow": [
-					{
-						"path": "$DOCUMENT/Kwantflow"
-					}
-				]
-			}
+			"identifier": "fs:scope",
+			"allow": [
+				{ "path": "$DOCUMENT/Kwantflow" },
+				{ "path": "$DOCUMENT/Kwantflow/**" },
+				{ "path": "$APPLOCALDATA/qa-documents/Kwantflow" },
+				{ "path": "$APPLOCALDATA/qa-documents/Kwantflow/**" }
+			]
 		}
 	]
 }

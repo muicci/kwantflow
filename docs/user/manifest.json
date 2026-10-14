@@ -1,0 +1,60 @@
+{
+	"pages": [
+		{
+			"file": "README.md",
+			"title": "Kwantflow user manual"
+		},
+		{
+			"file": "01-install.md",
+			"title": "Install Kwantflow"
+		},
+		{
+			"file": "02-quickstart.md",
+			"title": "Quickstart"
+		},
+		{
+			"file": "03-workspaces-and-settings.md",
+			"title": "Workspaces and settings"
+		},
+		{
+			"file": "04-rfqs-and-files.md",
+			"title": "RFQs and files"
+		},
+		{
+			"file": "05-estimating.md",
+			"title": "Estimating"
+		},
+		{
+			"file": "06-quotes.md",
+			"title": "Quotes"
+		},
+		{
+			"file": "07-setup-data.md",
+			"title": "Setup data"
+		},
+		{
+			"file": "08-local-ai.md",
+			"title": "Local AI"
+		},
+		{
+			"file": "09-email.md",
+			"title": "Email"
+		},
+		{
+			"file": "10-backup-and-privacy.md",
+			"title": "Backup and privacy"
+		},
+		{
+			"file": "11-troubleshooting.md",
+			"title": "Troubleshooting"
+		},
+		{
+			"file": "12-reference.md",
+			"title": "Reference"
+		},
+		{
+			"file": "13-examples.md",
+			"title": "Examples"
+		}
+	]
+}

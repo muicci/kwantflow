@@ -1,11 +1,9 @@
-import { invoke } from '@tauri-apps/api/core';
 import { toast } from 'svelte-sonner';
 import { dbService } from '../services/db';
 import { createLogger } from '../services/logger.js';
 import { errorState } from './errors.svelte';
 import type { WbsNode } from '$lib/types/index.js';
 import type { WbsNodeFormValues } from '$lib/schemas/index.js';
-import { isTauri } from '../utils/env';
 
 const log = createLogger('wbsState');
 
@@ -85,7 +83,7 @@ class WbsState {
 
 	async addNode(projectId: string, data: WbsNodeFormValues): Promise<void> {
 		try {
-			const id = isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID();
+			const id = crypto.randomUUID();
 			await dbService.addWbsNode(id, projectId, data);
 			const createdNode = await dbService.getWbsNodeById(id);
 			if (createdNode && this.projectId === projectId) {

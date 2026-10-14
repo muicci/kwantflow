@@ -280,6 +280,9 @@ describe('aiState', () => {
 		envMock.requireInternetConnection.mockImplementation(() => {});
 		envMock.hasInternetConnection.mockReturnValue(true);
 		invokeMock.mockResolvedValue('generated-id');
+		vi.spyOn(crypto, 'randomUUID').mockReturnValue(
+			'generated-id' as `${string}-${string}-${string}-${string}-${string}`
+		);
 		workspaceKnowledgeServiceMock.storeWorkspaceAiKnowledgeFile.mockResolvedValue({
 			filePath: 'workspace-ai-knowledge/local-workspace/generated-id-knowledge.txt',
 			byteSize: 256,

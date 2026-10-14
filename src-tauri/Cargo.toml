@@ -48,7 +48,6 @@ rusqlite = { version = "0.39", features = ["backup"] }
 base64 = "0.22"
 sha2 = "0.10"
 fs2 = "0.4.3"
-libc = "0.2"
 
 [dev-dependencies]
 tauri = { version = "2.11", features = ["test"] }

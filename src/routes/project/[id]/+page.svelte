@@ -37,6 +37,7 @@
 	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
 	import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
 	import ArrowUpFromLineIcon from '@lucide/svelte/icons/arrow-up-from-line';
+	import ArrowDownToLineIcon from '@lucide/svelte/icons/arrow-down-to-line';
 	import MoreHorizontalIcon from '@lucide/svelte/icons/more-horizontal';
 	import EyeIcon from '@lucide/svelte/icons/eye';
 	import MailIcon from '@lucide/svelte/icons/mail';
@@ -580,6 +581,7 @@
 												class="ui-asset-thumb-button"
 												onclick={() => openAssetEstimate(asset.id)}
 												title="Open asset estimate"
+												aria-label="Open asset estimate"
 											>
 												{#if path}
 													<AssetThumbnail filePath={path} />
@@ -641,6 +643,7 @@
 														class="ui-muted-action size-7 shrink-0"
 														onclick={() => openAssetEstimate(asset.id)}
 														title="Open asset estimate"
+														aria-label="Open asset estimate"
 													>
 														<ArrowUpFromLineIcon class="size-3.5" />
 													</Button>
@@ -706,8 +709,9 @@
 															class="ui-muted-action size-7 shrink-0"
 															onclick={() => performRemoveFile(file.id)}
 															title="Return file to review"
+															aria-label="Return file to review"
 														>
-															<ArrowUpFromLineIcon class="size-3.5" />
+															<ArrowDownToLineIcon class="size-3.5" />
 														</Button>
 													</Inline>
 												{/each}
@@ -740,7 +744,7 @@
 		<AlertDialog.Header>
 			<AlertDialog.Title>
 				{#if ungroupFileCount > 0}
-					Delete asset and return files to review?
+					Ungroup asset and return files to review?
 				{:else}
 					Delete file-less asset?
 				{/if}
@@ -756,7 +760,7 @@
 		</AlertDialog.Header>
 		<AlertDialog.Footer>
 			<AlertDialog.Cancel onclick={() => (ungroupConfirmOpen = false)}>Cancel</AlertDialog.Cancel>
-			<AlertDialog.Action onclick={confirmUngroup}>Delete asset</AlertDialog.Action>
+			<AlertDialog.Action onclick={confirmUngroup}>Ungroup asset</AlertDialog.Action>
 		</AlertDialog.Footer>
 	</AlertDialog.Content>
 </AlertDialog.Root>

@@ -2474,29 +2474,26 @@ fn verify_file_integrity_with_cancel(
     })
 }
 
-fn get_system_context_limit(manifest_limit: u64) -> u64 {
+/// The model's magic-number context cap. LiteRT-LM allocates the context up front, so
+/// nothing above this is ever requested regardless of the manifest or system RAM.
+const MODEL_CONTEXT_TOKEN_CAP: u64 = 32003;
+/// Context cap for devices with little RAM, where a full-size allocation can fail.
+const LOW_MEMORY_CONTEXT_TOKEN_CAP: u64 = 16384;
+const LOW_MEMORY_THRESHOLD_GIB: u64 = 8;
+
+/// Total physical memory in GiB, when the platform reports it.
+fn total_system_memory_gib() -> Option<u64> {
     #[cfg(target_os = "macos")]
     {
-        // Try to get total system memory on macOS via sysctl
-        if let Ok(output) = std::process::Command::new("sysctl")
+        let output = std::process::Command::new("sysctl")
             .args(["-n", "hw.memsize"])
             .output()
-        {
-            if output.status.success() {
-                if let Ok(mem_str) = String::from_utf8(output.stdout) {
-                    if let Ok(mem_bytes) = mem_str.trim().parse::<u64>() {
-                        let gigabytes = mem_bytes / (1024 * 1024 * 1024);
-                        if gigabytes <= 8 {
-                            return 16384; // 16K limit for 8GB RAM devices
-                        } else if gigabytes <= 16 {
-                            return 32768; // 32K limit for 16GB RAM devices
-                        } else if gigabytes <= 32 {
-                            return 64000; // 64K limit for 32GB RAM devices
-                        }
-                    }
-                }
-            }
+            .ok()?;
+        if !output.status.success() {
+            return None;
         }
+        let bytes = String::from_utf8(output.stdout).ok()?.trim().parse::<u64>().ok()?;
+        return Some(bytes / (1024 * 1024 * 1024));
     }
     #[cfg(target_os = "windows")]
     {
@@ -2505,30 +2502,32 @@ fn get_system_context_limit(manifest_limit: u64) -> u64 {
             let mut mem_info: MEMORYSTATUSEX = std::mem::zeroed();
             mem_info.dwLength = std::mem::size_of::<MEMORYSTATUSEX>() as u32;
             if GlobalMemoryStatusEx(&mut mem_info).is_ok() {
-                let mem_bytes = mem_info.ullTotalPhys;
-                let gigabytes = mem_bytes / (1024 * 1024 * 1024);
-                if gigabytes <= 8 {
-                    return 16384; // 16K limit for 8GB RAM devices
-                } else if gigabytes <= 16 {
-                    return 32768; // 32K limit for 16GB RAM devices
-                } else if gigabytes <= 32 {
-                    return 64000; // 64K limit for 32GB RAM devices
-                }
+                return Some(mem_info.ullTotalPhys / (1024 * 1024 * 1024));
             }
         }
+        None
     }
-    manifest_limit
+    #[cfg(not(any(target_os = "macos", target_os = "windows")))]
+    {
+        None
+    }
 }
 
-/// Compute the max_num_tokens to pass to the LiteRT-LM engine.
-/// Returns a value that accounts for system RAM while staying within
-/// the model's magic-number cap (32003).
+fn context_token_cap(total_memory_gib: Option<u64>) -> u64 {
+    match total_memory_gib {
+        Some(gib) if gib <= LOW_MEMORY_THRESHOLD_GIB => LOW_MEMORY_CONTEXT_TOKEN_CAP,
+        _ => MODEL_CONTEXT_TOKEN_CAP,
+    }
+}
+
+/// Compute the max_num_tokens to pass to the LiteRT-LM engine: the manifest context size,
+/// clamped to the model cap (halved on low-memory devices).
 fn compute_native_max_tokens() -> i32 {
-    const MODEL_MAGIC_NUMBER_CAP: u64 = 32003;
     let manifest = load_runtime_manifest();
-    let ram_limit = get_system_context_limit(manifest.context_size_tokens);
-    let target = std::cmp::min(ram_limit, MODEL_MAGIC_NUMBER_CAP);
-    target as i32
+    std::cmp::min(
+        manifest.context_size_tokens,
+        context_token_cap(total_system_memory_gib()),
+    ) as i32
 }
 
 fn active_launch_profile(engine_loaded: bool, gpu_used: bool) -> &'static str {
@@ -4545,133 +4544,6 @@ pub async fn get_local_ai_conversation_tokens(
         .map_err(|error| format!("Token count thread panicked: {error}"))?
 }
 
-#[tauri::command]
-pub async fn evaluate_estimate_expression(expression: String) -> Result<String, String> {
-    let trimmed = expression.trim();
-    if trimmed.is_empty() {
-        return Err("Expression is empty".to_string());
-    }
-    if !trimmed
-        .chars()
-        .all(|c| c.is_ascii_digit() || matches!(c, '.' | '+' | '-' | '*' | '/' | '(' | ')' | ' '))
-    {
-        return Err("Expression contains unsupported characters".to_string());
-    }
-
-    let mut parser = ExpressionParser::new(trimmed);
-    let value = parser.parse_expression()?;
-    parser.skip_ws();
-    if !parser.is_eof() {
-        return Err("Expression contains trailing input".to_string());
-    }
-    if !value.is_finite() {
-        return Err("Expression result is not finite".to_string());
-    }
-    Ok(format!("{value:.6}")
-        .trim_end_matches('0')
-        .trim_end_matches('.')
-        .to_string())
-}
-
-struct ExpressionParser<'a> {
-    input: &'a [u8],
-    pos: usize,
-}
-
-impl<'a> ExpressionParser<'a> {
-    fn new(input: &'a str) -> Self {
-        Self {
-            input: input.as_bytes(),
-            pos: 0,
-        }
-    }
-
-    fn is_eof(&self) -> bool {
-        self.pos >= self.input.len()
-    }
-
-    fn skip_ws(&mut self) {
-        while self.pos < self.input.len() && self.input[self.pos].is_ascii_whitespace() {
-            self.pos += 1;
-        }
-    }
-
-    fn parse_expression(&mut self) -> Result<f64, String> {
-        let mut value = self.parse_term()?;
-        loop {
-            self.skip_ws();
-            if self.eat(b'+') {
-                value += self.parse_term()?;
-            } else if self.eat(b'-') {
-                value -= self.parse_term()?;
-            } else {
-                return Ok(value);
-            }
-        }
-    }
-
-    fn parse_term(&mut self) -> Result<f64, String> {
-        let mut value = self.parse_factor()?;
-        loop {
-            self.skip_ws();
-            if self.eat(b'*') {
-                value *= self.parse_factor()?;
-            } else if self.eat(b'/') {
-                let divisor = self.parse_factor()?;
-                if divisor == 0.0 {
-                    return Err("Division by zero".to_string());
-                }
-                value /= divisor;
-            } else {
-                return Ok(value);
-            }
-        }
-    }
-
-    fn parse_factor(&mut self) -> Result<f64, String> {
-        self.skip_ws();
-        if self.eat(b'-') {
-            return Ok(-self.parse_factor()?);
-        }
-        if self.eat(b'(') {
-            let value = self.parse_expression()?;
-            self.skip_ws();
-            if !self.eat(b')') {
-                return Err("Missing closing bracket".to_string());
-            }
-            return Ok(value);
-        }
-        self.parse_number()
-    }
-
-    fn parse_number(&mut self) -> Result<f64, String> {
-        self.skip_ws();
-        let start = self.pos;
-        while self.pos < self.input.len()
-            && (self.input[self.pos].is_ascii_digit() || self.input[self.pos] == b'.')
-        {
-            self.pos += 1;
-        }
-        if start == self.pos {
-            return Err("Expected number".to_string());
-        }
-        std::str::from_utf8(&self.input[start..self.pos])
-            .map_err(|_| "Invalid number".to_string())?
-            .parse::<f64>()
-            .map_err(|_| "Invalid number".to_string())
-    }
-
-    fn eat(&mut self, byte: u8) -> bool {
-        self.skip_ws();
-        if self.pos < self.input.len() && self.input[self.pos] == byte {
-            self.pos += 1;
-            true
-        } else {
-            false
-        }
-    }
-}
-
 pub async fn cleanup_local_ai_runtime<R: tauri::Runtime>(app: &AppHandle<R>) {
     if let Some(manager) = app.try_state::<LocalAiRuntimeManager>() {
         if let Err(error) = manager.unload().await {
@@ -4687,6 +4559,15 @@ mod native_runtime_fingerprint;
 #[cfg(test)]
 mod native_runtime_reset_contract_tests {
     use super::*;
+
+    #[test]
+    fn context_token_cap_never_exceeds_model_limit() {
+        assert_eq!(context_token_cap(None), MODEL_CONTEXT_TOKEN_CAP);
+        assert_eq!(context_token_cap(Some(8)), LOW_MEMORY_CONTEXT_TOKEN_CAP);
+        assert_eq!(context_token_cap(Some(16)), MODEL_CONTEXT_TOKEN_CAP);
+        assert_eq!(context_token_cap(Some(64)), MODEL_CONTEXT_TOKEN_CAP);
+        assert!(compute_native_max_tokens() as u64 <= MODEL_CONTEXT_TOKEN_CAP);
+    }
 
     #[test]
     fn runtime_status_identity_includes_native_bytes_and_exact_model_identity() {
@@ -6467,22 +6348,6 @@ mod native_runtime_reset_contract_tests {
         .unwrap_err();
         assert!(error.contains("No archived mirror is configured"));
         assert_eq!(server.join().unwrap().len(), 1);
-    }
-
-    #[tokio::test]
-    async fn estimate_expression_keeps_local_math_working() {
-        assert_eq!(
-            evaluate_estimate_expression("(10 + 20) * 3 / 2".to_string())
-                .await
-                .unwrap(),
-            "45"
-        );
-        assert!(evaluate_estimate_expression("10 / 0".to_string())
-            .await
-            .is_err());
-        assert!(evaluate_estimate_expression("10 + x".to_string())
-            .await
-            .is_err());
     }
 
     #[tokio::test]

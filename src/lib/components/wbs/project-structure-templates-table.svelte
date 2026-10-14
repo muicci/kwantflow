@@ -15,7 +15,7 @@
 	import EyeIcon from '@lucide/svelte/icons/eye';
 	import PencilIcon from '@lucide/svelte/icons/pencil';
 	import PlayIcon from '@lucide/svelte/icons/play';
-	import CopyIcon from '@tabler/icons-svelte/icons/copy';
+	import CopyIcon from '@lucide/svelte/icons/copy';
 	import Trash2Icon from '@lucide/svelte/icons/trash-2';
 	import { formatDate } from '$lib/utils/format.js';
 	import {

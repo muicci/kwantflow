@@ -824,6 +824,19 @@
 			trapFocus={true}
 			onEscapeKeydown={() => (appState.isLocalDocumentationOpen = false)}
 		>
+			{#if appState.localDocumentationKind === 'help' && appState.localDocumentationPages.length > 1}
+				<nav aria-label="Manual pages" class="flex flex-wrap gap-1 border-b pb-2">
+					{#each appState.localDocumentationPages as page (page.file)}
+						<Button
+							variant={page.file === appState.localDocumentationPage ? 'secondary' : 'ghost'}
+							size="sm"
+							onclick={() => void appState.openLocalDocumentation('help', page.file)}
+						>
+							{page.title}
+						</Button>
+					{/each}
+				</nav>
+			{/if}
 			<ScrollArea.Root
 				class="min-h-0 flex-1"
 				orientation="vertical"

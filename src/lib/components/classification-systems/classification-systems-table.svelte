@@ -12,7 +12,7 @@
 	import PencilIcon from '@lucide/svelte/icons/pencil';
 	import Trash2Icon from '@lucide/svelte/icons/trash-2';
 	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
-	import CopyIcon from '@tabler/icons-svelte/icons/copy';
+	import CopyIcon from '@lucide/svelte/icons/copy';
 	import { classificationSystemsState } from '$lib/state/classification-systems.svelte.js';
 	import type { ClassificationSystem } from '$lib/types/index.js';
 	import ClassificationSystemDialog from './classification-system-dialog.svelte';

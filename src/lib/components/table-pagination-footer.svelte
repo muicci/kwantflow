@@ -1,8 +1,8 @@
 <script lang="ts">
-	import ChevronLeftIcon from '@tabler/icons-svelte/icons/chevron-left';
-	import ChevronRightIcon from '@tabler/icons-svelte/icons/chevron-right';
-	import ChevronsLeftIcon from '@tabler/icons-svelte/icons/chevrons-left';
-	import ChevronsRightIcon from '@tabler/icons-svelte/icons/chevrons-right';
+	import ChevronLeftIcon from '@lucide/svelte/icons/chevron-left';
+	import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
+	import ChevronsLeftIcon from '@lucide/svelte/icons/chevrons-left';
+	import ChevronsRightIcon from '@lucide/svelte/icons/chevrons-right';
 	import { FieldLabel } from '$lib/components/primitives/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';

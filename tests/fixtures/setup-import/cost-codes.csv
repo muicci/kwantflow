@@ -1,4 +1,0 @@
-System Code,Code,Parent Code,Name,Sort Order,Description
-FAB,CC-100,,Structural Steel,10,Top-level structural coding
-FAB,CC-110,CC-100,Shop Fabrication,20,Workshop fabrication child
-FAB,CC-120,CC-100,Site Install,30,Site installation child

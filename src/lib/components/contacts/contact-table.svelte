@@ -29,9 +29,9 @@
 	import MailIcon from '@lucide/svelte/icons/mail';
 	import PhoneIcon from '@lucide/svelte/icons/phone';
 	import RotateCcwIcon from '@lucide/svelte/icons/rotate-ccw';
-	import CopyIcon from '@tabler/icons-svelte/icons/copy';
+	import CopyIcon from '@lucide/svelte/icons/copy';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
-	import GripVerticalIcon from '@tabler/icons-svelte/icons/grip-vertical';
+	import GripVerticalIcon from '@lucide/svelte/icons/grip-vertical';
 	import { DragDropProvider } from '@dnd-kit-svelte/svelte';
 	import { move } from '@dnd-kit/helpers';
 	import { useSortable } from '@dnd-kit-svelte/svelte/sortable';

@@ -14,6 +14,11 @@ Kwantflow is now free, open-source software under the GNU GPL v3.0 only.
   all business records and files are kept. A recovery copy is made before the upgrade.
 - The Windows build no longer ships the DirectX Shader Compiler helpers. Local AI uses the GPU
   through the system shader compiler when available, or the CPU otherwise.
+- Automatic RFQ detection no longer marks mailbox messages as read, and runs only when the
+  Local AI model is installed.
+- The app windows use narrowly scoped file-system permissions instead of whole-directory access.
+- Diagnostic logs no longer include assistant prompts, mailbox addresses or imported file names.
+- The bundled manual is split into pages and shown with a page list in **Help**.
 - Proprietary CAD fonts were replaced with open-licensed Liberation Sans, Noto Sans CJK and the
   derived "Kwantflow Open CAD" and "Open GDT" fonts.
 

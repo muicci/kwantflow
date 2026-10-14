@@ -1717,23 +1717,6 @@ export interface EstimationResult {
 	error?: string;
 }
 
-export type CatalogueImportKind = 'material' | 'labour-rate' | 'equipment-rate';
-
-export interface CatalogueImportError {
-	rowNumber: number;
-	messages: string[];
-	raw: Record<string, string>;
-}
-
-export interface CatalogueImportPreview<T> {
-	kind: CatalogueImportKind;
-	headers: string[];
-	totalRows: number;
-	validRows: T[];
-	errors: CatalogueImportError[];
-	warnings: string[];
-}
-
 export interface WorkspaceSearchQueryInput {
 	query: string;
 	limit?: number;

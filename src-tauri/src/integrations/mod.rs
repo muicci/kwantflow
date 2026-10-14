@@ -20,6 +20,33 @@ use tauri_plugin_opener::OpenerExt;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use uuid::Uuid;
 
+/// Connect timeout for every provider HTTP call.
+const HTTP_CONNECT_TIMEOUT: Duration = Duration::from_secs(20);
+/// Request timeout for token, profile, list, get, modify and send calls.
+const HTTP_REQUEST_TIMEOUT: Duration = Duration::from_secs(60);
+/// Request timeout for attachment downloads, which can be large on slow links.
+const HTTP_ATTACHMENT_TIMEOUT: Duration = Duration::from_secs(300);
+
+fn http_client_builder(request_timeout: Duration) -> reqwest::ClientBuilder {
+    reqwest::Client::builder()
+        .connect_timeout(HTTP_CONNECT_TIMEOUT)
+        .timeout(request_timeout)
+}
+
+/// Provider HTTP client; every request carries a connect and overall timeout.
+fn http_client() -> Result<reqwest::Client, String> {
+    http_client_builder(HTTP_REQUEST_TIMEOUT)
+        .build()
+        .map_err(|error| format!("Create mail HTTP client: {error}"))
+}
+
+/// Provider HTTP client for attachment downloads (longer overall timeout).
+fn attachment_http_client() -> Result<reqwest::Client, String> {
+    http_client_builder(HTTP_ATTACHMENT_TIMEOUT)
+        .build()
+        .map_err(|error| format!("Create attachment HTTP client: {error}"))
+}
+
 const OAUTH_SESSION_TTL_SECS: i64 = 600;
 const KEYCHAIN_SERVICE: &str = "com.kwantflow.desktop.email";
 
@@ -74,16 +101,16 @@ enum OAuthProviderError {
 impl OAuthProviderError {
     fn message(self) -> &'static str {
         match self {
-            Self::AccessDenied => "Mailbox authorization was denied. Reconnect and approve the requested permissions when ready. Your organization may require administrator approval. (access_denied)",
+            Self::AccessDenied => "Mailbox authorisation was denied. Reconnect and approve the requested permissions when ready. Your organisation may require administrator approval. (access_denied)",
             Self::InvalidRegistration => "The provider rejected this application registration. Check the client ID, desktop client type, and requested permissions using Settings > Connections > Email setup guide. (invalid_registration)",
             Self::AccountTypeMismatch => "This Microsoft account does not match the registration's supported account types or tenant. Check Microsoft tenant in Settings, or use an account allowed by your registration. (account_type_mismatch)",
-            Self::ConsentRequired => "Mailbox permission approval is required. Reconnect and approve the requested permissions; contact your organization's administrator if approval is restricted. (consent_required)",
+            Self::ConsentRequired => "Mailbox permission approval is required. Reconnect and approve the requested permissions; contact your organisation's administrator if approval is restricted. (consent_required)",
             Self::InteractionRequired => "The provider requires a fresh sign-in or security check. Reconnect this mailbox and complete the provider's sign-in steps. Contact your administrator if access is blocked. (interaction_required)",
-            Self::InvalidGrant => "Mailbox authorization has expired or is no longer valid. Reconnect this mailbox in Settings. (invalid_grant)",
+            Self::InvalidGrant => "Mailbox authorisation has expired or is no longer valid. Reconnect this mailbox in Settings. (invalid_grant)",
             Self::RefreshTokenMissing => "No refresh access is available. Reconnect this mailbox and grant the requested permissions. (refresh_token_missing)",
-            Self::ProviderUnavailable => "The mailbox provider could not complete authorization. Check your internet connection and try again later. (provider_unavailable)",
-            Self::InvalidResponse => "The mailbox provider returned an incomplete authorization response. Try again later, or reconnect this mailbox. (invalid_response)",
-            Self::Other => "The mailbox provider could not authorize this connection. Check your provider registration and account access, then reconnect. (authorization_error)",
+            Self::ProviderUnavailable => "The mailbox provider could not complete authorisation. Check your internet connection and try again later. (provider_unavailable)",
+            Self::InvalidResponse => "The mailbox provider returned an incomplete authorisation response. Try again later, or reconnect this mailbox. (invalid_response)",
+            Self::Other => "The mailbox provider could not authorise this connection. Check your provider registration and account access, then reconnect. (authorization_error)",
         }
     }
 
@@ -166,7 +193,7 @@ impl Drop for OAuthCompletionGuard {
 
 fn ensure_oauth_not_cancelled(session: &OAuthSession) -> Result<(), String> {
     if *session.cancel_sender.borrow() {
-        return Err("Mailbox authorization was cancelled. Start the connection again.".to_string());
+        return Err("Mailbox authorisation was cancelled. Start the connection again.".to_string());
     }
     Ok(())
 }
@@ -414,7 +441,7 @@ pub fn set_email_provider_settings(
     // it rather than accepting a callback after configuration was changed.
     let mut sessions = oauth_sessions()
         .lock()
-        .map_err(|_| "Email authorization lock is unavailable.")?;
+        .map_err(|_| "Email authorisation lock is unavailable.")?;
     sessions.retain(|_, session| {
         let unchanged = provider_config_from_settings(&session.provider, &settings)
             .map(|config| {
@@ -667,18 +694,18 @@ async fn spawn_callback_listener(
             if denied {
                 (
                     "200 OK",
-                    "Authorization failed",
+                    "Authorisation failed",
                     "Return to Kwantflow for the connection error and next steps.",
                 )
             } else {
                 (
                     "200 OK",
-                    "Authorization received",
+                    "Authorisation received",
                     "You can close this tab and return to Kwantflow.",
                 )
             }
         } else {
-            ("400 Bad Request", "Connection rejected", "The authorization callback was invalid. Return to the provider sign-in tab to finish connecting.")
+            ("400 Bad Request", "Connection rejected", "The authorisation callback was invalid. Return to the provider sign-in tab to finish connecting.")
         };
         let body = format!(
             "<html><body style=\"font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:40px;\"><h1>{title}</h1><p>{message}</p></body></html>"
@@ -710,7 +737,7 @@ async fn exchange_code(
         ("code_verifier", verifier),
         ("redirect_uri", redirect_uri),
     ];
-    let response = reqwest::Client::new()
+    let response = http_client()?
         .post(&config.token_url)
         .timeout(Duration::from_secs(30))
         .form(&params)
@@ -775,7 +802,7 @@ async fn refresh_token(
         ("client_id", &config.client_id),
         ("grant_type", "refresh_token"),
     ];
-    let response = reqwest::Client::new()
+    let response = http_client().map_err(|_| OAuthProviderError::ProviderUnavailable)?
         .post(&config.token_url)
         .timeout(Duration::from_secs(30))
         .form(&params)
@@ -834,7 +861,7 @@ async fn fetch_userinfo(
     config: &EmailProviderConfig,
     access_token: &str,
 ) -> Result<(String, Option<String>), String> {
-    let response = reqwest::Client::new()
+    let response = http_client()?
         .get(config.userinfo_url)
         .timeout(Duration::from_secs(30))
         .header("Authorization", format!("Bearer {access_token}"))
@@ -1172,7 +1199,7 @@ pub async fn complete_integration_oauth(
             );
         }
         if session.completing {
-            return Err("Mailbox authorization is already completing.".to_string());
+            return Err("Mailbox authorisation is already completing.".to_string());
         }
         sessions.get_mut(&state).expect("session exists").completing = true;
         session
@@ -1214,7 +1241,7 @@ pub async fn complete_integration_oauth(
     .map_err(|error| format!("Read active workspace identity: {error}"))?;
     if workspace_id != session.workspace_id {
         return Err(
-            "Workspace changed during mailbox authorization. Reconnect in the intended workspace."
+            "Workspace changed during mailbox authorisation. Reconnect in the intended workspace."
                 .to_string(),
         );
     }
@@ -1384,7 +1411,7 @@ async fn synchronize_gmail_messages(
     max_results: Option<u32>,
 ) -> Result<GmailListResult, String> {
     let token_bundle = get_valid_token_bundle(&app, &connection_id).await?;
-    let client = reqwest::Client::new();
+    let client = http_client()?;
     let max = max_results.unwrap_or(25).min(50);
     let Some(cursor) = read_sync_cursor(&app, &connection_id).await? else {
         let result = list_gmail_messages_impl(
@@ -1553,7 +1580,7 @@ async fn synchronize_outlook_messages(
         });
     let url = outlook_cursor_url(&url)?;
     let token_bundle = get_valid_token_bundle(&app, &connection_id).await?;
-    let response = reqwest::Client::builder()
+    let response = http_client_builder(HTTP_REQUEST_TIMEOUT)
         .https_only(true)
         .redirect(reqwest::redirect::Policy::none())
         .build()
@@ -1814,7 +1841,7 @@ pub async fn list_gmail_messages_impl(
         url.push_str("&pageToken=");
         url.push_str(&urlencode(&page_token));
     }
-    let client = reqwest::Client::new();
+    let client = http_client()?;
     let response = client
         .get(&url)
         .header(
@@ -1972,7 +1999,7 @@ pub async fn send_gmail_message_impl(
         "From: {from}\r\nTo: {to}\r\n{cc_header}{bcc_header}Subject: {encoded_subject}\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"{boundary}\"\r\n\r\n{}",
         mime_parts.join("\r\n")
     );
-    let response = reqwest::Client::new()
+    let response = http_client()?
         .post("https://gmail.googleapis.com/gmail/v1/users/me/messages/send")
         .header(
             "Authorization",
@@ -2014,7 +2041,7 @@ pub async fn get_gmail_message_impl(
     let token_bundle = get_valid_token_bundle(&app, &integration_id).await?;
     let url =
         format!("https://gmail.googleapis.com/gmail/v1/users/me/messages/{message_id}?format=full");
-    let response = reqwest::Client::new()
+    let response = http_client()?
         .get(&url)
         .header(
             "Authorization",
@@ -2101,7 +2128,7 @@ pub async fn download_gmail_attachment_impl(
     let url = format!(
         "https://gmail.googleapis.com/gmail/v1/users/me/messages/{message_id}/attachments/{attachment_id}"
     );
-    let response = reqwest::Client::new()
+    let response = attachment_http_client()?
         .get(&url)
         .header(
             "Authorization",
@@ -2228,7 +2255,7 @@ pub async fn set_gmail_message_read_status_impl(
     } else {
         (Vec::<&str>::new(), vec!["UNREAD"])
     };
-    let response = reqwest::Client::new()
+    let response = http_client()?
         .post(format!(
             "https://gmail.googleapis.com/gmail/v1/users/me/messages/{message_id}/modify"
         ))
@@ -2465,7 +2492,7 @@ pub async fn list_outlook_messages_impl(
     };
     let url = outlook_cursor_url(&url)?;
     let token_bundle = get_valid_token_bundle(&app, &integration_id).await?;
-    let response = reqwest::Client::builder()
+    let response = http_client_builder(HTTP_REQUEST_TIMEOUT)
         .https_only(true)
         .redirect(reqwest::redirect::Policy::none())
         .build()
@@ -2566,7 +2593,7 @@ pub async fn get_outlook_message_impl(
     message_id: String,
 ) -> Result<GmailMessageDetail, String> {
     let token_bundle = get_valid_token_bundle(&app, &integration_id).await?;
-    let client = reqwest::Client::new();
+    let client = http_client()?;
     let response = client
         .get(format!(
             "https://graph.microsoft.com/v1.0/me/messages/{message_id}"
@@ -2753,7 +2780,7 @@ pub async fn download_outlook_attachment_impl(
     filename: String,
 ) -> Result<String, String> {
     let token_bundle = get_valid_token_bundle(&app, &integration_id).await?;
-    let response = reqwest::Client::new()
+    let response = attachment_http_client()?
         .get(format!(
             "https://graph.microsoft.com/v1.0/me/messages/{message_id}/attachments/{attachment_id}"
         ))
@@ -2804,7 +2831,7 @@ pub async fn set_outlook_message_read_status_impl(
     is_read: bool,
 ) -> Result<(), String> {
     let token_bundle = get_valid_token_bundle(&app, &integration_id).await?;
-    let response = reqwest::Client::new()
+    let response = http_client()?
         .patch(format!(
             "https://graph.microsoft.com/v1.0/me/messages/{message_id}"
         ))
@@ -2875,7 +2902,7 @@ pub async fn send_outlook_message_impl(
             "contentBytes": data
         }]);
     }
-    let response = reqwest::Client::new()
+    let response = http_client()?
         .post("https://graph.microsoft.com/v1.0/me/sendMail")
         .header(
             "Authorization",
@@ -3669,7 +3696,7 @@ mod tests {
         task.await.unwrap();
         let response = String::from_utf8_lossy(&response);
         assert!(response.starts_with("HTTP/1.1 200"));
-        assert!(response.contains("Authorization failed"));
+        assert!(response.contains("Authorisation failed"));
         assert!(!response.contains("synthetic-private"));
         assert!(!response.contains("invalid_request"));
         let session = oauth_sessions().lock().unwrap().remove(&state).unwrap();

@@ -34,19 +34,19 @@
 
 <Dialog.Root bind:open>
 	<Dialog.FormFrame
-		title={`Create Scope Item from ${selectedCount} File${selectedCount === 1 ? '' : 's'}`}
+		title={`Create Asset from ${selectedCount} File${selectedCount === 1 ? '' : 's'}`}
 		description="These project files will be bundled into a single scope item."
 		class="ui-dialog-size-compact"
 		bodyClass="grid gap-4"
 	>
 		<FieldShell>
-			<FieldLabel for="name">Scope Item Name</FieldLabel>
+			<FieldLabel for="name">Asset Name</FieldLabel>
 			<Input id="name" bind:value={name} placeholder="e.g. Bracket Assembly" autofocus />
 		</FieldShell>
 		{#snippet footer()}
 			<Button type="button" variant="secondary" onclick={() => (open = false)}>Cancel</Button>
 			<Button type="button" disabled={!name.trim()} onclick={(e) => handleSubmit(e)}>
-				Create Scope Item
+				Create Asset
 			</Button>
 		{/snippet}
 	</Dialog.FormFrame>

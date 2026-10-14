@@ -62,7 +62,7 @@ describe('onboarding workspace', () => {
 		expect(source).toContain('ui-onboarding-pane');
 		expect(source).toContain('ui-onboarding-pane-content');
 		expect(source).toContain('onboardingSidebarMarkUrl');
-		expect(source).toContain('/images/login-hero-industrial.jpg');
+		expect(source).toContain('/images/onboarding-hero-industrial.jpg');
 		expect(source).not.toContain('ui-boot-center');
 		expect(source).not.toContain('ui-pane-card max-w-xl');
 	});

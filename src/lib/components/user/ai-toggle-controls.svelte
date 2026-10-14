@@ -38,7 +38,7 @@
 					<FieldLabelRow
 						tooltip={integrationsState.isEmailConnected
 							? 'Use Kwantflow AI to check if incoming emails are RFQ requests.'
-							: 'Connect your Gmail or Outlook in Integrations to enable Mail RFQ Detection.'}
+							: 'Connect your Gmail or Outlook in Connections to enable Mail RFQ Detection.'}
 					>
 						Mail RFQ Detection
 					</FieldLabelRow>

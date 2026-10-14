@@ -177,7 +177,7 @@ export async function preprocessIntakeFiles(
 
 export async function extractZip(
 	zipBytes: Uint8Array,
-	archiveName: string
+	_archiveName: string
 ): Promise<ZipExtractionResult> {
 	const zip = await JSZip.loadAsync(zipBytes);
 	const entries: ExtractedZipEntry[] = [];
@@ -198,7 +198,7 @@ export async function extractZip(
 		// Skip nested archives (no recursion)
 		const entryExt = entry.name.split('.').pop()?.toLowerCase() ?? '';
 		if (ZIP_SAFE_EXTENSIONS.has(entryExt)) {
-			log.info(`Skipping nested archive in ${archiveName}: ${entry.name}`);
+			log.info(`Skipping nested archive (.${entryExt}) inside an imported ZIP`);
 			continue;
 		}
 
@@ -223,7 +223,7 @@ export async function extractZip(
 				byteSize: data.byteLength
 			});
 		} catch (error) {
-			log.warn(`Failed to extract ZIP entry: ${entry.name}`, error);
+			log.warn('Failed to extract a ZIP entry', error);
 		}
 	}
 

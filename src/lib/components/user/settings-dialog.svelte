@@ -1350,7 +1350,7 @@
 					/>
 				</FieldShell>
 				<div class="ui-settings-card space-y-3 p-4">
-					<Text>Help and licenses</Text>
+					<Text>Help and licences</Text>
 					<Meta>Open the documentation included with this installation, available offline.</Meta>
 					<div class="flex flex-wrap gap-2">
 						<Button
@@ -1361,7 +1361,7 @@
 						<Button
 							variant="secondary"
 							size="sm"
-							onclick={() => void appState.openLocalDocumentation('license')}>License</Button
+							onclick={() => void appState.openLocalDocumentation('license')}>Licence</Button
 						>
 						<Button
 							variant="secondary"

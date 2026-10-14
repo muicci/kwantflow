@@ -8,7 +8,7 @@
 	import MoreHorizontalIcon from '@lucide/svelte/icons/more-horizontal';
 	import PencilIcon from '@lucide/svelte/icons/pencil';
 	import Trash2Icon from '@lucide/svelte/icons/trash-2';
-	import CopyIcon from '@tabler/icons-svelte/icons/copy';
+	import CopyIcon from '@lucide/svelte/icons/copy';
 	import { appState } from '$lib/state/app.svelte.js';
 	import { labourRatesState } from '$lib/state/labour-rates.svelte.js';
 	import type { LabourRateCard } from '$lib/types/index.js';

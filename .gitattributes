@@ -1,0 +1,21 @@
+* text=auto eol=lf
+
+# Vendored or generated: hide from language stats and diffs
+static/workers/** linguist-vendored
+static/wasm/** linguist-vendored
+packages/libheif-js/libheif-wasm/** linguist-vendored
+third-party/** linguist-vendored
+src/lib/design/generated/** linguist-generated
+src/lib/types/db.ts linguist-generated
+pnpm-lock.yaml linguist-generated
+src-tauri/Cargo.lock linguist-generated
+
+*.wasm binary
+*.shx binary
+*.ttf binary
+*.otf binary
+*.png binary
+*.jpg binary
+*.webp binary
+*.icns binary
+*.ico binary

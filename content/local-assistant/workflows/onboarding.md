@@ -30,12 +30,11 @@ If you have existing business data in spreadsheets, you can use the **optional s
 The final step is the **optional Local AI** configuration. This enables on-device drafting and local help features.
 
 - Click **Download Kwantflow AI** to start the download. It is a large file, so it may take a few minutes depending on your internet speed.
-- You can continue to **Enter workspace** while the download runs in the background, or skip this step and set it up later.
+- You can press **Continue** while the download runs in the background, or set it up later from **Settings > Agent**.
 
-Once finished, you will arrive at the **RFQ home** where you can start managing your projects.
+Once finished, you arrive at the RFQ home screen (the dashboard) where you can start managing your projects.
 
 **See also:**
 
 - [Working with RFQs](help-rfqs)
 - [Importing from spreadsheets](help-setup-import)
-- [Setting up local AI](ref-setting-up-local-ai)

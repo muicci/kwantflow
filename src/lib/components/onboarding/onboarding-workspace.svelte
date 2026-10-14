@@ -586,7 +586,7 @@
 
 	<div class="shell-surface relative hidden h-full lg:block">
 		<img
-			src="/images/login-hero-industrial.jpg"
+			src="/images/onboarding-hero-industrial.jpg"
 			alt="RFQ document control workspace"
 			class="absolute inset-0 h-full w-full object-cover"
 		/>

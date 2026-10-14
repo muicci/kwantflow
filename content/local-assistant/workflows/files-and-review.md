@@ -4,7 +4,6 @@ title: Files and review
 kind: help
 summary: Files arrive in your review list first. From there, you group them into assets to build your estimate.
 keywords: files, review files, documents, drawings, upload, review pool, group files, assign files, create asset, ungroup
-route: /project/[id]
 routeLabel: Project
 ---
 
@@ -27,5 +26,5 @@ If you need to change how files are grouped, click the **More actions** button o
 
 **See also:**
 
-- [Assets and estimates](/local-assistant/help-assets-and-estimates)
-- [Working with RFQs](/local-assistant/help-rfqs)
+- [Assets and estimates](help-assets-estimates)
+- [Working with RFQs](help-rfqs)

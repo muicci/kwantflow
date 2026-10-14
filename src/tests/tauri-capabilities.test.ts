@@ -22,35 +22,48 @@ describe('Tauri capability hardening', () => {
 		expect(previewCapability.permissions).not.toContain('default');
 	});
 
+	type ScopedPermission = { identifier: string; allow?: { path?: string; url?: string }[] };
+	const scoped = (capability: ReturnType<typeof readJson>): ScopedPermission[] =>
+		(capability.permissions ?? []).filter(
+			(p): p is ScopedPermission => typeof p === 'object' && p !== null
+		) as ScopedPermission[];
+	const identifiers = (capability: ReturnType<typeof readJson>): string[] =>
+		(capability.permissions ?? []).map((p) => (typeof p === 'string' ? p : p.identifier));
+
 	it('keeps detached preview read-only for SQL and workspace vault access', () => {
 		const workspaceCapability = readJson('src-tauri/capabilities/workspace.json');
 		const previewCapability = readJson('src-tauri/capabilities/asset-preview.json');
 
 		expect(workspaceCapability.windows).toEqual(['main']);
-		expect(workspaceCapability.permissions).not.toContain('fs:allow-read');
 		expect(previewCapability.permissions).toContain('allow-query-workspace-database');
 		expect(previewCapability.permissions).not.toContain('allow-execute-workspace-database');
-		expect(
-			previewCapability.permissions?.some(
-				(p) =>
-					p === 'fs:allow-document-read-recursive' ||
-					(typeof p === 'object' &&
-						p !== null &&
-						p.identifier === 'fs:allow-document-read-recursive')
-			)
-		).toBe(true);
-		expect(previewCapability.permissions).not.toContain('fs:allow-document-write-recursive');
 		expect(previewCapability.permissions).toContain('core:window:allow-destroy');
+		for (const permission of scoped(previewCapability)) {
+			if (!/^fs:allow-(write|remove|rename|mkdir|copy|truncate)/.test(permission.identifier))
+				continue;
+			for (const scope of permission.allow ?? []) {
+				expect(scope.path).toMatch(/^\$APPCACHE\//);
+			}
+		}
 	});
 
-	it('allows derived evidence caches under AppCache for main and detached preview windows', () => {
-		const defaultCapability = readJson('src-tauri/capabilities/default.json');
-		const previewCapability = readJson('src-tauri/capabilities/asset-preview.json');
-
-		for (const capability of [defaultCapability, previewCapability]) {
-			expect(capability.permissions).toContain('fs:allow-appcache-meta-recursive');
-			expect(capability.permissions).toContain('fs:allow-appcache-read-recursive');
-			expect(capability.permissions).toContain('fs:allow-appcache-write-recursive');
+	it('never grants blanket file-system sets to any window', () => {
+		for (const file of ['default.json', 'asset-preview.json', 'workspace.json']) {
+			const capability = readJson(`src-tauri/capabilities/${file}`);
+			for (const identifier of identifiers(capability)) {
+				expect(identifier).not.toMatch(/^fs:allow-[a-z]+-(read|write|meta)-recursive$/);
+				expect(identifier).not.toMatch(
+					/^fs:(allow-read|allow-write|read-all|write-all|scope-home|scope-app)$/
+				);
+			}
+			for (const permission of scoped(capability)) {
+				if (!permission.identifier.startsWith('fs:')) continue;
+				for (const scope of permission.allow ?? []) {
+					expect(scope.path).toMatch(
+						/^\$(DOCUMENT\/Kwantflow|APPLOCALDATA\/[a-zA-Z/-]+|APPCACHE\/[a-z-]+)(\/\*\*)?$/
+					);
+				}
+			}
 		}
 	});
 
@@ -115,8 +128,8 @@ describe('Tauri capability hardening', () => {
 		expect(defaultCapability.permissions).toContain('allow-execute-control-database');
 		expect(defaultCapability.permissions).toContain('allow-query-workspace-database');
 		expect(defaultCapability.permissions).toContain('allow-execute-workspace-database');
-		expect(defaultCapability.permissions).toContain('allow-get-email-provider-settings');
-		expect(defaultCapability.permissions).toContain('allow-set-email-provider-settings');
+		expect(defaultPermissions).toContain('"allow-get-email-provider-settings"');
+		expect(defaultPermissions).toContain('"allow-set-email-provider-settings"');
 		expect(defaultPermissions).toContain('"allow-create-workspace-command"');
 		expect(defaultPermissions).toContain('"allow-activate-workspace-command"');
 		expect(defaultPermissions).toContain('"allow-delete-workspace-command"');

@@ -3,7 +3,6 @@ import {
 	evaluateDecimalExpression,
 	validateQuantityFormula
 } from '$lib/services/assistant-tools/calculator.js';
-import { previewTakeoffItem } from '$lib/services/assistant-tools/takeoff-preview.js';
 import {
 	describeRecords,
 	getRecord,
@@ -173,22 +172,6 @@ describe('deterministic assistant estimator tools', () => {
 			recoverable: true,
 			retryHint: expect.stringContaining('records_search')
 		});
-	});
-
-	it('previews takeoff item totals without writing estimate state', () => {
-		const result = previewTakeoffItem({
-			name: 'Bracket install',
-			quantity: '2',
-			unit: 'ea',
-			costComponents: [
-				{ name: 'Steel plate', category: 'material', quantity: '3', unit: 'kg', unitRate: '9' },
-				{ name: 'Fabrication', category: 'labour', quantity: '1.5', unit: 'hr', unitRate: '120' }
-			]
-		});
-
-		expect(result.itemUnitCost).toBe('207');
-		expect(result.itemTotalCost).toBe('414');
-		expect(result.previewOnly).toBe(true);
 	});
 
 	it('includes deterministic estimator tools in the assistant registry', () => {

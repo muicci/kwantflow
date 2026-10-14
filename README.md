@@ -15,7 +15,7 @@ Kwantflow turns RFQs (requests for quote) into organised estimates and professio
 - **Local AI (optional):** draft estimates, ask questions about your workspace, search records and get calculations from a private on-device model.
 - **Your data stays yours:** everything lives in local SQLite databases and a files folder, with built-in backup and restore.
 
-Kwantflow runs on **macOS** (Apple Silicon and Intel) and **Windows x64**.
+Kwantflow runs on **macOS 12 or later** (Apple Silicon and Intel) and **Windows 10/11 x64**. Local AI needs 8 GB of RAM at minimum; 16 GB or more is recommended.
 
 ## Download and install
 
@@ -36,7 +36,7 @@ Each release lists SHA-256 checksums so you can verify your download.
 ## Getting started
 
 1. **Create a workspace.** Enter your business name, country and contact details. These are used on your quotes and stay on your computer.
-2. **Set up Local AI, or skip it.** Choose **Download** to install the AI model (about 3.7 GB, one time), or **Skip** to estimate manually. You can install it later from **Settings > Agent**.
+2. **Set up Local AI, or skip it.** Choose **Download** to install the AI model (about 3.7 GB, one time), or **Continue** to estimate manually. You can install it later from **Settings > Agent**.
 3. **Add your setup data.** Add materials, labour and equipment rates, or bulk-import them from a spreadsheet with **Setup import**.
 4. **Create your first RFQ,** attach drawings and files, build an estimate and prepare a quote.
 
@@ -54,7 +54,7 @@ Kwantflow AI is a language model running **inside the app on your computer**. Th
 | **Download** | One time, from Hugging Face. The file is checked against a pinned SHA-256 fingerprint before use                                         |
 | **Privacy**  | Prompts, files and answers never leave your computer. After the download it works fully offline                                          |
 
-The assistant (**Ask Kwantflow AI**) uses built-in tools instead of guessing:
+The assistant (**Ask Kwantflow**) uses built-in tools instead of guessing:
 
 - it searches records in the active workspace;
 - it does exact decimal calculations;
@@ -69,7 +69,7 @@ AI output is a starting point. Always review quantities, rates, scope and custom
 
 Kwantflow can watch a Gmail or Microsoft 365 / Outlook mailbox for RFQs. To keep things independent and private, you register **your own** OAuth app with Google or Microsoft (free) and paste its client ID into **Settings > Connections**. Kwantflow then talks directly to your provider, with no Kwantflow server in between. Tokens are stored in the macOS Keychain or Windows DPAPI and are never included in backups.
 
-For step-by-step instructions, see [docs/user/EMAIL_SETUP.md](docs/user/EMAIL_SETUP.md). If you'd rather not connect a mailbox, import `.eml` or `.msg` files instead.
+For step-by-step instructions, see [docs/user/09-email.md](docs/user/09-email.md). If you'd rather not connect a mailbox, import `.eml` or `.msg` files instead.
 
 ## Privacy
 

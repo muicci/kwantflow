@@ -40,7 +40,7 @@
 		QuoteRevisionLineItem
 	} from '$lib/types/index.js';
 
-	import FileDownloadIcon from '@tabler/icons-svelte/icons/file-download';
+	import FileDownloadIcon from '@lucide/svelte/icons/file-down';
 	import QuoteEmailDialog from '$lib/components/quote/quote-email-dialog.svelte';
 	import {
 		buildTemplateEmailDraft,

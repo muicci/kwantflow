@@ -39,7 +39,12 @@ const SENSITIVE_KEY_PATTERN = /token|secret|password|authorization|cookie|api[_-
 const SENSITIVE_STRING_PATTERNS: ReadonlyArray<[RegExp, string]> = [
 	[/(Bearer\s+)[A-Za-z0-9._-]+/gi, `$1${REDACTED_VALUE}`],
 	[/(apikey=)[^&\s]+/gi, `$1${REDACTED_VALUE}`],
-	[/(token=)[^&\s]+/gi, `$1${REDACTED_VALUE}`]
+	[/(token=)[^&\s]+/gi, `$1${REDACTED_VALUE}`],
+	[
+		/("(?:access_token|refresh_token|id_token|client_secret|password|secret)"\s*:\s*")[^"]*(")/gi,
+		`$1${REDACTED_VALUE}$2`
+	],
+	[/((?:access_token|refresh_token|id_token)=)[^&\s]+/gi, `$1${REDACTED_VALUE}`]
 ];
 
 let benignBrowserWarningDetach: (() => void) | null = null;
@@ -60,9 +65,10 @@ const BENIGN_CONSOLE_ERRORS = [
 
 function normalizeMessage(scope: string, message: string): string {
 	const duplicateScopePrefix = `[${scope}] `;
-	return message.startsWith(duplicateScopePrefix)
+	const stripped = message.startsWith(duplicateScopePrefix)
 		? message.slice(duplicateScopePrefix.length)
 		: message;
+	return redactString(stripped);
 }
 
 function redactString(value: string): string {

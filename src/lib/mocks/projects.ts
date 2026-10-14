@@ -1,3 +1,5 @@
+// Browser-only fixture: used when the UI runs outside Tauri (`pnpm dev`, Storybook, Vitest).
+// Never returned inside the desktop app.
 import { ProjectStatus } from '../constants/index.js';
 import type { Project } from '../types/index.js';
 

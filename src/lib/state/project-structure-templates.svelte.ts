@@ -1,11 +1,9 @@
-import { invoke } from '@tauri-apps/api/core';
 import { toast } from 'svelte-sonner';
 import { dbService } from '../services/db';
 import { createLogger } from '../services/logger.js';
 import { errorState } from './errors.svelte';
 import type { ProjectStructureTemplate } from '$lib/types/index.js';
 import type { ProjectStructureTemplateFormValues } from '$lib/schemas/index.js';
-import { isTauri } from '../utils/env';
 
 const log = createLogger('projectStructureTemplatesState');
 
@@ -58,7 +56,7 @@ class ProjectStructureTemplatesState {
 		nodes: ProjectStructureTemplate['nodes']
 	): Promise<void> {
 		try {
-			const id = isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID();
+			const id = crypto.randomUUID();
 			await dbService.addProjectStructureTemplate(id, data, nodes);
 			const createdTemplate = await dbService.getProjectStructureTemplateById(id);
 			if (createdTemplate) {
@@ -142,7 +140,7 @@ class ProjectStructureTemplatesState {
 		try {
 			const current = this.list.find((item) => item.id === id);
 			if (!current) throw new Error('Template not found');
-			const nextId = isTauri() ? await invoke<string>('generate_uuid') : crypto.randomUUID();
+			const nextId = crypto.randomUUID();
 			const duplicatedNodes = current.nodes.map((node) => ({
 				...node,
 				id: crypto.randomUUID()

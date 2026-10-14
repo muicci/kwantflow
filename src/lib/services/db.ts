@@ -764,7 +764,7 @@ class KwantflowDatabase {
 				this.kysely = null;
 				const classifiedError = classifyDatabaseInitializationError(err);
 				log.error(
-					`Failed to initialize database (${classifiedError.kind}): ${classifiedError.message}`
+					`Failed to initialise database (${classifiedError.kind}): ${classifiedError.message}`
 				);
 				if (classifiedError.cause && classifiedError.cause !== classifiedError.message) {
 					log.error(`Database init technical details: ${classifiedError.cause}`);
@@ -2933,7 +2933,7 @@ class KwantflowDatabase {
 
 	private async getWorkspaceIdForWrite(): Promise<string> {
 		const workspace = await this.getWorkspaceIdentity();
-		if (!workspace) throw new Error('Workspace is not initialized');
+		if (!workspace) throw new Error('Workspace is not initialised');
 		return workspace.id;
 	}
 
@@ -3435,7 +3435,7 @@ class KwantflowDatabase {
 		if (!isTauri()) return MOCK_PROJECTS;
 		await this.init();
 		try {
-			if (!this.db) return MOCK_PROJECTS;
+			if (!this.db) throw new Error('The workspace database is not available.');
 			const workspaceId = await this.getWorkspaceIdForWrite();
 			const raw = await this.db.select<unknown[]>(
 				`SELECT
@@ -3508,7 +3508,7 @@ class KwantflowDatabase {
 		if (!isTauri()) return MOCK_PROJECTS.slice(0, limit);
 		await this.init();
 		try {
-			if (!this.db) return MOCK_PROJECTS.slice(0, limit);
+			if (!this.db) throw new Error('The workspace database is not available.');
 			const workspaceId = await this.getWorkspaceIdForWrite();
 			const raw = await this.db.select<unknown[]>(
 				`SELECT
