@@ -111,11 +111,15 @@ foreach ($name in @('litert_lm_c.dll', 'litert_lm_c.lib', 'pdfium.dll')) {
         $Offline = $true
         $oldVc = [Environment]::GetEnvironmentVariable('BAZEL_VC', 'Process')
         [Environment]::SetEnvironmentVariable('BAZEL_VC', 'original-fixture-value', 'Process')
+        # The production block chooses a short drive-root output base; keep the fixture inside its cache.
+        $oldOutputBase = [Environment]::GetEnvironmentVariable('KWANTFLOW_BAZEL_OUTPUT_BASE', 'Process')
+        [Environment]::SetEnvironmentVariable('KWANTFLOW_BAZEL_OUTPUT_BASE', $bazelOutput, 'Process')
         $location = Get-Location
         $errorMessage = $null
         try { & $underTest | Out-Null } catch { $errorMessage = $_.Exception.Message } finally {
             Assert ([Environment]::GetEnvironmentVariable('BAZEL_VC', 'Process') -eq 'original-fixture-value') 'Build environment must be restored.'
             [Environment]::SetEnvironmentVariable('BAZEL_VC', $oldVc, 'Process')
+            [Environment]::SetEnvironmentVariable('KWANTFLOW_BAZEL_OUTPUT_BASE', $oldOutputBase, 'Process')
         }
         Assert ((Get-Location).Path -eq $location.Path) 'Source build location must be restored.'
         $recovery = @(Get-ChildItem -LiteralPath $runtimeParent -Directory -Force -Filter '.native-runtime-stage-*')
