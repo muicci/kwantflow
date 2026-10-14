@@ -163,6 +163,9 @@ try {
     $bazelBinOutput = @(& $bazel "--output_base=$bazelOutput" info bazel-bin $overrideAndroidSdk @fetchOptions)
     if ($LASTEXITCODE -ne 0) { throw 'Could not resolve Bazel output directory.' }
     $bazelBin = "$($bazelBinOutput[-1])".Trim()
+    # Stop the Bazel server now: it keeps the source tree open, and the next run of this script
+    # (for example distribution:build after verify) must be able to remove and re-extract it.
+    & $bazel "--output_base=$bazelOutput" shutdown 2>&1 | Out-Null
     # Bazel reports the target output as bazel-bin/c/litert_lm_c.dll. A recursive search is
     # ambiguous because the link step also leaves copies in intermediate subdirectories.
     $builtDll = Join-Path $bazelBin 'c/litert_lm_c.dll'
