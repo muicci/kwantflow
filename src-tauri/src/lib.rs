@@ -2307,6 +2307,12 @@ mod tests {
         let library = Pdfium::pdfium_platform_library_name_at_path(
             &manifest_dir.join("native-runtime"),
         );
+        if !Path::new(&library).exists() {
+            // The native PDFium input is downloaded by `pnpm native:prepare`; plain unit test
+            // runs (including CI) do not have it. Release builds always prepare it first.
+            eprintln!("skipping: native PDFium library not prepared at {library:?}");
+            return;
+        }
         let bindings = Pdfium::bind_to_library(library)
             .expect("Bundled Pdfium must bind for native PDF evidence tests");
         {
