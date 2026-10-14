@@ -222,6 +222,12 @@ $result = & (Join-Path $PSScriptRoot 'verify-windows-runtime.ps1') -RuntimeDirec
     dependencyNoticeCount = $notices.Count
     runtime = $result
 } | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $runtime 'windows-build-receipt.json') -Encoding utf8
+# Bazel marks its outputs read-only and Copy-Item preserves the attribute. tauri-build copies
+# every bundled resource into the Cargo target directory on each build-script run, and
+# overwriting a read-only file on Windows fails with "Access is denied", so clear it here.
+foreach ($file in @(Get-ChildItem -LiteralPath $runtime -Recurse -File)) {
+    if ($file.IsReadOnly) { $file.IsReadOnly = $false }
+}
 # Validation and both receipts complete before replacing the previous bundle.
 if (Test-Path -LiteralPath $destination) {
     Move-Item -LiteralPath $destination -Destination $previousRuntime
