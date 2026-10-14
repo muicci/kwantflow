@@ -267,6 +267,20 @@ fn main() {
     };
     println!("cargo:rustc-env=KWANTFLOW_NATIVE_RUNTIME_SHA256={native_fingerprint}");
 
+    // tauri-build embeds a Windows application manifest (Common Controls 6.0) into the app
+    // binary only. Cargo test binaries link the same code, including comctl32's
+    // TaskDialogIndirect, which exists solely in Common Controls 6.0. Without a manifest the
+    // loader binds the version 5 comctl32.dll and the test binary dies at process start with
+    // STATUS_ENTRYPOINT_NOT_FOUND, so give test targets an equivalent manifest dependency.
+    if std::env::var("CARGO_CFG_TARGET_OS").ok().as_deref() == Some("windows")
+        && std::env::var("CARGO_CFG_TARGET_ENV").ok().as_deref() == Some("msvc")
+    {
+        println!("cargo:rustc-link-arg-tests=/MANIFEST:EMBED");
+        println!(
+            "cargo:rustc-link-arg-tests=/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'"
+        );
+    }
+
     let attributes = Attributes::new().app_manifest(AppManifest::new().commands(APP_COMMANDS));
     if let Err(error) = tauri_build::try_build(attributes) {
         eprintln!("failed to run tauri build script:\n{error:#}");

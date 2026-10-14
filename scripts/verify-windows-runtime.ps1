@@ -178,6 +178,8 @@ function Read-PeImports([string]$Path) {
     $current = $null
     foreach ($line in (Read-PeOutput '/imports' $Path)) {
         $text = "$line"
+        # The trailing Summary block lists section sizes and names, not imports.
+        if ($text -match '^\s*Summary\s*$') { break }
         if ($text -match '^\s+([A-Za-z0-9._+-]+\.(?:dll|drv))\s*$') {
             $current = $Matches[1].ToLowerInvariant()
             if (-not $byDll.ContainsKey($current)) { $byDll[$current] = [Collections.Generic.List[string]]::new() }
