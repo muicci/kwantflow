@@ -16,11 +16,11 @@ function Assert([bool]$Condition, [string]$Message) {
     if (-not $Condition) { throw $Message }
 }
 
-function Set-Pe([string]$Name, [string[]]$Imports, [string[]]$DelayImports = @(), [string]$Machine = '8664') {
+function Set-Pe([string]$Name, [string[]]$Imports, [string[]]$DelayImports = @(), [string]$Machine = '8664', [hashtable]$ImportedSymbols = @{}, [string[]]$Exports = @('litert_lm_engine_create')) {
     $path = Join-Path $runtime $Name
     if (-not (Test-Path -LiteralPath $path)) { Set-Content -LiteralPath $path -Value "fixture-$Name" -NoNewline }
-    @{ imports = @($Imports); delayImports = @($DelayImports); machine = $Machine; exports = @('litert_lm_engine_create') } |
-        ConvertTo-Json | Set-Content -LiteralPath "$path.imports.json"
+    @{ imports = @($Imports); delayImports = @($DelayImports); machine = $Machine; exports = @($Exports); importedSymbols = $ImportedSymbols } |
+        ConvertTo-Json -Depth 4 | Set-Content -LiteralPath "$path.imports.json"
 }
 
 function Expect-Failure([string]$Name, [string]$Pattern, [scriptblock]$Action) {
@@ -54,6 +54,18 @@ switch ($Mode) {
         foreach ($name in $spec.imports) { "    $name" }
         '  Image has the following delay load dependencies:'
         foreach ($name in $spec.delayImports) { "    $name" }
+    }
+    '/imports' {
+        '  Section contains the following imports:'
+        foreach ($name in @($spec.imports) + @($spec.delayImports)) {
+            ''
+            "    $name"
+            '              140000000 Import Address Table'
+            '                      0 time date stamp'
+            $symbols = @()
+            if ($spec.importedSymbols.PSObject.Properties[$name]) { $symbols = @($spec.importedSymbols.$name) }
+            foreach ($symbol in $symbols) { "                          1 $symbol" }
+        }
     }
     default { throw "Unexpected dumpbin mode: $Mode" }
 }
@@ -127,6 +139,8 @@ switch ($Mode) {
     Expect-Failure 'offline staging cannot download missing VC++ prerequisite' 'Offline VC\+\+ redistributable is missing' { & $script @params -Offline }
     Set-Pe 'helper.dll' @('msvcp140d.dll')
     Expect-Failure 'debug VC++ runtime cannot be redistributed' 'unstaged non-OS DLL' { & $script @params -VerifyOnly }
+    Set-Pe 'helper.dll' @('KERNEL32.dll', 'bridge.dll') -ImportedSymbols @{ 'bridge.dll' = @('litert_lm_engine_create', 'litert_lm_removed_symbol') }
+    Expect-Failure 'imported symbol missing from a packaged DLL' 'STATUS_ENTRYPOINT_NOT_FOUND.*helper\.dll -> bridge\.dll!litert_lm_removed_symbol' { & $script @params -VerifyOnly }
     Set-Pe 'helper.dll' @('KERNEL32.dll') @() '14C'
     Expect-Failure 'x86 PE rejected in x64 runtime' 'Runtime PE is not x64' { & $script @params -VerifyOnly }
     Set-Pe 'helper.dll' @('KERNEL32.dll')

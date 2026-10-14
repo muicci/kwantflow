@@ -160,6 +160,51 @@ foreach ($symbol in $contract.requiredExports) {
     if ($exports -notmatch "(?m)\b$([regex]::Escape($symbol))\b") { throw "LiteRT C API export is missing: $symbol" }
 }
 
+# Symbol-level check: every name a PE imports from a packaged DLL must be exported by that
+# DLL. A name-level dependency walk cannot see this, and the Windows loader reports the gap
+# only at process start as STATUS_ENTRYPOINT_NOT_FOUND (0xc0000139).
+function Read-PeExports([string]$Path) {
+    $names = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    foreach ($line in (Read-PeOutput '/exports' $Path)) {
+        if ("$line" -match '^\s+\d+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]{8}\s+(\S+)' -or "$line" -match '^\s+\d+\s+[0-9A-Fa-f]+\s+(\S+)\s+\(forwarded to ') {
+            $names.Add($Matches[1]) | Out-Null
+        }
+    }
+    # The unary comma stops PowerShell from unrolling the set into its elements.
+    return ,$names
+}
+function Read-PeImports([string]$Path) {
+    $byDll = @{}
+    $current = $null
+    foreach ($line in (Read-PeOutput '/imports' $Path)) {
+        $text = "$line"
+        if ($text -match '^\s+([A-Za-z0-9._+-]+\.(?:dll|drv))\s*$') {
+            $current = $Matches[1].ToLowerInvariant()
+            if (-not $byDll.ContainsKey($current)) { $byDll[$current] = [Collections.Generic.List[string]]::new() }
+            continue
+        }
+        if ($null -eq $current) { continue }
+        if ($text -match '^\s+(?:[0-9A-Fa-f]+\s+){1,2}([A-Za-z_?@$][\w?@$.]*)\s*$') { $byDll[$current].Add($Matches[1]) }
+    }
+    return $byDll
+}
+$exportCache = @{}
+function Assert-ImportedSymbols([string]$Path) {
+    $imports = Read-PeImports $Path
+    $missing = [Collections.Generic.List[string]]::new()
+    foreach ($dependency in $imports.Keys) {
+        if (-not $index.ContainsKey($dependency)) { continue }
+        if (-not $exportCache.ContainsKey($dependency)) { $exportCache[$dependency] = Read-PeExports $index[$dependency] }
+        $exports = $exportCache[$dependency]
+        $absent = @($imports[$dependency] | Where-Object { -not $exports.Contains($_) })
+        Write-Host "  $([IO.Path]::GetFileName($Path)) imports $($imports[$dependency].Count) symbols from $dependency ($($absent.Count) missing)"
+        foreach ($symbol in $absent) { $missing.Add("$([IO.Path]::GetFileName($Path)) -> $dependency!$symbol") }
+    }
+    if ($missing.Count -gt 0) {
+        throw "Packaged DLLs do not export symbols their importers need (the loader would fail with STATUS_ENTRYPOINT_NOT_FOUND): $($missing -join '; ')"
+    }
+}
+
 $queue = [Collections.Generic.Queue[string]]::new()
 foreach ($file in $dlls) { $queue.Enqueue($file.FullName) }
 if ($AppExecutable) {
@@ -177,6 +222,7 @@ while ($queue.Count -gt 0) {
     $headers = (Read-PeOutput '/headers' $path) -join [Environment]::NewLine
     if ($headers -notmatch '(?im)\b8664 machine \(x64\)') { throw "Runtime PE is not x64: $path" }
     $files.Add([ordered]@{ name = [IO.Path]::GetFileName($path); sha256 = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant() })
+    Assert-ImportedSymbols $path
     foreach ($line in (Read-PeOutput '/dependents' $path)) {
         if ("$line" -notmatch '^\s+([A-Za-z0-9._+-]+\.(?:dll|drv))\s*$') { continue }
         $dependency = $Matches[1].ToLowerInvariant()
@@ -192,6 +238,7 @@ while ($queue.Count -gt 0) {
         } else {
             throw "$([IO.Path]::GetFileName($path)) depends on unstaged non-OS DLL: $dependency"
         }
+        Write-Host "  $([IO.Path]::GetFileName($path)) depends on $dependency ($provider)"
         $edges.Add([ordered]@{ file = [IO.Path]::GetFileName($path); dependency = $dependency; provider = $provider })
     }
 }
