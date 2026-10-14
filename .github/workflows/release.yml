@@ -53,13 +53,19 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Acquire hash-pinned upstream source inputs
         run: pnpm third-party:sources:prepare
+      - name: Locate the native build cache directory
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          "KWANTFLOW_NATIVE_CACHE=$([IO.Path]::GetTempPath().TrimEnd('\'))\kwantflow-native" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV
       - name: Restore the Bazel caches for the pinned LiteRT-LM source build
         if: runner.os == 'Windows'
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        id: bazel-cache
+        uses: actions/cache/restore@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
         with:
           path: |
-            ~\AppData\Local\Temp\kwantflow-native\bazel-disk-cache
-            ~\AppData\Local\Temp\kwantflow-native\bazel-repository-cache
+            ${{ env.KWANTFLOW_NATIVE_CACHE }}\bazel-disk-cache
+            ${{ env.KWANTFLOW_NATIVE_CACHE }}\bazel-repository-cache
           key: litert-bazel-${{ runner.os }}-${{ hashFiles('.github/windows-native-runtime-contract.json', 'scripts/native/litert-windows-c-api.patch') }}
       - name: Verify Windows runtime dependency graph fixtures
         if: runner.os == 'Windows'
@@ -71,6 +77,14 @@ jobs:
         run: pwsh -NoProfile -File scripts/native-windows.test.ps1
       - name: Acquire hash-pinned native inputs (LiteRT-LM and PDFium)
         run: pnpm native:prepare
+      - name: Save the Bazel caches even when a later step fails
+        if: always() && runner.os == 'Windows' && steps.bazel-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: |
+            ${{ env.KWANTFLOW_NATIVE_CACHE }}\bazel-disk-cache
+            ${{ env.KWANTFLOW_NATIVE_CACHE }}\bazel-repository-cache
+          key: ${{ steps.bazel-cache.outputs.cache-primary-key }}
       - name: Verify (macOS runs the full gate including the JS unit suite)
         if: runner.os == 'macOS'
         run: pnpm verify
@@ -83,6 +97,11 @@ jobs:
         run: |
           $exe = Get-ChildItem -LiteralPath src-tauri/target/debug/deps -Filter 'kwantflow_app_lib-*.exe' -File | Sort-Object LastWriteTime | Select-Object -Last 1
           Write-Host "Test binary: $($exe.FullName)"
+          Write-Host "Host OS: $([Environment]::OSVersion.VersionString)"
+          foreach ($name in @('msvcp140.dll', 'vcruntime140.dll', 'vcruntime140_1.dll', 'vcruntime140_threads.dll', 'ucrtbase.dll')) {
+            $file = Join-Path $env:WINDIR "System32/$name"
+            if (Test-Path -LiteralPath $file) { Write-Host "  System32 $name $((Get-Item -LiteralPath $file).VersionInfo.FileVersion)" } else { Write-Host "  System32 $name missing" }
+          }
           Get-ChildItem -LiteralPath src-tauri/target -Recurse -File -Include 'litert_lm_c.dll', 'libLiteRt*.dll', 'libwebgpu_dawn.dll', 'libGemma*.dll', 'pdfium.dll' | ForEach-Object { Write-Host "  staged: $($_.FullName) ($($_.Length) bytes)" }
           try {
             & scripts/verify-windows-runtime.ps1 -RuntimeDirectory src-tauri/native-runtime -AppExecutable $exe.FullName -VerifyOnly | Out-Null

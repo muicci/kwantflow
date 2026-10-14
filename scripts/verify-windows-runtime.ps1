@@ -193,12 +193,26 @@ function Assert-ImportedSymbols([string]$Path) {
     $imports = Read-PeImports $Path
     $missing = [Collections.Generic.List[string]]::new()
     foreach ($dependency in $imports.Keys) {
-        if (-not $index.ContainsKey($dependency)) { continue }
-        if (-not $exportCache.ContainsKey($dependency)) { $exportCache[$dependency] = Read-PeExports $index[$dependency] }
-        $exports = $exportCache[$dependency]
+        if ($imports[$dependency].Count -eq 0) { continue }
+        $provider = $null
+        $fatal = $false
+        if ($index.ContainsKey($dependency)) {
+            $provider = $index[$dependency]
+            $fatal = $true
+        } elseif ($IsWindows -and $env:WINDIR -and ($contract.windowsSystemDlls -contains $dependency -or $dependency -match $contract.windowsApiSetPattern -or $contract.visualCppRuntimeDlls -contains $dependency)) {
+            # Diagnostic only: this host's System32 is what its loader uses, not what users have.
+            $candidate = Join-Path $env:WINDIR "System32/$dependency"
+            if (Test-Path -LiteralPath $candidate -PathType Leaf) { $provider = $candidate }
+        }
+        if (-not $provider) { continue }
+        if (-not $exportCache.ContainsKey($provider)) { $exportCache[$provider] = Read-PeExports $provider }
+        $exports = $exportCache[$provider]
         $absent = @($imports[$dependency] | Where-Object { -not $exports.Contains($_) })
         Write-Host "  $([IO.Path]::GetFileName($Path)) imports $($imports[$dependency].Count) symbols from $dependency ($($absent.Count) missing)"
-        foreach ($symbol in $absent) { $missing.Add("$([IO.Path]::GetFileName($Path)) -> $dependency!$symbol") }
+        foreach ($symbol in $absent) {
+            if ($fatal) { $missing.Add("$([IO.Path]::GetFileName($Path)) -> $dependency!$symbol") }
+            else { Write-Warning "$([IO.Path]::GetFileName($Path)) imports $dependency!$symbol which this host's $candidate does not export." }
+        }
     }
     if ($missing.Count -gt 0) {
         throw "Packaged DLLs do not export symbols their importers need (the loader would fail with STATUS_ENTRYPOINT_NOT_FOUND): $($missing -join '; ')"
