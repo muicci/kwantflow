@@ -53,6 +53,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Acquire hash-pinned upstream source inputs
         run: pnpm third-party:sources:prepare
+      - name: Acquire hash-pinned native inputs (LiteRT-LM and PDFium)
+        run: pnpm native:prepare
       - name: Verify (macOS runs the full gate including the JS unit suite)
         if: runner.os == 'macOS'
         run: pnpm verify
