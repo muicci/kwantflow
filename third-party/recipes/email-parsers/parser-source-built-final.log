@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 <app>
+
+
+ Test Files  2 passed (2)
+      Tests  63 passed (63)
+   Start at  14:43:47
+   Duration  3.14s (transform 57ms, setup 41ms, import 52ms, tests 2.24s, environment 573ms)
+

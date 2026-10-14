@@ -1,0 +1,17 @@
+vite v6.0.3 building for production...
+transforming...
+src/utils.ts (76:12): Use of eval in "src/utils.ts" is strongly discouraged as it poses security risks and may cause issues with minification.
+src/utils.ts (94:33): Use of eval in "src/utils.ts" is strongly discouraged as it poses security risks and may cause issues with minification.
+src/utils.ts (126:24): Use of eval in "src/utils.ts" is strongly discouraged as it poses security risks and may cause issues with minification.
+✓ 11 modules transformed.
+rendering chunks...
+
+[vite:dts] Start generate declaration files...
+computing gzip size...
+[vite:dts] Declaration files built in 647ms.
+
+dist/index.cjs.js  714.52 kB │ gzip: 207.31 kB
+dist/index.es.js  714.09 kB │ gzip: 207.12 kB
+dist/index.iife.js  720.31 kB │ gzip: 207.41 kB
+dist/index.umd.js  720.63 kB │ gzip: 207.64 kB
+✓ built in 1.57s

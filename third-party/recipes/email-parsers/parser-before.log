@@ -1,0 +1,501 @@
+
+ RUN  v4.1.11 <app>
+
+ ❯ |0| scripts/email-parser-malformed.test.ts (21 tests | 18 failed) 8826ms
+     × rejects directory sector self-cycle through the application parser without hanging 1085ms
+     × rejects directory sector pair-cycle through the application parser without hanging 1017ms
+     × rejects root mini-stream cycle through the application parser without hanging 791ms
+     × rejects mini-FAT cycle through the application parser without hanging 175ms
+     × rejects mini-stream cycle through the application parser without hanging 676ms
+     × rejects storage hierarchy cycle through the application parser without hanging 129ms
+     × rejects sibling hierarchy cycle through the application parser without hanging 1038ms
+     × rejects large stream sector cycle through the application parser without hanging 773ms
+     × rejects a DIFAT cycle even when its finite declared count could hide the cycle 121ms
+     × rejects oversized stream before unbounded work or allocation 2039ms
+     × rejects negative stream before unbounded work or allocation 127ms
+     × rejects out-of-file sector before unbounded work or allocation 121ms
+     × rejects invalid sector size before unbounded work or allocation 121ms
+     × rejects oversized allocation table before unbounded work or allocation 126ms
+     × rejects oversized directory name before unbounded work or allocation 121ms
+     × checks a named-property string length before requesting an oversized typed array 4ms
+     × checks the deleted recurrence count before requesting an oversized array 4ms
+     × checks the modified recurrence count before requesting an oversized array 1ms
+ ❯ |0| src/lib/services/email-content.test.ts (22 tests | 12 failed) 63ms
+     × preserves attachment name semantics for filename="part%1.step" 4ms
+     × preserves attachment name semantics for filename="part%20one.step" 3ms
+     × preserves attachment name semantics for filename="part one; final.step" 1ms
+     × preserves attachment name semantics for filename="utf-8 drawing.step" 1ms
+     × preserves attachment name semantics for filename*=UTF-8''part%20one.step 0ms
+     × preserves attachment name semantics for filename*=UTF-8''%E6%9D%90%E6%96%99.step 0ms
+     × preserves attachment name semantics for filename*=UTF-8''part%1.step 0ms
+     × preserves attachment name semantics for filename*0="quote100%"; filename*1=".pdf" 0ms
+     × preserves attachment name semantics for filename*0="part%20"; filename*1="one.step" 0ms
+     × preserves attachment name semantics for filename*0*=UTF-8''quote%20; filename*1="100%.pdf" 0ms
+     × preserves attachment name semantics for filename*0="quote'final'%"; filename*1*=%20.pdf 0ms
+     × preserves attachment name semantics for filename*0*=UTF-8''%E6%9D; filename*1*=%90%E6%96%99.step 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 30 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects directory sector self-cycle through the application parser without hanging
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects directory sector pair-cycle through the application parser without hanging
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects root mini-stream cycle through the application parser without hanging
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects mini-stream cycle through the application parser without hanging
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects sibling hierarchy cycle through the application parser without hanging
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects large stream sector cycle through the application parser without hanging
+AssertionError: expected null to be +0 // Object.is equality
+
+- Expected:
+0
+
++ Received:
+null
+
+ ❯ scripts/email-parser-malformed.test.ts:114:25
+    112|   const result = parseInChild(input.bytes);
+    113|   expect(result.error).toBeUndefined();
+    114|   expect(result.status).toBe(0);
+       |                         ^
+    115|   expect(JSON.parse(result.stdout.trim())).toEqual({ error: expect.str…
+    116|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/30]⎯
+
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects mini-FAT cycle through the application parser without hanging
+AssertionError: expected { subject: 'title' } to deeply equal { error: StringMatching /cyclic/i }
+
+- Expected
++ Received
+
+  {
+-   "error": StringMatching /cyclic/i,
++   "subject": "title",
+  }
+
+ ❯ scripts/email-parser-malformed.test.ts:115:44
+    113|   expect(result.error).toBeUndefined();
+    114|   expect(result.status).toBe(0);
+    115|   expect(JSON.parse(result.stdout.trim())).toEqual({ error: expect.str…
+       |                                            ^
+    116|  });
+    117|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/30]⎯
+
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects storage hierarchy cycle through the application parser without hanging
+AssertionError: expected { Object (error) } to deeply equal { error: StringMatching /cyclic/i }
+
+- Expected
++ Received
+
+  {
+-   "error": StringMatching /cyclic/i,
++   "error": "RangeError: Maximum call stack size exceeded",
+  }
+
+ ❯ scripts/email-parser-malformed.test.ts:115:44
+    113|   expect(result.error).toBeUndefined();
+    114|   expect(result.status).toBe(0);
+    115|   expect(JSON.parse(result.stdout.trim())).toEqual({ error: expect.str…
+       |                                            ^
+    116|  });
+    117|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/30]⎯
+
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects a DIFAT cycle even when its finite declared count could hide the cycle
+AssertionError: expected { subject: 'title' } to deeply equal { error: StringMatching{…} }
+
+- Expected
++ Received
+
+  {
+-   "error": StringMatching /cyclic.*DIFAT/i,
++   "subject": "title",
+  }
+
+ ❯ scripts/email-parser-malformed.test.ts:132:44
+    130|   expect(result.error).toBeUndefined();
+    131|   expect(result.status).toBe(0);
+    132|   expect(JSON.parse(result.stdout.trim())).toEqual({ error: expect.str…
+       |                                            ^
+    133|  });
+    134|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/30]⎯
+
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects oversized stream before unbounded work or allocation
+AssertionError: expected Error: spawnSync <home>/.local/s… { …(5) } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+Error {
+  "message": "spawnSync node ETIMEDOUT",
+  "errno": -60,
+  "code": "ETIMEDOUT",
+  "syscall": "spawnSync node",
+  "path": "node",
+  "spawnargs": [
+    "--max-old-space-size=96",
+    "--import",
+    "tsx",
+    "--input-type=module",
+    "-e",
+    "import {readFileSync} from 'node:fs';
+			 const {parseEmailFileBytes}=await import(\"file://<app>/src/lib/services/email-content.ts\");
+			 try { const parsed=await parseEmailFileBytes(Buffer.from(readFileSync(0,'utf8'),'base64'),'synthetic.msg');
+			 console.log(JSON.stringify({subject:parsed.subject})); }
+			 catch (error) {console.log(JSON.stringify({error:String(error)}));}",
+  ],
+}
+
+ ❯ scripts/email-parser-malformed.test.ts:146:24
+    144|   mutate(input);
+    145|   const result = parseInChild(input.bytes);
+    146|   expect(result.error).toBeUndefined();
+       |                        ^
+    147|   expect(result.status).toBe(0);
+    148|   expect(JSON.parse(result.stdout.trim())).toEqual({ error: expect.str…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/30]⎯
+
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects negative stream before unbounded work or allocation
+AssertionError: expected { Object (error) } to deeply equal { error: StringMatching /Invalid MSG/ }
+
+- Expected
++ Received
+
+  {
+-   "error": StringMatching /Invalid MSG/,
++   "error": "RangeError: Invalid typed array length: -1",
+  }
+
+ ❯ scripts/email-parser-malformed.test.ts:148:44
+    146|   expect(result.error).toBeUndefined();
+    147|   expect(result.status).toBe(0);
+    148|   expect(JSON.parse(result.stdout.trim())).toEqual({ error: expect.str…
+       |                                            ^
+    149|  });
+    150|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/30]⎯
+
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects out-of-file sector before unbounded work or allocation
+AssertionError: expected { Object (error) } to deeply equal { error: StringMatching /Invalid MSG/ }
+
+- Expected
++ Received
+
+  {
+-   "error": StringMatching /Invalid MSG/,
++   "error": "TypeError: Cannot read properties of undefined (reading 'startBlock')",
+  }
+
+ ❯ scripts/email-parser-malformed.test.ts:148:44
+    146|   expect(result.error).toBeUndefined();
+    147|   expect(result.status).toBe(0);
+    148|   expect(JSON.parse(result.stdout.trim())).toEqual({ error: expect.str…
+       |                                            ^
+    149|  });
+    150|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/30]⎯
+
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects invalid sector size before unbounded work or allocation
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects oversized allocation table before unbounded work or allocation
+AssertionError: expected { subject: 'title' } to deeply equal { error: StringMatching /Invalid MSG/ }
+
+- Expected
++ Received
+
+  {
+-   "error": StringMatching /Invalid MSG/,
++   "subject": "title",
+  }
+
+ ❯ scripts/email-parser-malformed.test.ts:148:44
+    146|   expect(result.error).toBeUndefined();
+    147|   expect(result.status).toBe(0);
+    148|   expect(JSON.parse(result.stdout.trim())).toEqual({ error: expect.str…
+       |                                            ^
+    149|  });
+    150|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/30]⎯
+
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > rejects oversized directory name before unbounded work or allocation
+AssertionError: expected { subject: '' } to deeply equal { error: StringMatching /Invalid MSG/ }
+
+- Expected
++ Received
+
+  {
+-   "error": StringMatching /Invalid MSG/,
++   "subject": "",
+  }
+
+ ❯ scripts/email-parser-malformed.test.ts:148:44
+    146|   expect(result.error).toBeUndefined();
+    147|   expect(result.status).toBe(0);
+    148|   expect(JSON.parse(result.stdout.trim())).toEqual({ error: expect.str…
+       |                                            ^
+    149|  });
+    150|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/30]⎯
+
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > checks a named-property string length before requesting an oversized typed array
+AssertionError: expected [Function] to throw error matching /Invalid MSG named property string size/ but got 'Synthetic oversized allocation interc…'
+
+- Expected:
+/Invalid MSG named property string size/
+
++ Received:
+"Synthetic oversized allocation intercepted."
+
+ ❯ scripts/email-parser-malformed.test.ts:165:97
+    163|   });
+    164|   try {
+    165|    expect(() => new MsgReader(new DataView(Uint8Array.from(input.bytes…
+       |                                                                                                 ^
+    166|    expect(attempts).toEqual([]);
+    167|   } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/30]⎯
+
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > checks the deleted recurrence count before requesting an oversized array
+ FAIL  |0| scripts/email-parser-malformed.test.ts > offline MSG malformed input > checks the modified recurrence count before requesting an oversized array
+AssertionError: expected [ 4294967296 ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   4294967296,
++ ]
+
+ ❯ scripts/email-parser-malformed.test.ts:199:21
+    197|    const parsed = new MsgReader(new DataView(Uint8Array.from(input.byt…
+    198|    expect(parsed.subject).toBe('title');
+    199|    expect(attempts).toEqual([]);
+       |                     ^
+    200|   } finally {
+    201|    spy.mockRestore();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/30]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves attachment name semantics for filename="part%1.step"
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves attachment name semantics for filename*=UTF-8''part%1.step
+URIError: URI malformed
+ ❯ _append node_modules/.pnpm/eml-parse-js@1.2.0-beta.1/node_modules/eml-parse-js/dist/index.cjs.js:2733:27
+ ❯ _read node_modules/.pnpm/eml-parse-js@1.2.0-beta.1/node_modules/eml-parse-js/dist/index.cjs.js:2798:15
+ ❯ read node_modules/.pnpm/eml-parse-js@1.2.0-beta.1/node_modules/eml-parse-js/dist/index.cjs.js:2840:26
+ ❯ parseEmailFileContent src/lib/services/email-content.ts:91:17
+     89| export async function parseEmailFileContent(input: string): Promise<Pa…
+     90|  const { readEml } = await import('eml-parse-js');
+     91|  const parsed = readEml(input);
+       |                 ^
+     92|  if (parsed instanceof Error || typeof parsed === 'string') {
+     93|   throw parsed instanceof Error ? parsed : new Error(parsed);
+ ❯ src/lib/services/email-content.test.ts:58:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/30]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves attachment name semantics for filename="part%20one.step"
+AssertionError: expected [ 'part one.step' ] to deeply equal [ 'part%20one.step' ]
+
+- Expected
++ Received
+
+  [
+-   "part%20one.step",
++   "part one.step",
+  ]
+
+ ❯ src/lib/services/email-content.test.ts:66:34
+     64|     'Content-Transfer-Encoding: base64\r\n\r\nYQ==\r\n--parts--'
+     65|   );
+     66|   expect(parsed.attachmentNames).toEqual([expected]);
+       |                                  ^
+     67|   expect(parsed.textBody).toBe('Please quote.');
+     68|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/30]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves attachment name semantics for filename="part one; final.step"
+AssertionError: expected [ 'partone' ] to deeply equal [ 'part one; final.step' ]
+
+- Expected
++ Received
+
+  [
+-   "part one; final.step",
++   "partone",
+  ]
+
+ ❯ src/lib/services/email-content.test.ts:66:34
+     64|     'Content-Transfer-Encoding: base64\r\n\r\nYQ==\r\n--parts--'
+     65|   );
+     66|   expect(parsed.attachmentNames).toEqual([expected]);
+       |                                  ^
+     67|   expect(parsed.textBody).toBe('Please quote.');
+     68|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/30]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves attachment name semantics for filename="utf-8 drawing.step"
+AssertionError: expected [ 'drawing.step' ] to deeply equal [ 'utf-8 drawing.step' ]
+
+- Expected
++ Received
+
+  [
+-   "utf-8 drawing.step",
++   "drawing.step",
+  ]
+
+ ❯ src/lib/services/email-content.test.ts:66:34
+     64|     'Content-Transfer-Encoding: base64\r\n\r\nYQ==\r\n--parts--'
+     65|   );
+     66|   expect(parsed.attachmentNames).toEqual([expected]);
+       |                                  ^
+     67|   expect(parsed.textBody).toBe('Please quote.');
+     68|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/30]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves attachment name semantics for filename*=UTF-8''part%20one.step
+AssertionError: expected [ 'UTF-8part one.step' ] to deeply equal [ 'part one.step' ]
+
+- Expected
++ Received
+
+  [
+-   "part one.step",
++   "UTF-8part one.step",
+  ]
+
+ ❯ src/lib/services/email-content.test.ts:66:34
+     64|     'Content-Transfer-Encoding: base64\r\n\r\nYQ==\r\n--parts--'
+     65|   );
+     66|   expect(parsed.attachmentNames).toEqual([expected]);
+       |                                  ^
+     67|   expect(parsed.textBody).toBe('Please quote.');
+     68|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/30]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves attachment name semantics for filename*=UTF-8''%E6%9D%90%E6%96%99.step
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves attachment name semantics for filename*0*=UTF-8''%E6%9D; filename*1*=%90%E6%96%99.step
+AssertionError: expected [ 'UTF-8材料.step' ] to deeply equal [ '材料.step' ]
+
+- Expected
++ Received
+
+  [
+-   "材料.step",
++   "UTF-8材料.step",
+  ]
+
+ ❯ src/lib/services/email-content.test.ts:66:34
+     64|     'Content-Transfer-Encoding: base64\r\n\r\nYQ==\r\n--parts--'
+     65|   );
+     66|   expect(parsed.attachmentNames).toEqual([expected]);
+       |                                  ^
+     67|   expect(parsed.textBody).toBe('Please quote.');
+     68|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/30]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves attachment name semantics for filename*0="quote100%"; filename*1=".pdf"
+AssertionError: expected [] to deeply equal [ 'quote100%.pdf' ]
+
+- Expected
++ Received
+
+- [
+-   "quote100%.pdf",
+- ]
++ []
+
+ ❯ src/lib/services/email-content.test.ts:66:34
+     64|     'Content-Transfer-Encoding: base64\r\n\r\nYQ==\r\n--parts--'
+     65|   );
+     66|   expect(parsed.attachmentNames).toEqual([expected]);
+       |                                  ^
+     67|   expect(parsed.textBody).toBe('Please quote.');
+     68|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/30]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves attachment name semantics for filename*0="part%20"; filename*1="one.step"
+AssertionError: expected [] to deeply equal [ 'part%20one.step' ]
+
+- Expected
++ Received
+
+- [
+-   "part%20one.step",
+- ]
++ []
+
+ ❯ src/lib/services/email-content.test.ts:66:34
+     64|     'Content-Transfer-Encoding: base64\r\n\r\nYQ==\r\n--parts--'
+     65|   );
+     66|   expect(parsed.attachmentNames).toEqual([expected]);
+       |                                  ^
+     67|   expect(parsed.textBody).toBe('Please quote.');
+     68|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/30]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves attachment name semantics for filename*0*=UTF-8''quote%20; filename*1="100%.pdf"
+AssertionError: expected [ 'UTF-8quote ' ] to deeply equal [ 'quote 100%.pdf' ]
+
+- Expected
++ Received
+
+  [
+-   "quote 100%.pdf",
++   "UTF-8quote ",
+  ]
+
+ ❯ src/lib/services/email-content.test.ts:66:34
+     64|     'Content-Transfer-Encoding: base64\r\n\r\nYQ==\r\n--parts--'
+     65|   );
+     66|   expect(parsed.attachmentNames).toEqual([expected]);
+       |                                  ^
+     67|   expect(parsed.textBody).toBe('Please quote.');
+     68|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/30]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves attachment name semantics for filename*0="quote'final'%"; filename*1*=%20.pdf
+AssertionError: expected [ ' .pdf' ] to deeply equal [ 'quote\'final\'% .pdf' ]
+
+- Expected
++ Received
+
+  [
+-   "quote'final'% .pdf",
++   " .pdf",
+  ]
+
+ ❯ src/lib/services/email-content.test.ts:66:34
+     64|     'Content-Transfer-Encoding: base64\r\n\r\nYQ==\r\n--parts--'
+     65|   );
+     66|   expect(parsed.attachmentNames).toEqual([expected]);
+       |                                  ^
+     67|   expect(parsed.textBody).toBe('Please quote.');
+     68|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/30]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  30 failed | 13 passed (43)
+   Start at  13:03:56
+   Duration  9.78s (transform 59ms, setup 46ms, import 58ms, tests 8.89s, environment 534ms)
+

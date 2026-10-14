@@ -1,0 +1,24 @@
+exec ${PAGER:-/usr/bin/less} "$0" || exit 1
+Executing tests from //runtime/components:sampler_factory_test
+-----------------------------------------------------------------------------
+Running main() from gmock_main.cc
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from SamplerFactoryTest
+[ RUN      ] SamplerFactoryTest.CreateSamplerForCpuWorksCorrectly
+[       OK ] SamplerFactoryTest.CreateSamplerForCpuWorksCorrectly (0 ms)
+[ RUN      ] SamplerFactoryTest.GreedyUsesArgmaxBeforeAndAfterConfigUpdate
+INFO: [environment.cc:36] Creating LiteRT environment with options
+INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0x104fcd590, name=CpuAccelerator
+INFO: [cpu_registry.cc:75] XNNPACK CPU accelerator registered.
+[       OK ] SamplerFactoryTest.GreedyUsesArgmaxBeforeAndAfterConfigUpdate (0 ms)
+[ RUN      ] SamplerFactoryTest.CreateSamplerForCpuWithUnsupportedSamplerTypeFails
+[       OK ] SamplerFactoryTest.CreateSamplerForCpuWithUnsupportedSamplerTypeFails (0 ms)
+[ RUN      ] SamplerFactoryTest.CreateSamplerForCpuWithUnspecifiedSamplerTypeReturnsNullptr
+[       OK ] SamplerFactoryTest.CreateSamplerForCpuWithUnspecifiedSamplerTypeReturnsNullptr (0 ms)
+[----------] 4 tests from SamplerFactoryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 4 tests.
+INFO: [accelerator_registry.cc:43] DestroyAccelerator: ptr=0x104fcd590, name=CpuAccelerator

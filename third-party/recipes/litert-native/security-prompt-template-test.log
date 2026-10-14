@@ -1,0 +1,29 @@
+exec ${PAGER:-/usr/bin/less} "$0" || exit 1
+Executing tests from //runtime/components:prompt_template_test
+-----------------------------------------------------------------------------
+Running main() from gmock_main.cc
+[==========] Running 7 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 2 tests from PromptTemplateCustomTest
+[ RUN      ] PromptTemplateCustomTest.StripReplacementTest
+[       OK ] PromptTemplateCustomTest.StripReplacementTest (1 ms)
+[ RUN      ] PromptTemplateCustomTest.Qwen3MultiTurnTemplateRenderingTest
+[       OK ] PromptTemplateCustomTest.Qwen3MultiTurnTemplateRenderingTest (1 ms)
+[----------] 2 tests from PromptTemplateCustomTest (3 ms total)
+
+[----------] 5 tests from PromptTemplateTest/PromptTemplateTest
+[ RUN      ] PromptTemplateTest/PromptTemplateTest.CreateTest/google_gemma_3n_e2b_it
+[       OK ] PromptTemplateTest/PromptTemplateTest.CreateTest/google_gemma_3n_e2b_it (0 ms)
+[ RUN      ] PromptTemplateTest/PromptTemplateTest.CreateTest/Qwen_Qwen3_0_6B
+[       OK ] PromptTemplateTest/PromptTemplateTest.CreateTest/Qwen_Qwen3_0_6B (0 ms)
+[ RUN      ] PromptTemplateTest/PromptTemplateTest.CreateTest/HuggingFaceTB_SmolLM3_3B
+[       OK ] PromptTemplateTest/PromptTemplateTest.CreateTest/HuggingFaceTB_SmolLM3_3B (0 ms)
+[ RUN      ] PromptTemplateTest/PromptTemplateTest.CreateTest/microsoft_Phi_4_mini_instruct
+[       OK ] PromptTemplateTest/PromptTemplateTest.CreateTest/microsoft_Phi_4_mini_instruct (0 ms)
+[ RUN      ] PromptTemplateTest/PromptTemplateTest.CreateTest/bos_token_test
+[       OK ] PromptTemplateTest/PromptTemplateTest.CreateTest/bos_token_test (0 ms)
+[----------] 5 tests from PromptTemplateTest/PromptTemplateTest (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 2 test suites ran. (6 ms total)
+[  PASSED  ] 7 tests.

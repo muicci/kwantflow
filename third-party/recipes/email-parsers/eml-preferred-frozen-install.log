@@ -1,0 +1,38 @@
+(node:11106) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +422
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 422, reused 0, downloaded 92, added 92
+Progress: resolved 422, reused 0, downloaded 211, added 208
+Progress: resolved 422, reused 0, downloaded 324, added 322
+Progress: resolved 422, reused 0, downloaded 363, added 360
+Progress: resolved 422, reused 0, downloaded 420, added 420
+Progress: resolved 422, reused 0, downloaded 422, added 422, done
+
+dependencies:
++ @sinonjs/text-encoding 0.7.3
++ js-base64 3.7.7
+
+devDependencies:
++ @eslint/eslintrc 3.2.0
++ @eslint/js 9.17.0
++ @types/mocha 10.0.10
++ @types/node 24.5.2
++ c8 9.1.0
++ chai 4.5.0
++ eslint 9.17.0
++ globals 15.14.0
++ iconv-lite 0.6.3
++ linklocal 2.8.2
++ mocha 6.2.3
++ prettier 3.4.2
++ rimraf 6.0.1
++ ts-node 10.9.2
++ typescript 5.7.2
++ typescript-eslint 8.18.2
++ vite 6.0.3
++ vite-plugin-dts 4.3.0
+
+Done in 5.7s

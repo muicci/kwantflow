@@ -1,0 +1,102 @@
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if-brep/as1_pe_203.brep: success=true, meshes=18, indices=11544
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/as1-oc-214.stp: success=true, meshes=18, indices=15120
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/as1-oc-214/as1-oc-214.stp: success=true, meshes=18, indices=15120
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/as1-tu-203.stp: success=true, meshes=18, indices=14064
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/as1_pe_203.stp: success=true, meshes=18, indices=11544
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/dm1-id-214.stp: success=true, meshes=7, indices=4728
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/dm1-oc-214.stp: success=true, meshes=7, indices=5712
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/dm1-pe-214.stp: success=true, meshes=7, indices=4488
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/io1-cm-214.stp: success=true, meshes=1, indices=9864
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/io1-tu-203.stp: success=true, meshes=1, indices=6348
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/FOOT.stp: success=true, meshes=0, indices=0
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/FOOT_BACK_000.stp: success=true, meshes=1, indices=12312
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/FOOT_FRONT_000.stp: success=true, meshes=1, indices=12312
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/HEAD.stp: success=true, meshes=0, indices=0
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/HEAD_BACK.stp: success=true, meshes=1, indices=22476
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/HEAD_FRONT.stp: success=true, meshes=1, indices=19026
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/MAINBODY.stp: success=true, meshes=0, indices=0
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/MAINBODY_BACK.stp: success=true, meshes=1, indices=31962
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/MAINBODY_FRONT.stp: success=true, meshes=1, indices=29418
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/TAIL.stp: success=true, meshes=0, indices=0
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/TAIL_MIDDLE_PART.stp: success=true, meshes=1, indices=876
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/TAIL_TURBINE.stp: success=true, meshes=1, indices=984
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-c5-214/s1-c5-214.stp: success=true, meshes=0, indices=0
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-tu-203/footback.stp: success=true, meshes=1, indices=19776
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-tu-203/footfront.stp: success=true, meshes=1, indices=35616
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-tu-203/headback.stp: success=true, meshes=1, indices=38046
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-tu-203/headfront.stp: success=true, meshes=1, indices=35856
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-tu-203/mainbodyback.stp: success=true, meshes=1, indices=25116
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-tu-203/mainbodyfront.stp: success=true, meshes=1, indices=30336
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-tu-203/s1-tu-203.stp: success=true, meshes=0, indices=0
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-tu-203/tailmiddlepart.stp: success=true, meshes=1, indices=864
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1-tu-203/tailturbine.stp: success=true, meshes=1, indices=10866
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/foot_asm.stp: success=true, meshes=0, indices=0
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/foot_back_prt.stp: success=true, meshes=1, indices=12252
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/foot_front_prt.stp: success=true, meshes=1, indices=12288
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/head_asm.stp: success=true, meshes=0, indices=0
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/head_back_prt.stp: success=true, meshes=1, indices=19512
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/head_front_prt.stp: success=true, meshes=1, indices=18972
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/main_body_back_prt.stp: success=true, meshes=1, indices=30384
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/main_body_front_prt.stp: success=true, meshes=1, indices=34974
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/mainbody_asm.stp: success=true, meshes=0, indices=0
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/s1_pe_214.stp: success=true, meshes=0, indices=0
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/tail_asm.stp: success=true, meshes=0, indices=0
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/tail_middle_part_prt.stp: success=true, meshes=1, indices=1512
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/s1_pe_214/tail_turbine_prt.stp: success=true, meshes=1, indices=888
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cax-if/sg1-c5-214.stp: success=true, meshes=1, indices=5856
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/conical-surface/conical-surface.step: success=true, meshes=1, indices=3954
+Total number of loaded entities 36.
+
+Total number of loaded entities 36.
+
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cube-10x10mm/Cube 10x10.igs: success=true, meshes=1, indices=36
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cube-10x10mm/Cube 10x10.stp: success=true, meshes=1, indices=36
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cube-fcstd/cube.step: success=true, meshes=1, indices=36
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cube-fcstd/cube2.step: success=true, meshes=1, indices=36
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cube-fcstd/cube3.step: success=true, meshes=1, indices=36
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cube-units/cube-in.step: success=true, meshes=1, indices=36
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cube-units/cube-m.step: success=true, meshes=1, indices=36
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/cube-units/cube-mm.step: success=true, meshes=1, indices=36
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/rounded-cube/rounded-cube.step: success=true, meshes=1, indices=252
+PASS .cache/occt-rebuild-candidate/source/test/testfiles/simple-basic-cube/cube.stp: success=true, meshes=1, indices=36
+PASS tests/fixtures/local-ai-benchmark/source/cad/sample-bracket.step: success=true, meshes=1, indices=36
+Total number of loaded entities 6.
+
+Total number of loaded entities 6.
+
+PASS tests/fixtures/local-ai-benchmark/source/cad/sample-bracket.iges: success=true, meshes=6, indices=2106
+PASS cube-m.step unit=millimeter: success=true, meshes=1, indices=36
+PASS cube-m.step unit=centimeter: success=true, meshes=1, indices=36
+PASS cube-m.step unit=meter: success=true, meshes=1, indices=36
+PASS cube-m.step unit=inch: success=true, meshes=1, indices=36
+PASS cube-m.step unit=foot: success=true, meshes=1, indices=36
+PASS rounded-cube.step deflection=null: success=true, meshes=1, indices=252
+PASS rounded-cube.step deflection={"linearDeflectionType":"bounding_box_ratio","linearDeflection":0.001,"angularDeflection":0.5}: success=true, meshes=1, indices=252
+PASS rounded-cube.step deflection={"linearDeflectionType":"absolute_value","linearDeflection":0.1,"angularDeflection":0.5}: success=true, meshes=1, indices=120
+PASS rounded-cube.step deflection={"linearUnit":"meter","linearDeflectionType":"absolute_value","linearDeflection":0.0001,"angularDeflection":0.5}: success=true, meshes=1, indices=120
+**** ERR StepFile : Undefined Parsing: Line 2: Incorrect syntax: unexpected end of file, expecting STEP    ****
+**** ERR StepFile : Undefined Parsing: Line 2: Incorrect syntax: unexpected end of file, expecting STEP    ****
+PASS ReadStepFile empty input: success=false, meshes=0, indices=0
+**** ERR StepFile : Undefined Parsing: Line 2: Incorrect syntax: unexpected TYPE, expecting STEP    ****
+**** ERR StepFile : Undefined Parsing: Line 2: Incorrect syntax: unexpected TYPE, expecting STEP    ****
+PASS ReadStepFile invalid input: success=false, meshes=0, indices=0
+Total number of loaded entities 0.
+
+Total number of loaded entities 0.
+
+PASS ReadIgesFile empty input: success=false, meshes=0, indices=0
+Total number of loaded entities 0.
+
+Total number of loaded entities 0.
+
+PASS ReadIgesFile invalid input: success=false, meshes=0, indices=0
+File was not written with this version of the topology
+File was not written with this version of the topology
+PASS ReadBrepFile empty input: success=false, meshes=0, indices=0
+File was not written with this version of the topology
+File was not written with this version of the topology
+PASS ReadBrepFile invalid input: success=false, meshes=0, indices=0
+**** ERR StepFile : Undefined Parsing: Line 4: Incorrect syntax: unexpected end of file, expecting ENDSEC or TYPE    ****
+**** ERR StepFile : Undefined Parsing: Line 4: Incorrect syntax: unexpected end of file, expecting ENDSEC or TYPE    ****
+PASS truncated STEP header: success=false, meshes=0, indices=0
+Complete parser comparison passed 75 cases across 59 fixture files.

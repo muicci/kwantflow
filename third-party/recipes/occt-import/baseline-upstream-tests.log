@@ -1,0 +1,46 @@
+Total number of loaded entities 36.
+
+Total number of loaded entities 36.
+
+▶ Step Import
+  ✔ simple-basic-cube (162.918042ms)
+  ✔ as1_pe_203 (490.53725ms)
+  ✔ as1-oc-214 (646.954875ms)
+  ✔ as1-tu-203 (361.521958ms)
+  ✔ io1-cm-214 (107.70925ms)
+  ✔ io1-tu-203 (287.805667ms)
+  ✔ dm1-id-214 (150.566708ms)
+  ✔ sg1-c5-214 (48.836292ms)
+  ✔ as1-oc-214 (662.397583ms)
+  ✔ Cube 10x10 (9.512666ms)
+  ✔ cube-fcstd (17.314917ms)
+  ✔ conical-surface (26.184667ms)
+✔ Step Import (3012.157833ms)
+▶ Iges Import
+  ✔ Cube 10x10 (79.707ms)
+✔ Iges Import (79.800041ms)
+▶ Brep Import
+  ✔ as1_pe_203 (49.340042ms)
+✔ Brep Import (49.428541ms)
+▶ Deflection
+  ✔ Auto deflection (51.648875ms)
+  ✔ Manual deflection with ratio of bounding box (61.671708ms)
+  ✔ Manual deflection with absolute value (85.934167ms)
+  ✔ Manual deflection with absolute value and units (43.524625ms)
+✔ Deflection (243.044458ms)
+▶ Units
+  ✔ Default unit is mm (76.1015ms)
+  ✔ Convert to m (65.434833ms)
+  ✔ Convert to other units (202.275291ms)
+✔ Units (344.60875ms)
+▶ General Import
+  ✔ Format string test (72.659459ms)
+✔ General Import (72.835292ms)
+ℹ tests 22
+ℹ suites 6
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3902.636209

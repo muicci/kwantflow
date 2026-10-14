@@ -1,0 +1,330 @@
+
+ RUN  v4.1.11 <app>
+
+stderr | src/lib/services/email-content.test.ts > email content > parses lowercase EML header names and MIME tokens
+Warning: undefined Content-Type
+
+stderr | src/lib/services/email-content.test.ts > email content > parses mixed EML header names and MIME tokens
+Warning: undefined Content-Type
+
+stderr | src/lib/services/email-content.test.ts > email content > preserves original lowercase headers and unencoded body bytes
+Warning: undefined Content-Type
+
+stderr | src/lib/services/email-content.test.ts > email content > preserves original mixed headers and unencoded body bytes
+Warning: undefined Content-Type
+
+stderr | src/lib/services/email-content.test.ts > email content > parses lowercase nested MIME headers while preserving case-sensitive boundaries and attachment metadata
+Warning: undefined Content-Type
+
+stderr | src/lib/services/email-content.test.ts > email content > parses mixed nested MIME headers while preserving case-sensitive boundaries and attachment metadata
+Warning: undefined Content-Type
+
+stderr | src/lib/services/email-content.test.ts > email content > defaults a message without Content-Type to plain text and preserves its original headers
+Warning: undefined Content-Type
+
+stderr | src/lib/services/email-content.test.ts > email content > defaults a MIME part without Content-Type to plain text
+Warning: undefined Content-Type
+
+ ❯ |0| src/lib/services/email-content.test.ts (39 tests | 9 failed) 74ms
+     × parses lowercase EML header names and MIME tokens 7ms
+     × parses mixed EML header names and MIME tokens 1ms
+     × preserves original lowercase headers and unencoded body bytes 1ms
+     × preserves original mixed headers and unencoded body bytes 0ms
+     × parses lowercase nested MIME headers while preserving case-sensitive boundaries and attachment metadata 1ms
+     × parses mixed nested MIME headers while preserving case-sensitive boundaries and attachment metadata 1ms
+     × defaults a message without Content-Type to plain text and preserves its original headers 1ms
+     × defaults a MIME part without Content-Type to plain text 2ms
+     × preserves an untyped plain body that begins with a header-like line 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > parses lowercase EML header names and MIME tokens
+AssertionError: expected { subject: '', from: '', to: '', …(7) } to match object { subject: 'Synthetic quote', …(7) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "cc": "estimator@example.com",
+-   "date": "2024-01-14T23:00:00.000Z",
+-   "from": "supplier@example.com",
+-   "messageId": "<PaRt-ABC@example.com>",
+-   "subject": "Synthetic quote",
+-   "textBody": "Please quote.",
+-   "threadIndex": "ThReAd-AbC",
+-   "to": "buyer@example.com",
++   "cc": "",
++   "date": "",
++   "from": "",
++   "messageId": "",
++   "subject": "",
++   "textBody": null,
++   "threadIndex": "",
++   "to": "",
+  }
+
+ ❯ src/lib/services/email-content.test.ts:60:46
+     58|     .map(([name, value]) => `${headerName(name, casing)}: ${value}`)
+     59|     .join('\r\n') + '\r\n\r\nUGxlYXNlIHF1b3RlLg==';
+     60|   expect(await parseEmailFileContent(input)).toMatchObject({
+       |                                              ^
+     61|    subject: 'Synthetic quote',
+     62|    from: 'supplier@example.com',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > parses mixed EML header names and MIME tokens
+AssertionError: expected { subject: '', from: '', …(8) } to match object { subject: 'Synthetic quote', …(7) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "cc": "estimator@example.com",
+-   "date": "2024-01-14T23:00:00.000Z",
+-   "from": "supplier@example.com",
+-   "messageId": "<PaRt-ABC@example.com>",
+-   "subject": "Synthetic quote",
+-   "textBody": "Please quote.",
+-   "threadIndex": "ThReAd-AbC",
++   "date": "",
++   "from": "",
++   "messageId": "",
++   "subject": "",
++   "textBody": null,
++   "threadIndex": "",
+    "to": "buyer@example.com",
+  }
+
+ ❯ src/lib/services/email-content.test.ts:60:46
+     58|     .map(([name, value]) => `${headerName(name, casing)}: ${value}`)
+     59|     .join('\r\n') + '\r\n\r\nUGxlYXNlIHF1b3RlLg==';
+     60|   expect(await parseEmailFileContent(input)).toMatchObject({
+       |                                              ^
+     61|    subject: 'Synthetic quote',
+     62|    from: 'supplier@example.com',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves original lowercase headers and unencoded body bytes
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves original mixed headers and unencoded body bytes
+AssertionError: expected undefined to be 'Please QuoTE,\r\nPart ABc%20.' // Object.is equality
+
+- Expected:
+"Please QuoTE,
+Part ABc%20."
+
++ Received:
+undefined
+
+ ❯ src/lib/services/email-content.test.ts:92:24
+     90|    if (parsed instanceof Error || typeof parsed === 'string') throw pa…
+     91|    expect(parsed.headers).toEqual(headers);
+     92|    expect(parsed.text).toBe(body);
+       |                        ^
+     93|    expect(await parseEmailFileContent(input)).toMatchObject({
+     94|     subject: 'PaRt AbC',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > parses lowercase nested MIME headers while preserving case-sensitive boundaries and attachment metadata
+AssertionError: expected { headers: { …(3) }, …(1) } to match object { subject: 'Synthetic quote', …(4) }
+(5 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "attachments": [
+      {
+-       "contentType": "ApPlIcAtIoN/OcTeT-StReAm; NAME=\"Part%20A.step\"",
+-       "data64": "YQ==",
+-       "id": "<PaRt-ABC>",
+-       "inline": true,
+-       "name": "Part%20A.step",
++       "data64": "--Outer-Case
++ content-type: MuLtIpArT/AlTeRnAtIvE; BoUnDaRy=\"Inner-Case\"
++ 
++ --Inner-Case
++ content-type: TeXt/PlAiN; CHARSET=UTF-8
++ content-transfer-encoding: BASE64
++ 
++ UGxlYXNlIHF1b3RlLg==
++ --Inner-Case
++ content-type: TeXt/HtMl; ChArSeT=UTF-8
++ content-transfer-encoding: QuOtEd-PrInTaBlE
++ 
++ <p>Please=20quote.</p>
++ 
++ --Inner-Case--
++ --Outer-Case
++ content-type: ApPlIcAtIoN/OcTeT-StReAm; NAME=\"Part%20A.step\"
++ content-disposition: INLINE; FILENAME=\"Part%20A.step\"
++ content-id: <PaRt-ABC>
++ content-transfer-encoding: BASE64
++ 
++ YQ==
++ 
++ --Outer-Case--",
+      },
+    ],
+-   "html": "<p>Please quote.</p>
+- ",
+-   "multipartAlternative": {
+-     "Content-Type": "MuLtIpArT/AlTeRnAtIvE; BoUnDaRy=\"Inner-Case\"",
+-   },
+-   "subject": "Synthetic quote",
+-   "text": "Please quote.",
+  }
+
+ ❯ src/lib/services/email-content.test.ts:121:19
+    119|    const parsed = readEml(input);
+    120|    if (parsed instanceof Error || typeof parsed === 'string') throw pa…
+    121|    expect(parsed).toMatchObject({
+       |                   ^
+    122|     subject: 'Synthetic quote',
+    123|     text: 'Please quote.',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > parses mixed nested MIME headers while preserving case-sensitive boundaries and attachment metadata
+AssertionError: expected { headers: { …(3) }, …(1) } to match object { subject: 'Synthetic quote', …(4) }
+(5 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "attachments": [
+      {
+-       "contentType": "ApPlIcAtIoN/OcTeT-StReAm; NAME=\"Part%20A.step\"",
+-       "data64": "YQ==",
+-       "id": "<PaRt-ABC>",
+-       "inline": true,
+-       "name": "Part%20A.step",
++       "data64": "--Outer-Case
++ CoNtEnT-TyPe: MuLtIpArT/AlTeRnAtIvE; BoUnDaRy=\"Inner-Case\"
++ 
++ --Inner-Case
++ CoNtEnT-TyPe: TeXt/PlAiN; CHARSET=UTF-8
++ CoNtEnT-TrAnSfEr-eNcOdInG: BASE64
++ 
++ UGxlYXNlIHF1b3RlLg==
++ --Inner-Case
++ CoNtEnT-TyPe: TeXt/HtMl; ChArSeT=UTF-8
++ CoNtEnT-TrAnSfEr-eNcOdInG: QuOtEd-PrInTaBlE
++ 
++ <p>Please=20quote.</p>
++ 
++ --Inner-Case--
++ --Outer-Case
++ CoNtEnT-TyPe: ApPlIcAtIoN/OcTeT-StReAm; NAME=\"Part%20A.step\"
++ CoNtEnT-DiSpOsItIoN: INLINE; FILENAME=\"Part%20A.step\"
++ CoNtEnT-Id: <PaRt-ABC>
++ CoNtEnT-TrAnSfEr-eNcOdInG: BASE64
++ 
++ YQ==
++ 
++ --Outer-Case--",
+      },
+    ],
+-   "html": "<p>Please quote.</p>
+- ",
+-   "multipartAlternative": {
+-     "Content-Type": "MuLtIpArT/AlTeRnAtIvE; BoUnDaRy=\"Inner-Case\"",
+-   },
+-   "subject": "Synthetic quote",
+-   "text": "Please quote.",
+  }
+
+ ❯ src/lib/services/email-content.test.ts:121:19
+    119|    const parsed = readEml(input);
+    120|    if (parsed instanceof Error || typeof parsed === 'string') throw pa…
+    121|    expect(parsed).toMatchObject({
+       |                   ^
+    122|     subject: 'Synthetic quote',
+    123|     text: 'Please quote.',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > defaults a message without Content-Type to plain text and preserves its original headers
+AssertionError: expected undefined to be 'Please QuoTE.\r\nPart ABc%20.' // Object.is equality
+
+- Expected:
+"Please QuoTE.
+Part ABc%20."
+
++ Received:
+undefined
+
+ ❯ src/lib/services/email-content.test.ts:168:23
+    166|   if (parsed instanceof Error || typeof parsed === 'string') throw par…
+    167|   expect(parsed.headers).toEqual(headers);
+    168|   expect(parsed.text).toBe(body);
+       |                       ^
+    169|   expect(await parseEmailFileContent(input)).toMatchObject({
+    170|    subject: 'Synthetic plain email',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > defaults a MIME part without Content-Type to plain text
+AssertionError: expected { …(10) } to match object { …(3) }
+(7 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "attachmentNames": [
+      "PaRt.step",
+    ],
+    "subject": "Synthetic plain part",
+-   "textBody": "Please quote.",
++   "textBody": null,
+  }
+
+ ❯ src/lib/services/email-content.test.ts:185:18
+    183|     'Content-Disposition: attachment; filename="PaRt.step"\r\n\r\na\r\…
+    184|   );
+    185|   expect(parsed).toMatchObject({
+       |                  ^
+    186|    subject: 'Synthetic plain part',
+    187|    textBody: 'Please quote.',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > preserves an untyped plain body that begins with a header-like line
+AssertionError: expected { subject: 'RFQ', from: '', …(8) } to match object { subject: 'RFQ', …(3) }
+(6 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "attachmentNames": [],
+    "htmlBody": null,
+    "subject": "RFQ",
+-   "textBody": "Content-Type: text/html
+- This is literal plain text.
+- PaRt ABc%20.",
++   "textBody": null,
+  }
+
+ ❯ src/lib/services/email-content.test.ts:194:70
+    192|  it('preserves an untyped plain body that begins with a header-like li…
+    193|   const body = 'Content-Type: text/html\r\nThis is literal plain text.…
+    194|   expect(await parseEmailFileContent(`Subject: RFQ\r\n\r\n${body}`)).t…
+       |                                                                      ^
+    195|    subject: 'RFQ',
+    196|    textBody: body,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 failed | 30 passed (39)
+   Start at  13:48:41
+   Duration  822ms (transform 47ms, setup 29ms, import 30ms, tests 74ms, environment 551ms)
+

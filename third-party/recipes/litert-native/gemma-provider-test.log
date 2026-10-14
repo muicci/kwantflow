@@ -1,0 +1,22 @@
+exec ${PAGER:-/usr/bin/less} "$0" || exit 1
+Executing tests from //runtime/components/logits_processor/constrained_decoding:gemma_llguidance_provider_test
+-----------------------------------------------------------------------------
+Running main() from gmock_main.cc
+[==========] Running 5 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 5 tests from OpenGemmaProviderTest
+[ RUN      ] OpenGemmaProviderTest.FcUsesActualSentencePieceBytesAndToolSchema
+[       OK ] OpenGemmaProviderTest.FcUsesActualSentencePieceBytesAndToolSchema (1045 ms)
+[ RUN      ] OpenGemmaProviderTest.FcUsesReservedSpecialTokenIds
+[       OK ] OpenGemmaProviderTest.FcUsesReservedSpecialTokenIds (1911 ms)
+[ RUN      ] OpenGemmaProviderTest.PythonAcceptsGemma3NullUnusedOptions
+[       OK ] OpenGemmaProviderTest.PythonAcceptsGemma3NullUnusedOptions (846 ms)
+[ RUN      ] OpenGemmaProviderTest.EmptyToolsAllowTextButExcludeCallFence
+[       OK ] OpenGemmaProviderTest.EmptyToolsAllowTextButExcludeCallFence (945 ms)
+[ RUN      ] OpenGemmaProviderTest.BadInputsFailWithoutCreatingAConstraint
+[       OK ] OpenGemmaProviderTest.BadInputsFailWithoutCreatingAConstraint (929 ms)
+[----------] 5 tests from OpenGemmaProviderTest (5678 ms total)
+
+[----------] Global test environment tear-down
+[==========] 5 tests from 1 test suite ran. (5678 ms total)
+[  PASSED  ] 5 tests.

@@ -73,3 +73,6 @@ pnpm-debug.log*
 # Local run output (pnpm local-ai:hardware samples)
 runs/
 src-tauri/.native-runtime-stage-*/
+
+# Hash-pinned licence evidence logs are part of the compliance record
+!third-party/recipes/**/*.log

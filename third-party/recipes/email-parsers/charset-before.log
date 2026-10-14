@@ -1,0 +1,81 @@
+
+ RUN  v4.1.11 <app>
+
+ ❯ |0| src/lib/services/email-content.test.ts (30 tests | 4 failed) 61ms
+     × decodes base64 plain using its declared iso-8859-1 charset 4ms
+     × decodes base64 html using its declared iso-8859-1 charset 1ms
+     × decodes base64 plain using its declared gbk charset 1ms
+     × decodes base64 html using its declared gbk charset 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > decodes base64 plain using its declared iso-8859-1 charset
+AssertionError: expected 'caf\ufffd' to be 'café' // Object.is equality
+
+Expected: "café"
+Received: "caf�"
+
+ ❯ src/lib/services/email-content.test.ts:93:64
+     91|     `Content-Transfer-Encoding: base64\r\n\r\n${body}`
+     92|   );
+     93|   expect(kind === 'plain' ? parsed.textBody : parsed.htmlBody).toBe(ex…
+       |                                                                ^
+     94|  });
+     95|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > decodes base64 html using its declared iso-8859-1 charset
+AssertionError: expected '<p>caf\ufffd</p>' to be '<p>café</p>' // Object.is equality
+
+Expected: "<p>café</p>"
+Received: "<p>caf�</p>"
+
+ ❯ src/lib/services/email-content.test.ts:93:64
+     91|     `Content-Transfer-Encoding: base64\r\n\r\n${body}`
+     92|   );
+     93|   expect(kind === 'plain' ? parsed.textBody : parsed.htmlBody).toBe(ex…
+       |                                                                ^
+     94|  });
+     95|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > decodes base64 plain using its declared gbk charset
+AssertionError: expected '\ufffd\ufffd\ufffdϱ\ufffd\ufffd\ufffd' to be '材料报价' // Object.is equality
+
+Expected: "材料报价"
+Received: "���ϱ���"
+
+ ❯ src/lib/services/email-content.test.ts:93:64
+     91|     `Content-Transfer-Encoding: base64\r\n\r\n${body}`
+     92|   );
+     93|   expect(kind === 'plain' ? parsed.textBody : parsed.htmlBody).toBe(ex…
+       |                                                                ^
+     94|  });
+     95|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  |0| src/lib/services/email-content.test.ts > email content > decodes base64 html using its declared gbk charset
+AssertionError: expected '<p>\ufffd\ufffd\ufffdϱ\ufffd\ufffd\uf…' to be '<p>材料报价</p>' // Object.is equality
+
+Expected: "<p>材料报价</p>"
+Received: "<p>���ϱ���</p>"
+
+ ❯ src/lib/services/email-content.test.ts:93:64
+     91|     `Content-Transfer-Encoding: base64\r\n\r\n${body}`
+     92|   );
+     93|   expect(kind === 'plain' ? parsed.textBody : parsed.htmlBody).toBe(ex…
+       |                                                                ^
+     94|  });
+     95|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 26 passed (30)
+   Start at  13:12:11
+   Duration  729ms (transform 40ms, setup 27ms, import 24ms, tests 61ms, environment 503ms)
+
