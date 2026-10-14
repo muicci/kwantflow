@@ -6026,6 +6026,14 @@ mod native_runtime_reset_contract_tests {
         let mut corrupted = bytes.to_vec();
         corrupted[10] ^= 1;
         fs::write(&paths.partial_model_path, corrupted).unwrap();
+        // The change check keys on length and modification time. A same-length rewrite within
+        // one file-system timestamp tick is invisible on Windows, so stamp it as a later write.
+        fs::File::options()
+            .write(true)
+            .open(&paths.partial_model_path)
+            .unwrap()
+            .set_modified(std::time::SystemTime::now() + std::time::Duration::from_secs(2))
+            .unwrap();
         assert!(install_verified_partial(&paths, &descriptor, fingerprint).is_err());
         assert_eq!(
             fs::read(&paths.final_model_path).unwrap(),

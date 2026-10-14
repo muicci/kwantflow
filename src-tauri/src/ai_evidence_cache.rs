@@ -550,11 +550,19 @@ fn sweep_unregistered_workspace_directories_at_root(
             let mut files = Vec::new();
             collect_ai_evidence_cache_files(&path, &mut files);
             for (artifact_path, _, _) in files {
+                // Stored cache paths always use forward slashes; rebuild the relative path
+                // from components so a Windows backslash path parses the same way.
                 let current_contract = artifact_path
                     .strip_prefix(root)
                     .ok()
-                    .and_then(Path::to_str)
-                    .is_some_and(|relative| parse_prepared_artifact_path(relative).is_ok());
+                    .map(|relative| {
+                        relative
+                            .components()
+                            .map(|component| component.as_os_str().to_string_lossy())
+                            .collect::<Vec<_>>()
+                            .join("/")
+                    })
+                    .is_some_and(|relative| parse_prepared_artifact_path(&relative).is_ok());
                 if !current_contract && remove_file_if_present(&artifact_path)? {
                     removed += 1;
                 }

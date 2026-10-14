@@ -336,6 +336,11 @@ fn reject_symlink_components(path: &Path) -> Result<(), String> {
             return Err("Database upgrade path must not contain parent traversal.".to_string());
         }
         current.push(component.as_os_str());
+        // A Windows prefix such as `\\?\C:` is not a file-system object: stat-ing it fails with
+        // "Incorrect function". Prefixes and roots cannot be symlinks, so only inspect entries.
+        if !matches!(component, std::path::Component::Normal(_)) {
+            continue;
+        }
         match fs::symlink_metadata(&current) {
             Ok(metadata) if metadata.file_type().is_symlink() => {
                 return Err(format!(
@@ -1586,8 +1591,10 @@ async fn open_pool(path: &PathBuf, create_if_missing: bool) -> Result<SqlitePool
         fs::create_dir_all(parent)
             .map_err(|error| format!("Create database directory: {error}"))?;
     }
-    let options = SqliteConnectOptions::from_str(&format!("sqlite://{}", path.display()))
-        .map_err(|error| format!("Build SQLite connection options: {error}"))?
+    // A URL cannot carry every native path (Windows `\\?\` prefixes, `?`, `#`), so hand the
+    // path to SQLite directly instead of formatting a `sqlite://` connection string.
+    let options = SqliteConnectOptions::new()
+        .filename(path)
         .create_if_missing(create_if_missing)
         .journal_mode(SqliteJournalMode::Wal)
         .foreign_keys(true)
