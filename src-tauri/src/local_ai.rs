@@ -6239,7 +6239,9 @@ mod native_runtime_reset_contract_tests {
         )]);
         let manager = LocalAiRuntimeManager::default();
         let client = model_download_client();
-        let started = Instant::now();
+        // Cancel once the first chunk has reached the partial file, not after a fixed delay: a
+        // loaded CI host can take longer than that to accept the connection and deliver bytes.
+        let cancelled_at = std::cell::Cell::new(None::<Instant>);
         let (result, ()) = tokio::join!(
             download_segment::<tauri::test::MockRuntime>(
                 None,
@@ -6254,14 +6256,21 @@ mod native_runtime_reset_contract_tests {
                 false
             ),
             async {
-                tokio::time::sleep(std::time::Duration::from_millis(200)).await;
+                let deadline = Instant::now() + std::time::Duration::from_secs(10);
+                while fs::metadata(&paths.partial_model_path).map_or(0, |m| m.len()) < 8
+                    && Instant::now() < deadline
+                {
+                    tokio::time::sleep(std::time::Duration::from_millis(10)).await;
+                }
                 let mut state = manager.inner.lock().await;
                 state.download_cancel_requested = true;
                 state.download_abort.store(true, Ordering::SeqCst);
+                cancelled_at.set(Some(Instant::now()));
             }
         );
         assert_eq!(result.unwrap_err(), LOCAL_AI_DOWNLOAD_CANCELLED);
-        assert!(started.elapsed() < std::time::Duration::from_millis(900));
+        // The stalled body lasts one second; cancellation must interrupt it promptly.
+        assert!(cancelled_at.get().unwrap().elapsed() < std::time::Duration::from_millis(900));
         assert_eq!(fs::read(&paths.partial_model_path).unwrap(), b"LITERTLM");
         assert!(!paths.final_model_path.exists());
         server.join().unwrap();
