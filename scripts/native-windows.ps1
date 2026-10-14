@@ -151,7 +151,10 @@ try {
     $symbols = @([regex]::Matches($headers, '\b(litert_lm_[A-Za-z0-9_]+)\s*\(') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique)
     if ($symbols.Count -eq 0) { throw 'Could not derive C ABI exports from the pinned headers.' }
     @('LIBRARY litert_lm_c', 'EXPORTS') + @($symbols | ForEach-Object { "  $_" }) | Set-Content 'c/litert_lm_c.def' -Encoding ascii
-    $bazelOutput = Join-Path $cache 'bzl'
+    # Bazel's output base must be short: MSVC link.exe fails with LNK1181 on the long object
+    # paths that result from placing it under the user temp directory (Windows MAX_PATH).
+    $bazelOutput = if ($env:KWANTFLOW_BAZEL_OUTPUT_BASE) { $env:KWANTFLOW_BAZEL_OUTPUT_BASE } else { Join-Path ([IO.Path]::GetPathRoot($cache)) 'bzl' }
+    New-Item -ItemType Directory -Force $bazelOutput | Out-Null
     $diskCache = Join-Path $cache 'bazel-disk-cache'
     New-Item -ItemType Directory -Force $diskCache | Out-Null
     $fetchOptions = @("--repository_cache=$(Join-Path $cache 'bazel-repository-cache')")
