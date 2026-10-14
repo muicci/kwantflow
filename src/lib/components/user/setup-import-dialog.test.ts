@@ -125,7 +125,12 @@ describe('setup spreadsheet input failures', () => {
 		mocks.catchError.mockResolvedValue(undefined);
 	});
 
-	afterEach(cleanup);
+	afterEach(async () => {
+		cleanup();
+		// bits-ui schedules its body scroll-lock reset 24 ms after a dialog closes; let it run
+		// before the jsdom environment is torn down so it cannot fire against a missing document.
+		await new Promise((resolve) => setTimeout(resolve, 40));
+	});
 
 	it('reports a failed native picker and permits choosing the file again', async () => {
 		const error = new Error('File picker unavailable');

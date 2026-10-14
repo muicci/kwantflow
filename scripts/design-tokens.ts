@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -178,7 +179,10 @@ function writeGeneratedFiles(files: TokenFileMap) {
 	writeFileSync(path.join(generatedDir, 'modes.css'), modesCss);
 	const registryPath = path.join(generatedDir, 'registry.ts');
 	writeFileSync(registryPath, registryTs);
-	execFileSync('pnpm', ['exec', 'prettier', '--write', generatedDir], {
+	// Run prettier through Node rather than the `pnpm` shim: execFileSync cannot spawn
+	// `pnpm.cmd` on Windows without a shell.
+	const prettierBin = createRequire(import.meta.url).resolve('prettier/bin/prettier.cjs');
+	execFileSync(process.execPath, [prettierBin, '--write', generatedDir], {
 		cwd: repoRoot,
 		stdio: 'ignore'
 	});
