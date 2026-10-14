@@ -130,7 +130,20 @@ try {
     $emptyAndroidSdk = Join-Path $cache 'empty-androidsdk'
     New-Item -ItemType Directory -Force $emptyAndroidSdk | Out-Null
     Set-Content -LiteralPath (Join-Path $emptyAndroidSdk 'WORKSPACE') -Value 'workspace(name = "androidsdk")' -Encoding ascii
-    Set-Content -LiteralPath (Join-Path $emptyAndroidSdk 'BUILD.bazel') -Value '# Intentionally empty: the Windows build does not use the Android SDK.' -Encoding ascii
+    # The upstream WORKSPACE registers @androidsdk//:sdk-toolchain, so the stub must define that
+    # target; it is never selected because no target in the C API build requests the Android
+    # SDK toolchain type.
+    $stubBuild = @(
+        '# Stub: the Windows build does not use the Android SDK.',
+        'filegroup(name = "empty")',
+        '',
+        'toolchain(',
+        '    name = "sdk-toolchain",',
+        '    toolchain_type = "@bazel_tools//tools/android:sdk_toolchain_type",',
+        '    toolchain = ":empty",',
+        ')'
+    )
+    Set-Content -LiteralPath (Join-Path $emptyAndroidSdk 'BUILD.bazel') -Value ($stubBuild -join [Environment]::NewLine) -Encoding ascii
     $overrideAndroidSdk = "--override_repository=androidsdk=$($emptyAndroidSdk -replace '\\', '/')"
     Invoke-Checked $git @('-c', 'core.longpaths=true', 'apply', '--check', $patch)
     Invoke-Checked $git @('-c', 'core.longpaths=true', 'apply', $patch)
