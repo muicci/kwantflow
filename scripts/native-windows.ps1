@@ -114,7 +114,7 @@ if (Test-Path -LiteralPath $destination) {
     New-Item -ItemType Directory -Path $runtime | Out-Null
 }
 Push-Location $source
-$envNames = @('BAZEL_VC', 'BAZEL_VC_FULL_VERSION', 'BAZEL_SH', 'BAZEL_PYTHON', 'PYTHON_BIN_PATH', 'ANDROID_HOME', 'ANDROID_NDK_HOME', 'ANDROID_NDK_ROOT')
+$envNames = @('BAZEL_VC', 'BAZEL_VC_FULL_VERSION', 'BAZEL_SH', 'BAZEL_PYTHON', 'PYTHON_BIN_PATH', 'ANDROID_HOME', 'ANDROID_SDK_ROOT', 'ANDROID_NDK_HOME', 'ANDROID_NDK_ROOT')
 $previousEnv = @{}
 foreach ($name in $envNames) { $previousEnv[$name] = [Environment]::GetEnvironmentVariable($name, 'Process') }
 try {
@@ -123,7 +123,15 @@ try {
     $env:BAZEL_SH = $gitBash
     $env:BAZEL_PYTHON = $python
     $env:PYTHON_BIN_PATH = $python
-    foreach ($name in @('ANDROID_HOME', 'ANDROID_NDK_HOME', 'ANDROID_NDK_ROOT')) { [Environment]::SetEnvironmentVariable($name, $null, 'Process') }
+    foreach ($name in @('ANDROID_HOME', 'ANDROID_SDK_ROOT', 'ANDROID_NDK_HOME', 'ANDROID_NDK_ROOT')) { [Environment]::SetEnvironmentVariable($name, $null, 'Process') }
+    # The upstream WORKSPACE declares android_sdk_repository(name = "androidsdk") with no path.
+    # Nothing in the Windows C API build needs Android, but Bazel still tries to fetch the rule and
+    # fails without an SDK, so substitute an empty local repository for it.
+    $emptyAndroidSdk = Join-Path $cache 'empty-androidsdk'
+    New-Item -ItemType Directory -Force $emptyAndroidSdk | Out-Null
+    Set-Content -LiteralPath (Join-Path $emptyAndroidSdk 'WORKSPACE') -Value 'workspace(name = "androidsdk")' -Encoding ascii
+    Set-Content -LiteralPath (Join-Path $emptyAndroidSdk 'BUILD.bazel') -Value '# Intentionally empty: the Windows build does not use the Android SDK.' -Encoding ascii
+    $overrideAndroidSdk = "--override_repository=androidsdk=$($emptyAndroidSdk -replace '\\', '/')"
     Invoke-Checked $git @('-c', 'core.longpaths=true', 'apply', '--check', $patch)
     Invoke-Checked $git @('-c', 'core.longpaths=true', 'apply', $patch)
     $headers = (Get-Content 'c/engine.h', 'c/conversation.h' -Raw) -join [Environment]::NewLine
@@ -135,8 +143,8 @@ try {
     New-Item -ItemType Directory -Force $diskCache | Out-Null
     $fetchOptions = @("--repository_cache=$(Join-Path $cache 'bazel-repository-cache')")
     if ($Offline) { $fetchOptions += @('--nofetch', '--repository_disable_download') }
-    Invoke-Checked $bazel (@("--output_base=$bazelOutput", 'build', '//c:litert_lm_c', "--disk_cache=$diskCache", '--noenable_platform_specific_config', '--config=windows', '--define=litert_link_capi_so=true', '--define=resolve_symbols_in_exec=false') + $fetchOptions)
-    $bazelBinOutput = @(& $bazel "--output_base=$bazelOutput" info bazel-bin @fetchOptions)
+    Invoke-Checked $bazel (@("--output_base=$bazelOutput", 'build', '//c:litert_lm_c', "--disk_cache=$diskCache", '--noenable_platform_specific_config', '--config=windows', '--define=litert_link_capi_so=true', '--define=resolve_symbols_in_exec=false', $overrideAndroidSdk) + $fetchOptions)
+    $bazelBinOutput = @(& $bazel "--output_base=$bazelOutput" info bazel-bin $overrideAndroidSdk @fetchOptions)
     if ($LASTEXITCODE -ne 0) { throw 'Could not resolve Bazel output directory.' }
     $bazelBin = "$($bazelBinOutput[-1])".Trim()
     $builtDlls = @(Get-ChildItem -LiteralPath (Join-Path $bazelBin 'c') -Recurse -File -Filter 'litert_lm_c.dll')
