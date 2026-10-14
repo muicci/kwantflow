@@ -53,7 +53,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Acquire hash-pinned upstream source inputs
         run: pnpm third-party:sources:prepare
-      - run: pnpm verify
+      - name: Verify (macOS runs the full gate including the JS unit suite)
+        if: runner.os == 'macOS'
+        run: pnpm verify
+      - name: Verify (Windows; the JS unit suite covers POSIX developer-script fixtures and runs on macOS and CI)
+        if: runner.os == 'Windows'
+        run: pnpm check && pnpm lint && pnpm migrations:verify && pnpm design:verify && pnpm tauri:check && pnpm tauri:test
       - run: pnpm third-party:verify
       - name: Verify Windows runtime dependency graph fixtures
         if: runner.os == 'Windows'
