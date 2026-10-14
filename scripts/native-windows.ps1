@@ -163,9 +163,15 @@ try {
     $bazelBinOutput = @(& $bazel "--output_base=$bazelOutput" info bazel-bin $overrideAndroidSdk @fetchOptions)
     if ($LASTEXITCODE -ne 0) { throw 'Could not resolve Bazel output directory.' }
     $bazelBin = "$($bazelBinOutput[-1])".Trim()
-    $builtDlls = @(Get-ChildItem -LiteralPath (Join-Path $bazelBin 'c') -Recurse -File -Filter 'litert_lm_c.dll')
-    if ($builtDlls.Count -ne 1) { throw "Expected exactly one built C API DLL, found $($builtDlls.Count)." }
-    Copy-Item -LiteralPath $builtDlls[0].FullName -Destination (Join-Path $runtime 'litert_lm_c.dll') -Force
+    # Bazel reports the target output as bazel-bin/c/litert_lm_c.dll. A recursive search is
+    # ambiguous because the link step also leaves copies in intermediate subdirectories.
+    $builtDll = Join-Path $bazelBin 'c/litert_lm_c.dll'
+    if (-not (Test-Path -LiteralPath $builtDll -PathType Leaf)) {
+        $builtDlls = @(Get-ChildItem -LiteralPath (Join-Path $bazelBin 'c') -Recurse -File -Filter 'litert_lm_c.dll')
+        if ($builtDlls.Count -ne 1) { throw "Expected exactly one built C API DLL, found $($builtDlls.Count)." }
+        $builtDll = $builtDlls[0].FullName
+    }
+    Copy-Item -LiteralPath $builtDll -Destination (Join-Path $runtime 'litert_lm_c.dll') -Force
     Invoke-Checked $libExe @('/def:c/litert_lm_c.def', '/machine:x64', "/out:$runtime/litert_lm_c.lib", '/name:litert_lm_c.dll')
     New-Item -ItemType Directory -Force (Join-Path $runtime 'include') | Out-Null
     Copy-Item -LiteralPath 'c/engine.h', 'c/conversation.h' -Destination (Join-Path $runtime 'include') -Force
