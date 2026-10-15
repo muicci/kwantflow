@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.13.0: open-source release
+## 0.13.0: open-source release (2026-10-15)
 
 Kwantflow is now free, open-source software under the GNU GPL v3.0 only.
 
