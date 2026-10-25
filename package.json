@@ -134,7 +134,7 @@
 		"prettier": "^3.9.6",
 		"prettier-plugin-svelte": "^3.5.2",
 		"prettier-plugin-tailwindcss": "^0.7.4",
-		"storybook": "^10.5.7",
+		"storybook": "^10.6.2",
 		"svelte": "^5.57.2",
 		"svelte-check": "^4.7.6",
 		"tailwindcss": "^4.3.3",
